@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4D711104-3E20-4F4E-A535-67B7B62897F3}</ProjectGuid>
+    <RootNamespace>PiMap</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectName>PiMap</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.27128.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)..\bin\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)..\bin\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TOLUA_API=extern __declspec(dllexport);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>C:\Program Files\boost_1_41_0;$(ProjectDir)\lua-5.1.4\include;$(ProjectDir)\tolua++-1.0.93\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat />
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\boost_1_41_0;$(ProjectDir)\lua-5.1.4;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="CollisionMap.cpp" />
+    <ClCompile Include="CriticalSection.cpp" />
+    <ClCompile Include="d2data\BaseLevel.cpp" />
+    <ClCompile Include="d2data\BaseStat.cpp" />
+    <ClCompile Include="d2data\item\BaseArmor.cpp" />
+    <ClCompile Include="d2data\item\BaseItem.cpp" />
+    <ClCompile Include="d2data\item\BaseItemType.cpp" />
+    <ClCompile Include="d2data\item\BaseMiscItem.cpp" />
+    <ClCompile Include="d2data\item\BaseProperty.cpp" />
+    <ClCompile Include="d2data\item\BaseRuneword.cpp" />
+    <ClCompile Include="d2data\item\BaseWeapon.cpp" />
+    <ClCompile Include="d2data\item\ItemAffix.cpp" />
+    <ClCompile Include="d2data\item\ItemSet.cpp" />
+    <ClCompile Include="d2data\item\SetItem.cpp" />
+    <ClCompile Include="d2data\item\UniqueItem.cpp" />
+    <ClCompile Include="D2Map.cpp" />
+    <ClCompile Include="Files.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Maps.cpp" />
+    <ClCompile Include="Offset.cpp" />
+    <ClCompile Include="Thread.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CollisionMap.h" />
+    <ClInclude Include="CriticalSection.h" />
+    <ClInclude Include="d2data\AreaLevel.h" />
+    <ClInclude Include="d2data\BaseLevel.h" />
+    <ClInclude Include="d2data\BaseStat.h" />
+    <ClInclude Include="d2data\BattleNet.h" />
+    <ClInclude Include="d2data\CharacterClass.h" />
+    <ClInclude Include="d2data\DamageType.h" />
+    <ClInclude Include="d2data\Game.h" />
+    <ClInclude Include="d2data\GameObjects.h" />
+    <ClInclude Include="d2data\item\BaseArmor.h" />
+    <ClInclude Include="d2data\item\BaseItem.h" />
+    <ClInclude Include="d2data\item\BaseItemType.h" />
+    <ClInclude Include="d2data\item\BaseMiscItem.h" />
+    <ClInclude Include="d2data\item\BaseProperty.h" />
+    <ClInclude Include="d2data\item\BaseRuneword.h" />
+    <ClInclude Include="d2data\item\BaseWeapon.h" />
+    <ClInclude Include="d2data\item\ItemAffix.h" />
+    <ClInclude Include="d2data\item\ItemEnums.h" />
+    <ClInclude Include="d2data\item\ItemKind.h" />
+    <ClInclude Include="d2data\item\ItemSet.h" />
+    <ClInclude Include="d2data\item\ItemSetType.h" />
+    <ClInclude Include="d2data\item\ItemStat.h" />
+    <ClInclude Include="d2data\item\ItemType.h" />
+    <ClInclude Include="d2data\item\MagicPrefixType.h" />
+    <ClInclude Include="d2data\item\MagicSuffixType.h" />
+    <ClInclude Include="d2data\item\RunewordType.h" />
+    <ClInclude Include="d2data\item\SetItem.h" />
+    <ClInclude Include="d2data\item\SetItemType.h" />
+    <ClInclude Include="d2data\item\UniqueItem.h" />
+    <ClInclude Include="d2data\item\UniqueItemType.h" />
+    <ClInclude Include="d2data\Messaging.h" />
+    <ClInclude Include="d2data\NPCCode.h" />
+    <ClInclude Include="d2data\NPCType.h" />
+    <ClInclude Include="d2data\Players.h" />
+    <ClInclude Include="d2data\Quests.h" />
+    <ClInclude Include="d2data\SkillInfo.h" />
+    <ClInclude Include="d2data\SkillTab.h" />
+    <ClInclude Include="d2data\SkillType.h" />
+    <ClInclude Include="d2data\Stat.h" />
+    <ClInclude Include="d2data\StateType.h" />
+    <ClInclude Include="d2data\StatType.h" />
+    <ClInclude Include="d2data\UnitType.h" />
+    <ClInclude Include="d2data\WarpType.h" />
+    <ClInclude Include="D2Map.h" />
+    <ClInclude Include="D2Ptrs.h" />
+    <ClInclude Include="D2Structs.h" />
+    <ClInclude Include="Files.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="Maps.h" />
+    <ClInclude Include="Offset.h" />
+    <ClInclude Include="Patch.h" />
+    <ClInclude Include="Thread.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="datafolder\BaseArmor.csv" />
+    <None Include="datafolder\BaseItemType.csv" />
+    <None Include="datafolder\BaseMiscItem.csv" />
+    <None Include="datafolder\BaseProperty.csv" />
+    <None Include="datafolder\BaseRuneword.csv" />
+    <None Include="datafolder\BaseSetItem.csv" />
+    <None Include="datafolder\BaseStat.csv" />
+    <None Include="datafolder\BaseUniqueItem.csv" />
+    <None Include="datafolder\BaseWeapon.csv" />
+    <None Include="datafolder\ClassIdName.bin" />
+    <None Include="datafolder\ItemSet.csv" />
+    <None Include="datafolder\itemstatcost.bin" />
+    <None Include="datafolder\NpcGfxType.bin" />
+    <None Include="datafolder\NpcStats.bin" />
+    <None Include="datafolder\SuperUnique.bin" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

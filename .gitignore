@@ -1,0 +1,7 @@
+Debug/
+.vs
+.vscode
+bin/
+Backup
+old/
+.git.old
