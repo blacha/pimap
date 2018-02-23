@@ -117,7 +117,7 @@ namespace AreaLevel
 		HallsOfAnguish = 0x7a,
 		HallsOfPain = 0x7b,
 		HallsOfTheDeadLevel1 = 0x38,
-		HallsOfTheDeadLevel2 = 0x39,		
+		HallsOfTheDeadLevel2 = 0x39,
 		HallsOfTheDeadLevel3 = 0x3c,
 		HallsOfVaught = 0x7c,
 		HaremLevel1 = 50,
@@ -140,7 +140,7 @@ namespace AreaLevel
 		MaggotLairLevel1 = 0x3e,
 		MaggotLairLevel2 = 0x3f,
 		MaggotLairLevel3 = 0x40,
-		MatronsDen = 0x85, 
+		MatronsDen = 0x85,
 		Mausoleum = 0x13,
 		MonasteryGate = 0x1a,
 		MooMooFarm = 0x27,
@@ -206,7 +206,7 @@ namespace AreaLevel
 	static std::string toString(AreaLevel input)
 	{
 		switch (input)
-		{	
+		{
 			case Abaddon: return "Abaddon";
 			case AncientTunnels: return "AncientTunnels";
 			case ArcaneSanctuary: return "ArcaneSanctuary";
@@ -399,7 +399,7 @@ class Waypoints
 {
 public:
     bool Available;
-	AreaLevel::AreaLevel Location;	
+	AreaLevel::AreaLevel Location;
 };
 #endif
 // tolua_end

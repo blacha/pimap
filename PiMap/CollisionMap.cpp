@@ -281,11 +281,11 @@ int CCollisionMap::Routine()
 	LOG(logINFO) << "had to wait " << clock() - start << " ms before loading " << AreaLevel::toString((AreaLevel::AreaLevel) dwAreaId);
 
 	result = BuildMapData(dwAreaId);
-	CHAR szMapName[64] = "";
-	CHAR szFileName[128] = "";
-	sprintf_s(szMapName, sizeof(szMapName), "%s", D2COMMON_GetLevelText(dwLevelId)->szName);
-	sprintf_s(szFileName, sizeof(szFileName), "maps/Act(%d) - %s - %X.json", pAct->dwAct + 1, szMapName, pAct->dwMapSeed);
-	DumpMap(szFileName);
+	// CHAR szMapName[64] = "";
+	// CHAR szFileName[128] = "";
+	// sprintf_s(szMapName, sizeof(szMapName), "%s", D2COMMON_GetLevelText(dwLevelId)->szName);
+	// sprintf_s(szFileName, sizeof(szFileName), "maps/%X/%Act(%d) - %s - %X.json", pAct->dwAct + 1, szMapName, pAct->dwMapSeed);
+	// DumpMap(szFileName);
 
 	LOG(logINFO) << "Finished Loading map " << AreaLevel::toString((AreaLevel::AreaLevel) dwAreaId);
 	}
@@ -332,10 +332,10 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 	CHAR szFileTextName[128] = "";
 
 	sprintf_s(szMapName, sizeof(szMapName), "%s", D2COMMON_GetLevelText(dwLevelId)->szName);
-	sprintf_s(szFileTextName, sizeof(szFileTextName), "%s.txt", lpszFilePath);
 
 	FILE *fp = fopen(lpszFilePath, "w+");
-	// FILE *ft = fopen(szFileTextName, "w+");
+
+	LOG(logINFO) << "Dumping map to " << lpszFilePath;
 
 	if (fp == NULL)
 		return FALSE;

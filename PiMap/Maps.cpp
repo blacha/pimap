@@ -96,7 +96,7 @@ void Maps::JoinAll()
 		iter->second->Join();
 
 		if (clock() - start > 0)
-			LOG(logDEBUG1) << "had to wait " << clock() - start << " ms for " << AreaLevel::toString(iter->first) << " to finish loading";
+			LOG(logDEBUG1) << "had to wait " << clock() - start << " ms for " <<  D2COMMON_GetLevelText(iter->first)->szName  << " to finish loading";
 	}
 }
 
@@ -115,32 +115,10 @@ void Maps::setMapId(unsigned int mapid, unsigned int difficulty) throw(...)
 
 void Maps::setLevel(AreaLevel::AreaLevel level) throw(...)
 {
-	LOG(logDEBUG1) << "Changed Levels from " << AreaLevel::toString(this->level) << " to " << AreaLevel::toString(level);
+	LOG(logDEBUG1) << "Changed Levels from " << this->level  << " to " << D2COMMON_GetLevelText(level)->szName;
 	this->level = level;
 }
 
-// AreaLevel::AreaLevel Maps::getLevel() throw(...)
-// {
-// 	return level;
-// }
-
-// void Maps::setPosition(int x, int y) throw(...)
-// {
-// 	this->x = x;
-// 	this->y = y;
-
-// 	for (std::map<AreaLevel::AreaLevel, std::set<std::pair<int, int>>>::iterator iter = _maps.begin(); iter != _maps.end(); iter++)
-// 	{
-// 		if (level != iter->first && iter->second.size() > 0)
-// 		{
-// 			if (!maps[iter->first]->IsRunning() && maps[iter->first]->IsValidAbsLocation(x, y))
-// 			{
-// 				setLevel(iter->first);
-// 			}
-// 		}
-// 	}
-
-// }
 
 bool Maps::loadMap(int act, AreaLevel::AreaLevel level) throw(...)
 {
@@ -161,7 +139,7 @@ bool Maps::loadMap(int act, AreaLevel::AreaLevel level) throw(...)
 			{
 				maps[level] = new CCollisionMap(pAct[act - 1], level);
 				maps[level]->Create(false);
-				LOG(logDEBUG1) << "Loading map " << AreaLevel::toString(level);
+				LOG(logDEBUG1) << "Loading map " << D2COMMON_GetLevelText(level)->szName;
 				SwitchToThread();
 				result = true;
 			}
