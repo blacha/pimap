@@ -344,7 +344,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 	fprintf(fp, "{ \"name\": \"%s\", \"origin\": { \"x\":%d, \"y\":%d }, \"size\": { \"width\":%d, \"height\":%d },\n", szMapName, m_ptLevelOrigin.x, m_ptLevelOrigin.y, m_map.GetCX(), m_map.GetCY());
 	fprintf(fp, "\n\n");
 
-
+	fprintf(fp, "\"mapId\":%d,", dwLevelId);
 	fprintf(fp, "\"npcs\": {");
 	int objectCount = 0;
 	int npcCount = 0;

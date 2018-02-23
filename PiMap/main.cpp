@@ -28,18 +28,35 @@ void CreateFolder(const char * path)
 
 }
 
+int getActs(AreaLevel::AreaLevel level)
+{
+	char bActLevels[] = {1, 40, 75, 103, 109, 137};
+
+	for (int i = 0; i < 5; i++)
+	{
+		if (level < bActLevels[i + 1])
+		{
+			return i;
+		}
+	}
+
+	return 0;
+}
+
 int main(int argc, char *argv[])
 {
 
 	if (argc < 3)
 	{
-		printf("PiMap.exe <path> <seed> <difficulty>");
+		printf("PiMap.exe <path> <seed> <difficulty> <mapid>");
 		return 1;
 	}
 
 	char *foldername = argv[1];
 	int seed = atoi(argv[2]);
 	int diff = atoi(argv[3]);
+	int mapid = atoi(argv[4]);
+	AreaLevel::AreaLevel levelId = static_cast<AreaLevel::AreaLevel>(mapid);
 
 	Log::of.open("logs\\core.log", std::ios::app);
 	LOG(logINFO) << "Opening Folder \"" << foldername<< "\"";
@@ -62,18 +79,19 @@ int main(int argc, char *argv[])
 	sprintf_s(szPath, sizeof(szPath), "e:\\maprender\\maps\\%d_%X", diff, seed);
 	CreateFolder(szPath);
 
-	for (int i = 1; i < 130; i ++) {
-			AreaLevel::AreaLevel leveId = static_cast<AreaLevel::AreaLevel>(i);
-			CHAR szMapName[64] = "";
-			CHAR szFileName[128] = "";
-			LOG(logINFO) << "Trying to create mapId:" << i << " seed:" << seed << " difficulty: " << diff;
-			sprintf_s(szMapName, sizeof(szMapName), "%s", D2COMMON_GetLevelText(i)->szName);
-			sprintf_s(szFileName, sizeof(szFileName), "%s\\%X.json", szPath, i);
+	// for (int i = AreaLevel::BloodMoor; i < 130; i ++) {
 
-			maps->setLevel(leveId);
-			maps->loadMap(ActLocation::Act5, leveId);
-			maps->getMap(leveId)->DumpMap(szFileName);
-	}
+	int actId = getActs(levelId);
+	CHAR szMapName[64] = "";
+	CHAR szFileName[128] = "";
+	LOG(logINFO) << "Trying to create mapId:" << levelId << " seed:" << seed << " difficulty: " << diff;
+	sprintf_s(szMapName, sizeof(szMapName), "%s", D2COMMON_GetLevelText(levelId)->szName);
+	sprintf_s(szFileName, sizeof(szFileName), "%s\\%X.json", szPath, levelId);
+
+	maps->setLevel(levelId);
+	maps->loadMap(actId, levelId);
+	maps->getMap(levelId)->DumpMap(szFileName);
+	// }
 
 	return 0;
 }
