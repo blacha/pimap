@@ -200,7 +200,12 @@ namespace AreaLevel
 		UndergroundPassageLevel1 = 10,
 		UndergroundPassageLevel2 = 14,
 		UpperKurast = 0x51,
-		ValleyOfSnakes = 0x2d
+		ValleyOfSnakes = 0x2d,
+		Map1 = 137,
+		Map2 = 138,
+		Map3 = 139,
+		Map4 = 140,
+		Map5 = 141
 	};
 
 	static std::string toString(AreaLevel input)
@@ -344,6 +349,11 @@ namespace AreaLevel
 			case UndergroundPassageLevel2: return "UndergroundPassageLevel2";
 			case UpperKurast: return "UpperKurast";
 			case ValleyOfSnakes: return "ValleyOfSnakes";
+			case Map1: return "Ancient Temple";
+			case Map2: return "Desecrated Temple";
+			case Map3: return "Map Frigid Plateau";
+			case Map4: return "Infernal Trial";
+			case Map5: return "Ruined Citadel";
 		}
 		return "N/A";
 	}

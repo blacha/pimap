@@ -67,7 +67,7 @@ ASMPTR(D2CLIENT, LoadAct_1, 0x737F0)																					 // 1.13d
 ASMPTR(D2CLIENT, LoadAct_2, 0x2B420)																					 // 1.13d
 FUNCPTR(D2COMMON, AddRoomData, void __stdcall, (Act * ptAct, int LevelId, int Xpos, int Ypos, Room1 *pRoom), 0x24990)	// 1.13d
 FUNCPTR(D2COMMON, RemoveRoomData, void __stdcall, (Act * ptAct, int LevelId, int Xpos, int Ypos, Room1 *pRoom), 0x24930) // 1.13d
-FUNCPTR(D2COMMON, GetLevel, Level *__fastcall, (ActMisc * pMisc, DWORD dwLevelNo), 0x6D440)								 // 1.13d
+FUNCPTR(D2COMMON, GetLevel, Level *__fastcall, (ActMisc * pMisc, DWORD dwLevelNo), -10207); // 0x6D440)								 // 1.13d
 FUNCPTR(D2COMMON, GetLevelText, LevelTxt *__stdcall, (DWORD levelno), 0x30CA0)
 
 FUNCPTR(D2COMMON, InitLevel, void __stdcall, (Level * pLevel), 0x6DDF0)																												 // 1.13d

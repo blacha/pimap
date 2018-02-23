@@ -63,7 +63,7 @@ class CCollisionMap : public Thread
 	////////////////////////////////////////////////////////////
 	// Operations
 	////////////////////////////////////////////////////////////
-	//BOOL CreateMap(Act* lpAct, DWORD AreaId, AwesomO * awesomo); // Create the map data
+	BOOL CreateMap(); // Create the map data
 	void DestroyMap();
 	BOOL DumpMap(LPCSTR lpszFilePath) const; // Dump map data into a disk file
 	//void Search(Room2 *ro, UnitAny* ptPlayer, DwordArray &aSkip);

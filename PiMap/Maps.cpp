@@ -48,21 +48,21 @@ int Maps::Routine()
 			LOG(logDEBUG1) << "Loaded Act " << i + 1 << " pointer = " << pAct[i];
 		}
 
-		LOG(logDEBUG1) << "Loading map " << AreaLevel::toString(AreaLevel::RogueEncampment);
-		maps[AreaLevel::RogueEncampment] = new CCollisionMap(pAct[0], AreaLevel::RogueEncampment);
-		maps[AreaLevel::RogueEncampment]->Create(false);
+		// LOG(logDEBUG1) << "Loading map " << AreaLevel::toString(AreaLevel::RogueEncampment);
+		// maps[AreaLevel::RogueEncampment] = new CCollisionMap(pAct[0], AreaLevel::RogueEncampment);
+		// maps[AreaLevel::RogueEncampment]->Create(false);
 
-		LOG(logDEBUG1) << "Loading map " << AreaLevel::toString(AreaLevel::LutGholein);
-		maps[AreaLevel::LutGholein] = new CCollisionMap(pAct[1], AreaLevel::LutGholein);
-		maps[AreaLevel::LutGholein]->Create(false);
+		// LOG(logDEBUG1) << "Loading map " << AreaLevel::toString(AreaLevel::LutGholein);
+		// maps[AreaLevel::LutGholein] = new CCollisionMap(pAct[1], AreaLevel::LutGholein);
+		// maps[AreaLevel::LutGholein]->Create(false);
 
-		LOG(logDEBUG1) << "Loading map " << AreaLevel::toString(AreaLevel::KurastDocks);
-		maps[AreaLevel::KurastDocks] = new CCollisionMap(pAct[2], AreaLevel::KurastDocks);
-		maps[AreaLevel::KurastDocks]->Create(false);
+		// LOG(logDEBUG1) << "Loading map " << AreaLevel::toString(AreaLevel::KurastDocks);
+		// maps[AreaLevel::KurastDocks] = new CCollisionMap(pAct[2], AreaLevel::KurastDocks);
+		// maps[AreaLevel::KurastDocks]->Create(false);
 
-		LOG(logDEBUG1) << "Loading map " << AreaLevel::toString(AreaLevel::ThePandemoniumFortress);
-		maps[AreaLevel::ThePandemoniumFortress] = new CCollisionMap(pAct[3], AreaLevel::ThePandemoniumFortress);
-		maps[AreaLevel::ThePandemoniumFortress]->Create(false);
+		// LOG(logDEBUG1) << "Loading map " << AreaLevel::toString(AreaLevel::ThePandemoniumFortress);
+		// maps[AreaLevel::ThePandemoniumFortress] = new CCollisionMap(pAct[3], AreaLevel::ThePandemoniumFortress);
+		// maps[AreaLevel::ThePandemoniumFortress]->Create(false);
 
 
 		LOG(logDEBUG1) << "Loading map " << AreaLevel::toString(AreaLevel::Harrogath);
@@ -96,7 +96,7 @@ void Maps::JoinAll()
 		iter->second->Join();
 
 		if (clock() - start > 0)
-			LOG(logDEBUG1) << "had to wait " << clock() - start << " ms for " <<  D2COMMON_GetLevelText(iter->first)->szName  << " to finish loading";
+			LOG(logDEBUG1) << "had to wait " << clock() - start << " ms for " <<  AreaLevel::toString((AreaLevel::AreaLevel)iter->first)  << " to finish loading";
 	}
 }
 
@@ -115,7 +115,7 @@ void Maps::setMapId(unsigned int mapid, unsigned int difficulty) throw(...)
 
 void Maps::setLevel(AreaLevel::AreaLevel level) throw(...)
 {
-	LOG(logDEBUG1) << "Changed Levels from " << this->level  << " to " << D2COMMON_GetLevelText(level)->szName;
+	LOG(logDEBUG1) << "Changed Levels from " << this->level  << " to " << AreaLevel::toString((AreaLevel::AreaLevel)level);
 	this->level = level;
 }
 
@@ -139,7 +139,7 @@ bool Maps::loadMap(int act, AreaLevel::AreaLevel level) throw(...)
 			{
 				maps[level] = new CCollisionMap(pAct[act - 1], level);
 				maps[level]->Create(false);
-				LOG(logDEBUG1) << "Loading map " << D2COMMON_GetLevelText(level)->szName;
+				LOG(logDEBUG1) << "Loading map " << AreaLevel::toString((AreaLevel::AreaLevel) level);
 				SwitchToThread();
 				result = true;
 			}

@@ -105,7 +105,44 @@ struct PresetUnit
 	DWORD dwPosY;			 //0x18
 };
 
-//1.13c - Level - McGod
+// //1.13c - Level - McGod
+// struct Level {
+// 	DWORD dwDrlgType;			//0x00 1 - maze, 2 - preset, 3 - wilderness
+// 	DWORD dwLevelFlags;			//0x04
+// 	DWORD _1[2];				//0x08
+// 	Room2* pRoom2First;			//0x10
+// 	union {
+// 		LvlMazeTxt* pMazeTxt;    		//     for dwDrlgType == 1 (RANDOM MAZE)
+// 		PresetData* pPreset;			//     for dwDrlgType == 2 (PRESET MAP)
+// 		WildernessData* pWilderness;	//     for dwDrlgType == 3 (RANDOM AREA WITH PRESET SIZE)
+// 	}; // 0x14
+// 	DWORD _2;					//0x18
+// 	DWORD dwPosX;				//0x1C
+// 	DWORD dwPosY;				//0x20
+// 	DWORD dwSizeX;				//0x24
+// 	DWORD dwSizeY;				//0x28
+// 	DWORD _3[96];				//0x2C
+// 	Level* pNextLevel;			//0x1AC
+// 	DWORD _4;					//0x1B0
+// 	ActMisc* pMisc;				//0x1B4
+// 	DWORD _5[2];				//0x1B8
+// 	DWORD dwLevelType;			//0x1C0
+// 	D2Seed hSeed;				//0x1C4
+// 	LevelPreset* pLevelPresets;	//0x1CC
+// 	DWORD dwLevelNo;			//0x1D0
+// 	DWORD _6[3];				//0x1D4
+// 	union {
+// 		DWORD RoomCenterX[9];
+// 		DWORD WarpX[9];
+// 	};							//0x1E0
+// 	union {
+// 		DWORD RoomCenterY[9];
+// 		DWORD WarpY[9];
+// 	};							//0x204
+// 	DWORD dwRoomEntries;		//0x228
+// 	DWORD _7;					//0x22C
+// };
+
 struct Level
 {
 	DWORD _1[4];		//0x00

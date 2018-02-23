@@ -21,7 +21,7 @@ CCollisionMap *CCollisionMap::last;
 
 CCollisionMap::CCollisionMap(Act *lpAct, DWORD ldwAreaId)
 {
-	this->awesomo = awesomo;
+	this ;
 	this->m_iCurMap = 0x00;
 	this->dwLevelId = 0x00;
 	this->pAct = lpAct;
@@ -33,7 +33,7 @@ CCollisionMap::~CCollisionMap()
 {
 	//Abort();
 	//Join();
-	 // LOG(logDEBUG4, awesomo) << "Destructing " << AreaLevel::toString((AreaLevel::AreaLevel)this->dwAreaId);
+	 // LOG(logDEBUG1) << "Destructing " << AreaLevel::toString((AreaLevel::AreaLevel)this->dwAreaId);
 }
 
 void CCollisionMap::AddCollisionData(const CollMap *pCol)
@@ -80,7 +80,7 @@ void CCollisionMap::AddUnitData(const Room2 *pRoom2, unsigned thickenBy)
 		// npcs
 		if (pPresetUnit->dwType == UNIT_TYPE_NPC)
 		{
-			 LOG(logDEBUG4, awesomo) << "Npc = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
+			 LOG(logDEBUG4) << "Npc = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
 			npcs[pPresetUnit->dwTxtFileNo].push_back(std::pair<short, short>((short)pRoom2->dwPosX * 5 + pPresetUnit->dwPosX, (short)pRoom2->dwPosY * 5 + pPresetUnit->dwPosY));
 		}
 
@@ -90,7 +90,7 @@ void CCollisionMap::AddUnitData(const Room2 *pRoom2, unsigned thickenBy)
 			if (thickenBy < 0) // make sure?
 				thickenBy = 0;
 
-			 LOG(logDEBUG4, awesomo) << "Object = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
+			 LOG(logDEBUG4) << "Object = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
 			objects[pPresetUnit->dwTxtFileNo].push_back(std::pair<short, short>((short)pRoom2->dwPosX * 5 + pPresetUnit->dwPosX, (short)pRoom2->dwPosY * 5 + pPresetUnit->dwPosY));
 
 			GameObjectID::GameObjectID oid = static_cast<GameObjectID::GameObjectID>(pPresetUnit->dwTxtFileNo);
@@ -166,7 +166,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 
 	dwLevelId = AreaId;
 	pLevel = GetLevel(pAct->pMisc, AreaId);
-
+	LOG(logDEBUG1) << "GetLevelDone";
 
 	if (!pLevel)
 		return FALSE;
@@ -174,6 +174,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 
 	if (!pLevel->pRoom2First)
 		D2COMMON_InitLevel(pLevel);
+	LOG(logDEBUG1) << "InitLevelDone";
 
 	if (!pLevel->pRoom2First)
 		return NULL;
@@ -195,6 +196,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 			m_map[x][y] = MAP_DATA_INVALID;
 		}
 	}
+	// LOG(logDEBUG1) << "MapInitDone";
 
 	//DwordArray aSkip;
 	//Search(pLevel->pRoom2First, NULL, aSkip);
@@ -207,6 +209,8 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 		{
 			bAdded = TRUE;
 			D2COMMON_AddRoomData(pAct, pLevel->dwLevelNo, pRoom2->dwPosX, pRoom2->dwPosY, NULL);
+			// LOG(logDEBUG4) << "AddRoomData";
+
 		}
 
 		// levels near
@@ -224,7 +228,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 
 				if (prev != pRoom2->pRoom2Near[i]->pLevel->dwLevelNo)
 				{
-					 // LOG(logDEBUG4, awesomo) << pRoom2->pRoom2Near[i]->pLevel->dwPosX * 5 << "/" << pRoom2->pRoom2Near[i]->pLevel->dwPosY * 5 << " = " << AreaLevel::toString((AreaLevel::AreaLevel)pLevel->dwLevelNo) << "->" << AreaLevel::toString((AreaLevel::AreaLevel)pRoom2->pRoom2Near[i]->pLevel->dwLevelNo);
+					 // LOG(logDEBUG1) << pRoom2->pRoom2Near[i]->pLevel->dwPosX * 5 << "/" << pRoom2->pRoom2Near[i]->pLevel->dwPosY * 5 << " = " << AreaLevel::toString((AreaLevel::AreaLevel)pLevel->dwLevelNo) << "->" << AreaLevel::toString((AreaLevel::AreaLevel)pRoom2->pRoom2Near[i]->pLevel->dwLevelNo);
 					prev = pRoom2->pRoom2Near[i]->pLevel->dwLevelNo;
 				}
 				levelsnear[pRoom2->pRoom2Near[i]->pLevel->dwLevelNo].push_back(newlevel);
@@ -267,38 +271,14 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 
 	return TRUE;
 }
+BOOL CCollisionMap::Routine() {
+	return TRUE;
+}
 
-int CCollisionMap::Routine()
+BOOL CCollisionMap::CreateMap()
 {
-	int result = 0;
-
-	clock_t start = clock();
-	CCollisionMap::loading.Lock();
-
-
-	try
-	{
-	LOG(logINFO) << "had to wait " << clock() - start << " ms before loading " << AreaLevel::toString((AreaLevel::AreaLevel) dwAreaId);
-
-	result = BuildMapData(dwAreaId);
-	// CHAR szMapName[64] = "";
-	// CHAR szFileName[128] = "";
-	// sprintf_s(szMapName, sizeof(szMapName), "%s", D2COMMON_GetLevelText(dwLevelId)->szName);
-	// sprintf_s(szFileName, sizeof(szFileName), "maps/%X/%Act(%d) - %s - %X.json", pAct->dwAct + 1, szMapName, pAct->dwMapSeed);
-	// DumpMap(szFileName);
-
-	LOG(logINFO) << "Finished Loading map " << AreaLevel::toString((AreaLevel::AreaLevel) dwAreaId);
-	}
-	catch (...)
-	{
-		CCollisionMap::loading.Unlock();
-		throw "stupid CCollisionMap crash";
-	}
-
-	CCollisionMap::last = this;
-	CCollisionMap::loading.Unlock();
-
-	return result;
+	BuildMapData(dwAreaId);
+	return TRUE;
 }
 
 POINT CCollisionMap::GetMapOrigin() const
@@ -322,6 +302,8 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 {
 	if (!dumpMaps)
 		return false;
+	// LOG(logINFO) << "Dumping map to " << lpszFilePath;
+
 	//	if (Log::ReportingLevel < logDEBUG4)
 	//		return FALSE;
 
@@ -329,29 +311,29 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 		return FALSE;
 
 	CHAR szMapName[64] = "";
-	CHAR szFileTextName[128] = "";
 
 	sprintf_s(szMapName, sizeof(szMapName), "%s", D2COMMON_GetLevelText(dwLevelId)->szName);
 
 	FILE *fp = fopen(lpszFilePath, "w+");
+	try {
 
-	LOG(logINFO) << "Dumping map to " << lpszFilePath;
+		LOG(logINFO) << "Dumping map to " << lpszFilePath;
 
-	if (fp == NULL)
-		return FALSE;
+		if (fp == NULL)
+			return FALSE;
 
 
-	fprintf(fp, "{ \"name\": \"%s\", \"origin\": { \"x\":%d, \"y\":%d }, \"size\": { \"width\":%d, \"height\":%d },\n", szMapName, m_ptLevelOrigin.x, m_ptLevelOrigin.y, m_map.GetCX(), m_map.GetCY());
-	fprintf(fp, "\n\n");
+		fprintf(fp, "{ \"name\": \"%s\", \"origin\": { \"x\":%d, \"y\":%d }, \"size\": { \"width\":%d, \"height\":%d },\n", szMapName, m_ptLevelOrigin.x, m_ptLevelOrigin.y, m_map.GetCX(), m_map.GetCY());
+		fprintf(fp, "\n\n");
 
-	fprintf(fp, "\"mapId\":%d,", dwLevelId);
-	fprintf(fp, "\"npcs\": {");
-	int objectCount = 0;
-	int npcCount = 0;
+		fprintf(fp, "\"mapId\":%d,", dwLevelId);
+		fprintf(fp, "\"npcs\": {");
+		int objectCount = 0;
+		int npcCount = 0;
 
-	// Find all the waypoints
+		// Find all the waypoints
 
-	for (std::map<DWORD, std::vector<std::pair<short, short>>>::const_iterator iter1 = npcs.begin(); iter1 != npcs.end(); iter1++)
+		for (std::map<DWORD, std::vector<std::pair<short, short>>>::const_iterator iter1 = npcs.begin(); iter1 != npcs.end(); iter1++)
 		{
 			for (std::vector<std::pair<short, short>>::const_iterator iter2 = iter1->second.begin(); iter2 != iter1->second.end(); iter2++)
 			{
@@ -370,95 +352,101 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 				}
 			}
 		}
-	fprintf(fp, "\n},\n");
+
+		fprintf(fp, "\n},\n");
 
 
-	fprintf(fp, "\"objects\": {");
+		fprintf(fp, "\"objects\": {");
 
-	//std::map<DWORD, std::pair<short, short>>::iterator iter = exits.begin();
+		//std::map<DWORD, std::pair<short, short>>::iterator iter = exits.begin();
 
-	for (std::map<DWORD, std::pair<short, short>>::const_iterator iter = exits.begin(); iter != exits.end(); iter++)
-	{
-
-		POINT p = {iter->second.first, iter->second.second};
-		AbsToRelative(p);
-
-		if (objectCount > 0) {
-			fprintf(fp, ",\n");
-		}
-		fprintf(fp, "\"%d\":  { \"x\":%d, \"y\":%d, \"type\":\"Exit\" }", (unsigned int)iter->first, p.x, p.y);
-		objectCount++;
-	}
-
-	for (std::map<DWORD, std::vector<std::pair<short, short>>>::const_iterator iter1 = this->objects.begin(); iter1 != objects.end(); iter1++)
-	{
-		for (std::vector<std::pair<short, short>>::const_iterator iter2 = iter1->second.begin(); iter2 != iter1->second.end(); iter2++)
+		for (std::map<DWORD, std::pair<short, short>>::const_iterator iter = exits.begin(); iter != exits.end(); iter++)
 		{
-			//is there an enum for the object id's like the one for the npc's...?
-			if (iter1->first == 0x0077 ||
-				iter1->first == 0x009D ||
-				iter1->first == 0x009C ||
-				iter1->first == 0x0143 ||
-				iter1->first == 0x0120 ||
-				iter1->first == 0x0192 ||
-				iter1->first == 0x00ED ||
-				iter1->first == 0x0144 ||
-				iter1->first == 0x018E ||
-				iter1->first == 0x00EE ||
-				iter1->first == 0x01AD ||
-				iter1->first == 0x01F0 ||
-				iter1->first == 0x01FF ||
-				iter1->first == 0x01EE)
+
+			POINT p = {iter->second.first, iter->second.second};
+			AbsToRelative(p);
+
+			if (objectCount > 0) {
+				fprintf(fp, ",\n");
+			}
+			fprintf(fp, "\"%d\":  { \"x\":%d, \"y\":%d, \"type\":\"Exit\" }", (unsigned int)iter->first, p.x, p.y);
+			objectCount++;
+		}
+
+		for (std::map<DWORD, std::vector<std::pair<short, short>>>::const_iterator iter1 = this->objects.begin(); iter1 != objects.end(); iter1++)
+		{
+			for (std::vector<std::pair<short, short>>::const_iterator iter2 = iter1->second.begin(); iter2 != iter1->second.end(); iter2++)
 			{
-				POINT p = {iter2->first, iter2->second};
-				AbsToRelative(p);
+				//is there an enum for the object id's like the one for the npc's...?
+				if (iter1->first == 0x0077 ||
+					iter1->first == 0x009D ||
+					iter1->first == 0x009C ||
+					iter1->first == 0x0143 ||
+					iter1->first == 0x0120 ||
+					iter1->first == 0x0192 ||
+					iter1->first == 0x00ED ||
+					iter1->first == 0x0144 ||
+					iter1->first == 0x018E ||
+					iter1->first == 0x00EE ||
+					iter1->first == 0x01AD ||
+					iter1->first == 0x01F0 ||
+					iter1->first == 0x01FF ||
+					iter1->first == 0x01EE)
+				{
+					POINT p = {iter2->first, iter2->second};
+					AbsToRelative(p);
 
-				if (objectCount > 0) {
-					fprintf(fp, ",\n");
+					if (objectCount > 0) {
+						fprintf(fp, ",\n");
+					}
+					fprintf(fp, "\"%d\":  { \"x\":%d, \"y\":%d, \"type\":\"Waypoint\" }", (unsigned int)iter1->first, p.x, p.y);
+					objectCount++;
 				}
-				fprintf(fp, "\"%d\":  { \"x\":%d, \"y\":%d, \"type\":\"Waypoint\" }", (unsigned int)iter1->first, p.x, p.y);
-				objectCount++;
 			}
 		}
-	}
-	fprintf(fp, "\n},");
+		fprintf(fp, "\n},");
 
 
-	fprintf(fp, "\"map\":[");
-	const int CX = m_map.GetCX();
-	const int CY = m_map.GetCY();
+		fprintf(fp, "\"map\":[");
+		const int CX = m_map.GetCX();
+		const int CY = m_map.GetCY();
 
-	char last = 'X';
+		char last = 'X';
 
-	for (int y = 0; y < CY; y++)
-	{
-		int count = 0;
-		fprintf(fp, "[");
-		int outputCount = 0;
-		for (int x = 0; x < CX; x++)
+		for (int y = 0; y < CY; y++)
 		{
-			char ch = (m_map[x][y] % 2) ? 'X' /* m_map[x][y] */ : ' ';
+			int count = 0;
+			fprintf(fp, "[");
+			int outputCount = 0;
+			for (int x = 0; x < CX; x++)
+			{
+				char ch = (m_map[x][y] % 2) ? 'X' /* m_map[x][y] */ : ' ';
 
-			if (ch == last) {
-				count ++;
-			} else {
-				if (outputCount > 0) {
-					fprintf(fp, ", ");
+				if (ch == last) {
+					count ++;
+				} else {
+					if (outputCount > 0) {
+						fprintf(fp, ", ");
+					}
+					fprintf(fp, "%d", count);
+					outputCount++;
+					count = 0;
+					last = ch;
 				}
-				fprintf(fp, "%d", count);
-				outputCount++;
-				count = 0;
-				last = ch;
+			}
+
+			fprintf(fp, "]");
+			if (y + 1 < CY) {
+				fprintf(fp, ",\n");
 			}
 		}
+		fprintf(fp, "]\n");
+		fprintf(fp, "%s\n", "}");
 
-		fprintf(fp, "]");
-		if (y + 1 < CY) {
-			fprintf(fp, ",\n");
-		}
+	} catch (...) {
+		LOG(logERROR) << "Error exporting map!";
 	}
-	fprintf(fp, "]\n");
-	fprintf(fp, "%s\n", "}");
+
 	fclose(fp);
 
 	return TRUE;

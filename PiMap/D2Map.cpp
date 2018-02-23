@@ -49,37 +49,37 @@ void init(const char *dir)
 
 	//LOG(logDEBUG2) << szPath;
 
-	DWORD dwFogBase = (DWORD)GetModuleHandle("FOG.dll") + 0x2505C;			 //updated 1.13d
-	DWORD dwStormBase = (DWORD)GetModuleHandle("Storm.dll") + 0x43230;		 //updated 1.13d
-	DWORD dwD2ClientBase = (DWORD)GetModuleHandle("D2CLIENT.dll") + 0xCFFA4; //updated 1.13d
-	DWORD dwD2Common = (DWORD)GetModuleHandle("D2COMMON.dll") + 0x8D11C;	 //updated 1.13d
+	// DWORD dwFogBase = (DWORD)GetModuleHandle("FOG.dll") + 0x2505C;			 //updated 1.13d
+	// DWORD dwStormBase = (DWORD)GetModuleHandle("Storm.dll") + 0x43230;		 //updated 1.13d
+	// DWORD dwD2ClientBase = (DWORD)GetModuleHandle("D2CLIENT.dll") + 0xCFFA4; //updated 1.13d
+	// DWORD dwD2Common = (DWORD)GetModuleHandle("D2COMMON.dll") + 0x8D11C;	 //updated 1.13d
 
-	printf("stormbase : %08X\nfog : %08X\nClient : %08X\ncommon : %08X\n", dwStormBase, dwFogBase, dwD2ClientBase, dwD2Common);
+	// printf("stormbase : %08X\nfog : %08X\nClient : %08X\ncommon : %08X\n", dwStormBase, dwFogBase, dwD2ClientBase, dwD2Common);
 
-	DWORD dwOld;
-	VirtualProtect((VOID *)dwFogBase, 4, PAGE_READWRITE, &dwOld);
-	*(DWORD *)dwFogBase = (DWORD)myCreateFile;
-	VirtualProtect((VOID *)dwFogBase, 4, dwOld, &dwOld);
+	// DWORD dwOld;
+	// VirtualProtect((VOID *)dwFogBase, 4, PAGE_READWRITE, &dwOld);
+	// *(DWORD *)dwFogBase = (DWORD)myCreateFile;
+	// VirtualProtect((VOID *)dwFogBase, 4, dwOld, &dwOld);
 
-	VirtualProtect((VOID *)dwStormBase, 4, PAGE_READWRITE, &dwOld);
-	*(DWORD *)dwStormBase = (DWORD)myCreateFile;
-	VirtualProtect((VOID *)dwStormBase, 4, dwOld, &dwOld);
+	// VirtualProtect((VOID *)dwStormBase, 4, PAGE_READWRITE, &dwOld);
+	// *(DWORD *)dwStormBase = (DWORD)myCreateFile;
+	// VirtualProtect((VOID *)dwStormBase, 4, dwOld, &dwOld);
 
-	VirtualProtect((VOID *)dwD2ClientBase, 4, PAGE_READWRITE, &dwOld);
-	*(DWORD *)dwD2ClientBase = (DWORD)myCreateFile;
-	VirtualProtect((VOID *)dwD2ClientBase, 4, dwOld, &dwOld);
+	// VirtualProtect((VOID *)dwD2ClientBase, 4, PAGE_READWRITE, &dwOld);
+	// *(DWORD *)dwD2ClientBase = (DWORD)myCreateFile;
+	// VirtualProtect((VOID *)dwD2ClientBase, 4, dwOld, &dwOld);
 
-	VirtualProtect((VOID *)dwD2Common, 4, PAGE_READWRITE, &dwOld);
-	*(DWORD *)dwD2Common = (DWORD)myCreateFile;
-	VirtualProtect((VOID *)dwD2Common, 4, dwOld, &dwOld);
+	// VirtualProtect((VOID *)dwD2Common, 4, PAGE_READWRITE, &dwOld);
+	// *(DWORD *)dwD2Common = (DWORD)myCreateFile;
+	// VirtualProtect((VOID *)dwD2Common, 4, dwOld, &dwOld);
 
 	*p_STORM_MPQHashTable = NULL;
 	LOG(logDEBUG2) << "Finished loading D2 Libs!";
 	D2Client.dwInit = 1;
 	D2Client.fpInit = (DWORD)D2ClientInterface;
 
-	//FOG_10021("D2");
-	//FOG_10019("D2", (DWORD)ExceptionHandler, "D2", 1);
+	FOG_10021("D2");
+	// FOG_10019("D2", (DWORD)ExceptionHandler, "D2", 1);
 	FOG_10101(1, NULL);
 	FOG_10089(1);
 
@@ -130,13 +130,22 @@ void init(const char *dir)
 
 Level *__fastcall GetLevel(ActMisc *misc, DWORD levelno)
 {
+
 	for (Level *pLevel = misc->pLevelFirst; pLevel; pLevel = pLevel->pNextLevel)
 	{
-		if (pLevel->dwLevelNo == levelno)
-			return pLevel;
-	}
+		if (!pLevel)
+         continue;
 
+		if (pLevel->dwLevelNo == levelno){
+			// LOG(logDEBUG1) << "GetLevel pLevel " << levelno << " " <<  D2COMMON_GetLevelText(levelno)->szName;;
+			return pLevel;
+		}
+	}
+	LOG(logDEBUG1) << "D2COMMON_GetLevel " << levelno << " " <<  D2COMMON_GetLevelText(levelno)->szName;;
 	return D2COMMON_GetLevel(misc, levelno);
+	// LOG(logDEBUG1) << "D2COMMON_GetLevel Done" << levelno;
+
+	// return foo;
 }
 
 VOID __declspec(naked) D2CLIENT_InitGameMisc(VOID)
