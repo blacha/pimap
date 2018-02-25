@@ -428,6 +428,11 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 					if (outputCount > 0) {
 						fprintf(fp, ", ");
 					}
+
+					if (outputCount == 0 && ch === ' ') {
+						fprintf(fp, "-1,");
+					}
+
 					fprintf(fp, "%d", count);
 					outputCount++;
 					count = 0;
