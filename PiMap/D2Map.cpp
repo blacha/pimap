@@ -118,7 +118,7 @@ void init(const char *dir)
 		ExitProcess(NULL);
 	}
 
-	//D2CLIENT_InitGameMisc();
+	D2CLIENT_InitGameMisc();
 
 	SetCurrentDirectory(szPath);
 

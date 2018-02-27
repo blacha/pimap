@@ -302,10 +302,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 {
 	if (!dumpMaps)
 		return false;
-// -----	// LOG(logINFO) << "Dumping map to " << lpszFilePath;
 
-	//	if (Log::ReportingLevel < logDEBUG4)
-	//		return FALSE;
 
 	if (lpszFilePath == NULL)
 		return FALSE;
@@ -317,17 +314,15 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 	FILE *fp = fopen(lpszFilePath, "w+");
 	try {
 
-// -----		LOG(logINFO) << "Dumping map to " << lpszFilePath;
-
 		if (fp == NULL)
 			return FALSE;
 
-
-		fprintf(fp, "{ \"name\": \"%s\", \"origin\": { \"x\":%d, \"y\":%d }, \"size\": { \"width\":%d, \"height\":%d },\n", szMapName, m_ptLevelOrigin.x, m_ptLevelOrigin.y, m_map.GetCX(), m_map.GetCY());
-		fprintf(fp, "\n\n");
-
-		fprintf(fp, "\"mapId\":%d,", dwLevelId);
-		fprintf(fp, "\"npcs\": {");
+		fprintf(fp, "{\n");
+		fprintf(fp, "\t\"id\": %d,\n", dwLevelId);
+		fprintf(fp, "\t\"name\": \"%s\",\n", szMapName);
+		fprintf(fp, "\t\"origin\": { \"x\":%d, \"y\":%d },\n",  m_ptLevelOrigin.x, m_ptLevelOrigin.y);
+		fprintf(fp, "\t\"size\": { \"width\":%d, \"height\":%d },\n", m_map.GetCX(), m_map.GetCY());
+		fprintf(fp, "\t\"npcs\": [\n");
 		int objectCount = 0;
 		int npcCount = 0;
 
@@ -337,28 +332,26 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 		{
 			for (std::vector<std::pair<short, short>>::const_iterator iter2 = iter1->second.begin(); iter2 != iter1->second.end(); iter2++)
 			{
-				if (iter1->first == SuperUniqueNpc::TheSummoner ||
-					iter1->first == SuperUniqueNpc::NihlathakBoss ||
-					iter1->first == SuperUniqueNpc::TheCountess)
-				{
+				// if (iter1->first == SuperUniqueNpc::TheSummoner ||
+				// 	iter1->first == SuperUniqueNpc::NihlathakBoss ||
+				// 	iter1->first == SuperUniqueNpc::TheCountess)
+				// {
 					POINT p = {iter2->first, iter2->second};
 					AbsToRelative(p);
 
 					if (npcCount > 0) {
 						fprintf(fp, ",\n");
 					}
-					fprintf(fp, "\"%d\":  { \"x\":%d, \"y\":%d }", (unsigned int)iter1->first, p.x, p.y);
+					fprintf(fp, "\t\t{ \"id\":%d, \"x\":%d, \"y\":%d }", (unsigned int)iter1->first, p.x, p.y);
 					npcCount++;
-				}
+				// }
 			}
 		}
 
-		fprintf(fp, "\n},\n");
+		fprintf(fp, "\n\t],\n");
 
 
-		fprintf(fp, "\"objects\": {");
-
-		//std::map<DWORD, std::pair<short, short>>::iterator iter = exits.begin();
+		fprintf(fp, "\t\"objects\": [\n");
 
 		for (std::map<DWORD, std::pair<short, short>>::const_iterator iter = exits.begin(); iter != exits.end(); iter++)
 		{
@@ -369,7 +362,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 			if (objectCount > 0) {
 				fprintf(fp, ",\n");
 			}
-			fprintf(fp, "\"%d\":  { \"x\":%d, \"y\":%d, \"type\":\"Exit\" }", (unsigned int)iter->first, p.x, p.y);
+			fprintf(fp, "\t\t\{ \"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Exit\" }", (unsigned int)iter->first, p.x, p.y);
 			objectCount++;
 		}
 
@@ -377,6 +370,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 		{
 			for (std::vector<std::pair<short, short>>::const_iterator iter2 = iter1->second.begin(); iter2 != iter1->second.end(); iter2++)
 			{
+
 				//is there an enum for the object id's like the one for the npc's...?
 				if (iter1->first == 0x0077 ||
 					iter1->first == 0x009D ||
@@ -395,19 +389,18 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 				{
 					POINT p = {iter2->first, iter2->second};
 					AbsToRelative(p);
-
 					if (objectCount > 0) {
 						fprintf(fp, ",\n");
 					}
-					fprintf(fp, "\"%d\":  { \"x\":%d, \"y\":%d, \"type\":\"Waypoint\" }", (unsigned int)iter1->first, p.x, p.y);
+					fprintf(fp, "\t\t{\"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Waypoint\" }", (unsigned int)iter1->first, p.x, p.y);
 					objectCount++;
 				}
 			}
 		}
-		fprintf(fp, "\n},");
+		fprintf(fp, "\n\t],\n");
 
 
-		fprintf(fp, "\"map\":[");
+		fprintf(fp, "\t\"map\":[\n");
 		const int CX = m_map.GetCX();
 		const int CY = m_map.GetCY();
 
@@ -416,7 +409,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 		for (int y = 0; y < CY; y++)
 		{
 			int count = 0;
-			fprintf(fp, "[");
+			fprintf(fp, "\t\t[");
 			int outputCount = 0;
 			for (int x = 0; x < CX; x++)
 			{
@@ -429,8 +422,10 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 						fprintf(fp, ", ");
 					}
 
-					if (outputCount == 0 && ch == ' ') {
-						fprintf(fp, "-1,");
+					if (outputCount == 0 && last == ' ') {
+						fprintf(fp, "-1, ");
+												printf("% - %c", last);
+
 					}
 
 					fprintf(fp, "%d", count);
@@ -445,11 +440,11 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 				fprintf(fp, ",\n");
 			}
 		}
-		fprintf(fp, "]\n");
-		fprintf(fp, "%s\n", "}");
+		fprintf(fp, "\t]\n");
+		fprintf(fp, "}\n");
 
 	} catch (...) {
-// -----		LOG(logERROR) << "Error exporting map!";
+		printf("Error dumping map");
 	}
 
 	fclose(fp);

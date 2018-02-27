@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 	}
 
 
-   for(INT x = 0; x < 5; x++)
+   for(INT x = 1; x < 2; x++)
    {
       Act* pAct = D2COMMON_LoadAct(x, seed, TRUE, FALSE, diff, NULL, bActLevels[x], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
       if(pAct)
@@ -87,6 +87,9 @@ int main(int argc, char *argv[])
 
          for(INT i = bActLevels[pAct->dwAct]; i < bActLevels[pAct->dwAct+1]; i++)
          {
+			 if (i != 74) {
+				 continue;
+			 }
 			 if (i == 20 || i == 59 || i == 63 || i == 93 || i == 99)  {
 				 continue;
 			 }
@@ -102,19 +105,22 @@ int main(int argc, char *argv[])
             printf("Loading Level %d\n",pLevel->dwLevelNo);
 
             if(!pLevel->pRoom2First){
-							    printf("Init Level %d\n",pLevel->dwLevelNo);
-
-               D2COMMON_InitLevel(pLevel);
+				printf("Init Level %d\n",pLevel->dwLevelNo);
+               	D2COMMON_InitLevel(pLevel);
 			}
 
             if(!pLevel->pRoom2First){
 				printf("Failed Init %d\n", i);
-				// LOG(logDEBUG1) << "Failed init level " <<  i << " " << D2COMMON_GetLevelText(i)->szName;
 				continue;
 			}
 
+			CHAR szFolderName[32] = "";
+			sprintf(szFolderName, "maps/0x%08x_%d", seed, diff);
+			CreateDirectory(szFolderName, NULL);
+
             CHAR szMapName[64] = "";
-            sprintf(szMapName,"maps/0x%08x_%d_0x%02x.json", seed, diff, i);
+            sprintf(szMapName,"%s/%02x.json", szFolderName, i);
+
 			printf("DumpMap %s\n", szMapName);
 			CCollisionMap* cMap = new CCollisionMap(pAct, pLevel->dwLevelNo);
             cMap->CreateMap();
@@ -128,6 +134,7 @@ int main(int argc, char *argv[])
 
 	printf("$$DONE\n");
 	ExitProcess(NULL);
+	exit(0);
 
 	// LOG(logINFO) << "Creating maps for seed:" << seed << " difficulty: " << diff;
 	// // 1203530293
