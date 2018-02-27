@@ -77,19 +77,17 @@ int main(int argc, char *argv[])
 	}
 
 
-   for(INT x = 1; x < 2; x++)
+   for(INT x = 0; x < 2; x++)
    {
       Act* pAct = D2COMMON_LoadAct(x, seed, TRUE, FALSE, diff, NULL, bActLevels[x], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
       if(pAct)
       {
-		  printf("Loading Act %d @%d\n", pAct->dwAct + 1, pAct);
+		  printf("Loading Act %d @ %d - seed:%08X diff:%d %\n", pAct->dwAct + 1, pAct, seed, diff);
          	//LOG(logDEBUG1) << "Loaded Act" << pAct->dwAct+1 << " pointer = " << pAct;;
 
          for(INT i = bActLevels[pAct->dwAct]; i < bActLevels[pAct->dwAct+1]; i++)
          {
-			 if (i != 74) {
-				 continue;
-			 }
+
 			 if (i == 20 || i == 59 || i == 63 || i == 93 || i == 99)  {
 				 continue;
 			 }
@@ -102,10 +100,10 @@ int main(int argc, char *argv[])
 				continue;
 			}
 
-            printf("Loading Level %d\n",pLevel->dwLevelNo);
+            // printf("Loading Level %d\n",pLevel->dwLevelNo);
 
             if(!pLevel->pRoom2First){
-				printf("Init Level %d\n",pLevel->dwLevelNo);
+				// printf("Init Level %d\n",pLevel->dwLevelNo);
                	D2COMMON_InitLevel(pLevel);
 			}
 
@@ -114,11 +112,13 @@ int main(int argc, char *argv[])
 				continue;
 			}
 
-			CHAR szFolderName[32] = "";
+			// printf("Create-Directory");
+			CHAR szFolderName[64] = "";
 			sprintf(szFolderName, "maps/0x%08x_%d", seed, diff);
 			CreateDirectory(szFolderName, NULL);
+			// printf("%s - Done", szFolderName);
 
-            CHAR szMapName[64] = "";
+            CHAR szMapName[128] = "";
             sprintf(szMapName,"%s/%02x.json", szFolderName, i);
 
 			printf("DumpMap %s\n", szMapName);

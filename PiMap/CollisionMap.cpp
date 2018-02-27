@@ -392,7 +392,15 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 					if (objectCount > 0) {
 						fprintf(fp, ",\n");
 					}
-					fprintf(fp, "\t\t{\"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Waypoint\" }", (unsigned int)iter1->first, p.x, p.y);
+					fprintf(fp, "\t\t{ \"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Waypoint\" }", (unsigned int)iter1->first, p.x, p.y);
+					objectCount++;
+				} else {
+					POINT p = {iter2->first, iter2->second};
+					AbsToRelative(p);
+					if (objectCount > 0) {
+						fprintf(fp, ",\n");
+					}
+					fprintf(fp, "\t\t{ \"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Object\" }", (unsigned int)iter1->first, p.x, p.y);
 					objectCount++;
 				}
 			}
