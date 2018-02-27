@@ -3,12 +3,13 @@
 #include "D2Map.h"
 
 PatchHook pHooks[] = {
-	{PatchJmp, 0x6FD5B5E0, (DWORD)D2OpenFile_ASM,6}, // 1.13d
+	{ NULL, NULL, NULL}
+	// {PatchJmp, 0x6FD5B5E0, (DWORD)D2OpenFile_ASM,6}, // 1.13d
 //	{PatchJmp, GetDllOffset("D2GAME.dll",0x95AC0), (DWORD)WardenActionPacket,5},
 //	{PatchJmp, GetDllOffset("D2GAME.dll",0xED509), (DWORD)PlayerJoin_Intercept,5},
 //	{PatchCall, GetDllOffset("D2GAME.dll",0x719A), (DWORD)PlayerLeave_Intercept,5},
 //	{PatchJmp, 0x00406EFC, (DWORD)GameInterception, 5},
-	/*	
+	/*
 00406EFC   56               PUSH ESI
 00406EFD   56               PUSH ESI
 00406EFE   FF75 F4          PUSH DWORD PTR SS:[EBP-C]
@@ -21,7 +22,7 @@ GAMEServer Add Player to Game (ECX = PlayerUnit)
 
 00A3719A  |. 68 CB010000    PUSH 1CB
 
-	
+
 	{PatchJmp, GetDllOffset("D2GFX.dll", 0x8920+5), (DWORD)GameMinimize_Interception, 5},
 	{PatchCall, GetDllOffset("D2Client.dll", 0x869B5), (DWORD)GameInput_Interception, 5},
 	{PatchJmp, GetDllOffset("D2Client.dll", 0x90524), (DWORD)GameDraw_STUB, 6},
@@ -44,11 +45,11 @@ GAMEServer Add Player to Game (ECX = PlayerUnit)
 
 6F9E0190   . 81EC F8040000        SUB ESP,4F8
 6F9E0196   . 56                   PUSH ESI
-	
+
 6F9DFC3C   8BAC24 FC010000  MOV EBP,DWORD PTR SS:[ESP+1FC]
 
 
 
 	{PatchCall, GetDllOffset("BNClient.dll", 0xDE41), (DWORD)BNCLIENT_LoadExtraWork, 6},
 	{PatchCall, GetDllOffset("BNClient.dll", 0xCC7A), (DWORD)BNCLIENT_CheckRevision, 6},
-*/};
+ */};

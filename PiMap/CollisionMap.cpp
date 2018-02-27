@@ -33,7 +33,7 @@ CCollisionMap::~CCollisionMap()
 {
 	//Abort();
 	//Join();
-	 // LOG(logDEBUG1) << "Destructing " << AreaLevel::toString((AreaLevel::AreaLevel)this->dwAreaId);
+// -----	 // LOG(logDEBUG1) << "Destructing " << AreaLevel::toString((AreaLevel::AreaLevel)this->dwAreaId);
 }
 
 void CCollisionMap::AddCollisionData(const CollMap *pCol)
@@ -80,7 +80,7 @@ void CCollisionMap::AddUnitData(const Room2 *pRoom2, unsigned thickenBy)
 		// npcs
 		if (pPresetUnit->dwType == UNIT_TYPE_NPC)
 		{
-			 LOG(logDEBUG4) << "Npc = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
+// -----			 LOG(logDEBUG4) << "Npc = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
 			npcs[pPresetUnit->dwTxtFileNo].push_back(std::pair<short, short>((short)pRoom2->dwPosX * 5 + pPresetUnit->dwPosX, (short)pRoom2->dwPosY * 5 + pPresetUnit->dwPosY));
 		}
 
@@ -90,7 +90,7 @@ void CCollisionMap::AddUnitData(const Room2 *pRoom2, unsigned thickenBy)
 			if (thickenBy < 0) // make sure?
 				thickenBy = 0;
 
-			 LOG(logDEBUG4) << "Object = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
+// -----			 LOG(logDEBUG4) << "Object = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
 			objects[pPresetUnit->dwTxtFileNo].push_back(std::pair<short, short>((short)pRoom2->dwPosX * 5 + pPresetUnit->dwPosX, (short)pRoom2->dwPosY * 5 + pPresetUnit->dwPosY));
 
 			GameObjectID::GameObjectID oid = static_cast<GameObjectID::GameObjectID>(pPresetUnit->dwTxtFileNo);
@@ -107,9 +107,9 @@ void CCollisionMap::AddUnitData(const Room2 *pRoom2, unsigned thickenBy)
 			{
 				if (*pRoomTile->nNum == pPresetUnit->dwTxtFileNo)
 				{
-					LOG(logINFO) << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << "/"
-						<< pRoom2->dwPosY * 5 + pPresetUnit->dwPosY << " = "
-						<< AreaLevel::toString((AreaLevel::AreaLevel)pLevel->dwLevelNo) << "->" << AreaLevel::toString((AreaLevel::AreaLevel)pRoomTile->pRoom2->pLevel->dwLevelNo);
+// -----// ----					LOG(logDEBUG3) << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << "/"
+//						<< pRoom2->dwPosY * 5 + pPresetUnit->dwPosY << " = "
+//						<< AreaLevel::toString((AreaLevel::AreaLevel)pLevel->dwLevelNo) << "->" << AreaLevel::toString((AreaLevel::AreaLevel)pRoomTile->pRoom2->pLevel->dwLevelNo);
 
 					exits[pRoomTile->pRoom2->pLevel->dwLevelNo].first = (short)pRoom2->dwPosX * 5 + pPresetUnit->dwPosX;
 					exits[pRoomTile->pRoom2->pLevel->dwLevelNo].second = (short)pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
@@ -166,7 +166,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 
 	dwLevelId = AreaId;
 	pLevel = GetLevel(pAct->pMisc, AreaId);
-	LOG(logDEBUG1) << "GetLevelDone";
+// -----	// LOG(logDEBUG1) << "GetLevelDone";
 
 	if (!pLevel)
 		return FALSE;
@@ -174,7 +174,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 
 	if (!pLevel->pRoom2First)
 		D2COMMON_InitLevel(pLevel);
-	LOG(logDEBUG1) << "InitLevelDone";
+// -----	// LOG(logDEBUG1) << "InitLevelDone";
 
 	if (!pLevel->pRoom2First)
 		return NULL;
@@ -196,7 +196,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 			m_map[x][y] = MAP_DATA_INVALID;
 		}
 	}
-	// LOG(logDEBUG1) << "MapInitDone";
+// -----	// LOG(logDEBUG1) << "MapInitDone";
 
 	//DwordArray aSkip;
 	//Search(pLevel->pRoom2First, NULL, aSkip);
@@ -209,7 +209,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 		{
 			bAdded = TRUE;
 			D2COMMON_AddRoomData(pAct, pLevel->dwLevelNo, pRoom2->dwPosX, pRoom2->dwPosY, NULL);
-			// LOG(logDEBUG4) << "AddRoomData";
+// -----			// LOG(logDEBUG4) << "AddRoomData";
 
 		}
 
@@ -228,7 +228,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 
 				if (prev != pRoom2->pRoom2Near[i]->pLevel->dwLevelNo)
 				{
-					 // LOG(logDEBUG1) << pRoom2->pRoom2Near[i]->pLevel->dwPosX * 5 << "/" << pRoom2->pRoom2Near[i]->pLevel->dwPosY * 5 << " = " << AreaLevel::toString((AreaLevel::AreaLevel)pLevel->dwLevelNo) << "->" << AreaLevel::toString((AreaLevel::AreaLevel)pRoom2->pRoom2Near[i]->pLevel->dwLevelNo);
+// -----					 // LOG(logDEBUG1) << pRoom2->pRoom2Near[i]->pLevel->dwPosX * 5 << "/" << pRoom2->pRoom2Near[i]->pLevel->dwPosY * 5 << " = " << AreaLevel::toString((AreaLevel::AreaLevel)pLevel->dwLevelNo) << "->" << AreaLevel::toString((AreaLevel::AreaLevel)pRoom2->pRoom2Near[i]->pLevel->dwLevelNo);
 					prev = pRoom2->pRoom2Near[i]->pLevel->dwLevelNo;
 				}
 				levelsnear[pRoom2->pRoom2Near[i]->pLevel->dwLevelNo].push_back(newlevel);
@@ -302,7 +302,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 {
 	if (!dumpMaps)
 		return false;
-	// LOG(logINFO) << "Dumping map to " << lpszFilePath;
+// -----	// LOG(logINFO) << "Dumping map to " << lpszFilePath;
 
 	//	if (Log::ReportingLevel < logDEBUG4)
 	//		return FALSE;
@@ -317,7 +317,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 	FILE *fp = fopen(lpszFilePath, "w+");
 	try {
 
-		LOG(logINFO) << "Dumping map to " << lpszFilePath;
+// -----		LOG(logINFO) << "Dumping map to " << lpszFilePath;
 
 		if (fp == NULL)
 			return FALSE;
@@ -429,7 +429,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 						fprintf(fp, ", ");
 					}
 
-					if (outputCount == 0 && ch === ' ') {
+					if (outputCount == 0 && ch == ' ') {
 						fprintf(fp, "-1,");
 					}
 
@@ -449,7 +449,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 		fprintf(fp, "%s\n", "}");
 
 	} catch (...) {
-		LOG(logERROR) << "Error exporting map!";
+// -----		LOG(logERROR) << "Error exporting map!";
 	}
 
 	fclose(fp);

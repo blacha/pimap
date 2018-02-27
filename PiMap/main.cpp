@@ -45,11 +45,16 @@ int getActs(AreaLevel::AreaLevel level)
 
 int main(int argc, char *argv[])
 {
+	// char *foldername = argv[1];
+	// int seed = atoi(argv[2]);
+	// int diff = atoi(argv[3]);
 
 	if (argc < 3)
 	{
 		printf("PiMap.exe <path> <seed> <difficulty> <mapid>");
 		return 1;
+	} else {
+
 	}
 
 	char *foldername = argv[1];
@@ -57,11 +62,12 @@ int main(int argc, char *argv[])
 	int diff = atoi(argv[3]);
 
 	Log::of.open("logs\\core.log", std::ios::app);
-	LOG(logINFO) << "Opening Folder \"" << foldername<< "\"";
+	// LOG(logINFO) << "Opening Folder \"" << foldername<< "\"";
 
 	init(foldername);
 
 
+	// BYTE bActLevels[] = {1, 40, 75, 103, 109, 142};
 	BYTE bActLevels[] = {1, 40, 75, 103, 109, 142};
 
 
@@ -76,18 +82,20 @@ int main(int argc, char *argv[])
       Act* pAct = D2COMMON_LoadAct(x, seed, TRUE, FALSE, diff, NULL, bActLevels[x], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
       if(pAct)
       {
-         	LOG(logDEBUG1) << "Loaded Act" << pAct->dwAct+1 << " pointer = " << pAct;;
+		  printf("Loading Act %d @%d\n", pAct->dwAct + 1, pAct);
+         	//LOG(logDEBUG1) << "Loaded Act" << pAct->dwAct+1 << " pointer = " << pAct;;
 
          for(INT i = bActLevels[pAct->dwAct]; i < bActLevels[pAct->dwAct+1]; i++)
          {
-			 if (levelGenerated[i]) {
+			 if (i == 20 || i == 59 || i == 63 || i == 93 || i == 99)  {
 				 continue;
 			 }
 
             Level* pLevel = GetLevel(pAct->pMisc, i); // Loading Town Level
 
             if(!pLevel){
-				LOG(logDEBUG1) << "Skipping level " <<  i << " " << D2COMMON_GetLevelText(i)->szName;
+				printf("Skipping level %d\n", i); //, D2COMMON_GetLevelText(i)->szName);
+				// LOG(logDEBUG1) << "Skipping level " <<  i << " " << D2COMMON_GetLevelText(i)->szName;
 				continue;
 			}
 
@@ -100,13 +108,14 @@ int main(int argc, char *argv[])
 			}
 
             if(!pLevel->pRoom2First){
-				LOG(logDEBUG1) << "Failed init level " <<  i << " " << D2COMMON_GetLevelText(i)->szName;
+				printf("Failed Init %d\n", i);
+				// LOG(logDEBUG1) << "Failed init level " <<  i << " " << D2COMMON_GetLevelText(i)->szName;
 				continue;
 			}
 
             CHAR szMapName[64] = "";
             sprintf(szMapName,"maps/0x%08x_%d_0x%02x.json", seed, diff, i);
-				// printf("DumpMap %s\n", szMapName);
+			printf("DumpMap %s\n", szMapName);
 			CCollisionMap* cMap = new CCollisionMap(pAct, pLevel->dwLevelNo);
             cMap->CreateMap();
             cMap->DumpMap(szMapName);
@@ -117,6 +126,8 @@ int main(int argc, char *argv[])
    }
 
 
+	printf("$$DONE\n");
+	ExitProcess(NULL);
 
 	// LOG(logINFO) << "Creating maps for seed:" << seed << " difficulty: " << diff;
 	// // 1203530293
