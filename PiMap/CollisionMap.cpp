@@ -394,15 +394,16 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 					}
 					fprintf(fp, "\t\t{ \"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Waypoint\" }", (unsigned int)iter1->first, p.x, p.y);
 					objectCount++;
-				} else {
-					POINT p = {iter2->first, iter2->second};
-					AbsToRelative(p);
-					if (objectCount > 0) {
-						fprintf(fp, ",\n");
-					}
-					fprintf(fp, "\t\t{ \"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Object\" }", (unsigned int)iter1->first, p.x, p.y);
-					objectCount++;
 				}
+				// else {
+					// POINT p = {iter2->first, iter2->second};
+					// AbsToRelative(p);
+					// if (objectCount > 0) {
+					// 	fprintf(fp, ",\n");
+					// }
+					// fprintf(fp, "\t\t{ \"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Object\" }", (unsigned int)iter1->first, p.x, p.y);
+					// objectCount++;
+				// }
 			}
 		}
 		fprintf(fp, "\n\t],\n");
@@ -412,10 +413,11 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 		const int CX = m_map.GetCX();
 		const int CY = m_map.GetCY();
 
-		char last = 'X';
+
 
 		for (int y = 0; y < CY; y++)
 		{
+			char last = 'X';
 			int count = 0;
 			fprintf(fp, "\t\t[");
 			int outputCount = 0;
