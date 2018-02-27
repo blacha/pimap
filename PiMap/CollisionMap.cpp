@@ -432,8 +432,6 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 
 					if (outputCount == 0 && last == ' ') {
 						fprintf(fp, "-1, ");
-												printf("% - %c", last);
-
 					}
 
 					fprintf(fp, "%d", count);

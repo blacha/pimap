@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 	}
 
 
-   for(INT x = 0; x < 2; x++)
+   for(INT x = 0; x < 5; x++)
    {
       Act* pAct = D2COMMON_LoadAct(x, seed, TRUE, FALSE, diff, NULL, bActLevels[x], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
       if(pAct)
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 			// printf("%s - Done", szFolderName);
 
             CHAR szMapName[128] = "";
-            sprintf(szMapName,"%s/%02x.json", szFolderName, i);
+            sprintf(szMapName,"%s/0x%02x.json", szFolderName, i);
 
 			printf("DumpMap %s\n", szMapName);
 			CCollisionMap* cMap = new CCollisionMap(pAct, pLevel->dwLevelNo);
@@ -135,6 +135,8 @@ int main(int argc, char *argv[])
 	printf("$$DONE\n");
 	ExitProcess(NULL);
 	exit(0);
+
+	std::exit(0);
 
 	// LOG(logINFO) << "Creating maps for seed:" << seed << " difficulty: " << diff;
 	// // 1203530293
