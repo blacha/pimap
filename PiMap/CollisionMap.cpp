@@ -21,7 +21,7 @@ CCollisionMap *CCollisionMap::last;
 
 CCollisionMap::CCollisionMap(Act *lpAct, DWORD ldwAreaId)
 {
-	this ;
+	this;
 	this->m_iCurMap = 0x00;
 	this->dwLevelId = 0x00;
 	this->pAct = lpAct;
@@ -33,7 +33,7 @@ CCollisionMap::~CCollisionMap()
 {
 	//Abort();
 	//Join();
-// -----	 // LOG(logDEBUG1) << "Destructing " << AreaLevel::toString((AreaLevel::AreaLevel)this->dwAreaId);
+	// -----	 // LOG(logDEBUG1) << "Destructing " << AreaLevel::toString((AreaLevel::AreaLevel)this->dwAreaId);
 }
 
 void CCollisionMap::AddCollisionData(const CollMap *pCol)
@@ -80,7 +80,7 @@ void CCollisionMap::AddUnitData(const Room2 *pRoom2, unsigned thickenBy)
 		// npcs
 		if (pPresetUnit->dwType == UNIT_TYPE_NPC)
 		{
-// -----			 LOG(logDEBUG4) << "Npc = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
+			// -----			 LOG(logDEBUG4) << "Npc = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
 			npcs[pPresetUnit->dwTxtFileNo].push_back(std::pair<short, short>((short)pRoom2->dwPosX * 5 + pPresetUnit->dwPosX, (short)pRoom2->dwPosY * 5 + pPresetUnit->dwPosY));
 		}
 
@@ -90,7 +90,7 @@ void CCollisionMap::AddUnitData(const Room2 *pRoom2, unsigned thickenBy)
 			if (thickenBy < 0) // make sure?
 				thickenBy = 0;
 
-// -----			 LOG(logDEBUG4) << "Object = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
+			// -----			 LOG(logDEBUG4) << "Object = " << pPresetUnit->dwTxtFileNo << ", x = " << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << " y = " << pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
 			objects[pPresetUnit->dwTxtFileNo].push_back(std::pair<short, short>((short)pRoom2->dwPosX * 5 + pPresetUnit->dwPosX, (short)pRoom2->dwPosY * 5 + pPresetUnit->dwPosY));
 
 			GameObjectID::GameObjectID oid = static_cast<GameObjectID::GameObjectID>(pPresetUnit->dwTxtFileNo);
@@ -107,9 +107,9 @@ void CCollisionMap::AddUnitData(const Room2 *pRoom2, unsigned thickenBy)
 			{
 				if (*pRoomTile->nNum == pPresetUnit->dwTxtFileNo)
 				{
-// -----// ----					LOG(logDEBUG3) << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << "/"
-//						<< pRoom2->dwPosY * 5 + pPresetUnit->dwPosY << " = "
-//						<< AreaLevel::toString((AreaLevel::AreaLevel)pLevel->dwLevelNo) << "->" << AreaLevel::toString((AreaLevel::AreaLevel)pRoomTile->pRoom2->pLevel->dwLevelNo);
+					// -----// ----					LOG(logDEBUG3) << pRoom2->dwPosX * 5 + pPresetUnit->dwPosX << "/"
+					//						<< pRoom2->dwPosY * 5 + pPresetUnit->dwPosY << " = "
+					//						<< AreaLevel::toString((AreaLevel::AreaLevel)pLevel->dwLevelNo) << "->" << AreaLevel::toString((AreaLevel::AreaLevel)pRoomTile->pRoom2->pLevel->dwLevelNo);
 
 					exits[pRoomTile->pRoom2->pLevel->dwLevelNo].first = (short)pRoom2->dwPosX * 5 + pPresetUnit->dwPosX;
 					exits[pRoomTile->pRoom2->pLevel->dwLevelNo].second = (short)pRoom2->dwPosY * 5 + pPresetUnit->dwPosY;
@@ -166,15 +166,14 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 
 	dwLevelId = AreaId;
 	pLevel = GetLevel(pAct->pMisc, AreaId);
-// -----	// LOG(logDEBUG1) << "GetLevelDone";
+	// -----	// LOG(logDEBUG1) << "GetLevelDone";
 
 	if (!pLevel)
 		return FALSE;
 
-
 	if (!pLevel->pRoom2First)
 		D2COMMON_InitLevel(pLevel);
-// -----	// LOG(logDEBUG1) << "InitLevelDone";
+	// -----	// LOG(logDEBUG1) << "InitLevelDone";
 
 	if (!pLevel->pRoom2First)
 		return NULL;
@@ -196,7 +195,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 			m_map[x][y] = MAP_DATA_INVALID;
 		}
 	}
-// -----	// LOG(logDEBUG1) << "MapInitDone";
+	// -----	// LOG(logDEBUG1) << "MapInitDone";
 
 	//DwordArray aSkip;
 	//Search(pLevel->pRoom2First, NULL, aSkip);
@@ -209,8 +208,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 		{
 			bAdded = TRUE;
 			D2COMMON_AddRoomData(pAct, pLevel->dwLevelNo, pRoom2->dwPosX, pRoom2->dwPosY, NULL);
-// -----			// LOG(logDEBUG4) << "AddRoomData";
-
+			// -----			// LOG(logDEBUG4) << "AddRoomData";
 		}
 
 		// levels near
@@ -228,7 +226,7 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 
 				if (prev != pRoom2->pRoom2Near[i]->pLevel->dwLevelNo)
 				{
-// -----					 // LOG(logDEBUG1) << pRoom2->pRoom2Near[i]->pLevel->dwPosX * 5 << "/" << pRoom2->pRoom2Near[i]->pLevel->dwPosY * 5 << " = " << AreaLevel::toString((AreaLevel::AreaLevel)pLevel->dwLevelNo) << "->" << AreaLevel::toString((AreaLevel::AreaLevel)pRoom2->pRoom2Near[i]->pLevel->dwLevelNo);
+					// -----					 // LOG(logDEBUG1) << pRoom2->pRoom2Near[i]->pLevel->dwPosX * 5 << "/" << pRoom2->pRoom2Near[i]->pLevel->dwPosY * 5 << " = " << AreaLevel::toString((AreaLevel::AreaLevel)pLevel->dwLevelNo) << "->" << AreaLevel::toString((AreaLevel::AreaLevel)pRoom2->pRoom2Near[i]->pLevel->dwLevelNo);
 					prev = pRoom2->pRoom2Near[i]->pLevel->dwLevelNo;
 				}
 				levelsnear[pRoom2->pRoom2Near[i]->pLevel->dwLevelNo].push_back(newlevel);
@@ -271,7 +269,8 @@ BOOL CCollisionMap::BuildMapData(DWORD AreaId)
 
 	return TRUE;
 }
-BOOL CCollisionMap::Routine() {
+BOOL CCollisionMap::Routine()
+{
 	return TRUE;
 }
 
@@ -303,7 +302,6 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 	if (!dumpMaps)
 		return false;
 
-
 	if (lpszFilePath == NULL)
 		return FALSE;
 
@@ -312,7 +310,8 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 	sprintf_s(szMapName, sizeof(szMapName), "%s", D2COMMON_GetLevelText(dwLevelId)->szName);
 
 	FILE *fp = fopen(lpszFilePath, "w+");
-	try {
+	try
+	{
 
 		if (fp == NULL)
 			return FALSE;
@@ -320,7 +319,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 		fprintf(fp, "{\n");
 		fprintf(fp, "\t\"id\": %d,\n", dwLevelId);
 		fprintf(fp, "\t\"name\": \"%s\",\n", szMapName);
-		fprintf(fp, "\t\"origin\": { \"x\":%d, \"y\":%d },\n",  m_ptLevelOrigin.x, m_ptLevelOrigin.y);
+		fprintf(fp, "\t\"origin\": { \"x\":%d, \"y\":%d },\n", m_ptLevelOrigin.x, m_ptLevelOrigin.y);
 		fprintf(fp, "\t\"size\": { \"width\":%d, \"height\":%d },\n", m_map.GetCX(), m_map.GetCY());
 		fprintf(fp, "\t\"npcs\": [\n");
 		int objectCount = 0;
@@ -336,20 +335,20 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 				// 	iter1->first == SuperUniqueNpc::NihlathakBoss ||
 				// 	iter1->first == SuperUniqueNpc::TheCountess)
 				// {
-					POINT p = {iter2->first, iter2->second};
-					AbsToRelative(p);
+				POINT p = {iter2->first, iter2->second};
+				AbsToRelative(p);
 
-					if (npcCount > 0) {
-						fprintf(fp, ",\n");
-					}
-					fprintf(fp, "\t\t{ \"id\":%d, \"x\":%d, \"y\":%d }", (unsigned int)iter1->first, p.x, p.y);
-					npcCount++;
+				if (npcCount > 0)
+				{
+					fprintf(fp, ",\n");
+				}
+				fprintf(fp, "\t\t{ \"id\":%d, \"x\":%d, \"y\":%d }", (unsigned int)iter1->first, p.x, p.y);
+				npcCount++;
 				// }
 			}
 		}
 
 		fprintf(fp, "\n\t],\n");
-
 
 		fprintf(fp, "\t\"objects\": [\n");
 
@@ -359,7 +358,8 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 			POINT p = {iter->second.first, iter->second.second};
 			AbsToRelative(p);
 
-			if (objectCount > 0) {
+			if (objectCount > 0)
+			{
 				fprintf(fp, ",\n");
 			}
 			fprintf(fp, "\t\t\{ \"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Exit\" }", (unsigned int)iter->first, p.x, p.y);
@@ -389,31 +389,31 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 				{
 					POINT p = {iter2->first, iter2->second};
 					AbsToRelative(p);
-					if (objectCount > 0) {
+					if (objectCount > 0)
+					{
 						fprintf(fp, ",\n");
 					}
 					fprintf(fp, "\t\t{ \"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Waypoint\" }", (unsigned int)iter1->first, p.x, p.y);
 					objectCount++;
 				}
-				// else {
-					// POINT p = {iter2->first, iter2->second};
-					// AbsToRelative(p);
-					// if (objectCount > 0) {
-					// 	fprintf(fp, ",\n");
-					// }
-					// fprintf(fp, "\t\t{ \"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Object\" }", (unsigned int)iter1->first, p.x, p.y);
-					// objectCount++;
-				// }
+				else
+				{
+					POINT p = {iter2->first, iter2->second};
+					AbsToRelative(p);
+					if (objectCount > 0)
+					{
+						fprintf(fp, ",\n");
+					}
+					fprintf(fp, "\t\t{ \"id\":%d, \"x\":%d, \"y\":%d, \"type\": \"Object\" }", (unsigned int)iter1->first, p.x, p.y);
+					objectCount++;
+				}
 			}
 		}
 		fprintf(fp, "\n\t],\n");
 
-
 		fprintf(fp, "\t\"map\":[\n");
 		const int CX = m_map.GetCX();
 		const int CY = m_map.GetCY();
-
-
 
 		for (int y = 0; y < CY; y++)
 		{
@@ -425,18 +425,23 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 			{
 				char ch = (m_map[x][y] % 2) ? 'X' /* m_map[x][y] */ : ' ';
 
-				if (ch == last) {
-					count ++;
-				} else {
-					if (outputCount > 0) {
+				if (ch == last)
+				{
+					count++;
+				}
+				else
+				{
+					if (outputCount > 0)
+					{
 						fprintf(fp, ", ");
 					}
 
-					if (outputCount == 0 && last == ' ') {
+					if (outputCount == 0 && last == ' ')
+					{
 						fprintf(fp, "-1, ");
 					}
 
-					fprintf(fp, "%d", count);
+					fprintf(fp, "%d", count + 1);
 					outputCount++;
 					count = 0;
 					last = ch;
@@ -444,14 +449,16 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 			}
 
 			fprintf(fp, "]");
-			if (y + 1 < CY) {
+			if (y + 1 < CY)
+			{
 				fprintf(fp, ",\n");
 			}
 		}
 		fprintf(fp, "\t]\n");
 		fprintf(fp, "}\n");
-
-	} catch (...) {
+	}
+	catch (...)
+	{
 		printf("Error dumping map");
 	}
 
