@@ -309,7 +309,12 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 
 	sprintf_s(szMapName, sizeof(szMapName), "%s", D2COMMON_GetLevelText(dwLevelId)->szName);
 
+	CHAR szStr[128] = "";
+	sprintf_s(szStr, sizeof(szStr), "%s.map", lpszFilePath);
+
 	FILE *fp = fopen(lpszFilePath, "w+");
+	FILE *fs = fopen(szStr, "w+");
+
 	try
 	{
 
@@ -424,7 +429,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 			for (int x = 0; x < CX; x++)
 			{
 				char ch = (m_map[x][y] % 2) ? 'X' /* m_map[x][y] */ : ' ';
-
+				fprintf(fs, "%c", ch);
 				if (ch == last)
 				{
 					count++;
@@ -441,12 +446,13 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 						fprintf(fp, "-1, ");
 					}
 
-					fprintf(fp, "%d", count + 1);
+					fprintf(fp, "%d", count);
 					outputCount++;
-					count = 0;
+					count = 1;
 					last = ch;
 				}
 			}
+			fprintf(fs, "\n");
 
 			fprintf(fp, "]");
 			if (y + 1 < CY)
@@ -463,6 +469,7 @@ BOOL CCollisionMap::DumpMap(LPCSTR lpszFilePath) const
 	}
 
 	fclose(fp);
+	fclose(fs);
 
 	return TRUE;
 }
