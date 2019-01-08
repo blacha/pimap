@@ -4,5 +4,8 @@
   "main": "build/index.js",
   "repository": "git@gitlab.com:blacha/pimap.git",
   "author": "Blayne Chard <blayne@chard.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.2.2"
+  }
 }
