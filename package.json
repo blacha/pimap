@@ -5,6 +5,9 @@
   "repository": "git@gitlab.com:blacha/pimap.git",
   "author": "Blayne Chard <blayne@chard.com>",
   "license": "MIT",
+  "scripts": {
+    "build:mapgen": "./build.mapgen.sh"
+  },
   "devDependencies": {
     "typescript": "^3.2.2"
   }
