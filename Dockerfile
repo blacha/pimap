@@ -5,7 +5,7 @@ RUN apt-get update \
 
 RUN mkdir -p /build/src
 COPY ./src /build/src
-COPY ./build.sh /build
+COPY ./build.mapgen.sh /build
 
 WORKDIR /build
-RUN ./build.sh
+RUN ./build.mapgen.sh

@@ -8,3 +8,4 @@ old/
 game
 node_modules
 *.txt
+build/

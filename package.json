@@ -6,9 +6,12 @@
   "author": "Blayne Chard <blayne@chard.com>",
   "license": "MIT",
   "scripts": {
-    "build:mapgen": "./build.mapgen.sh"
+    "build:mapgen": "./build.mapgen.sh",
+    "build:mapserver": "tsc --watch --pretty",
+    "build:watch": "tsc --watch --pretty"
   },
   "devDependencies": {
+    "@types/node": "^10.12.18",
     "typescript": "^3.2.2"
   }
 }
