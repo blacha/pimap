@@ -1,5 +1,5 @@
 
-#include "D2Structs.h"
+#include "d2_structs.h"
 
 #ifdef _DEFINE_VARS
 
@@ -76,3 +76,8 @@ FUNCPTR(D2WIN, 10072, DWORD __fastcall, (DWORD _1, DWORD _2, DWORD _3, d2client_
 
 #define _D2PTRS_START FOG_10021
 #define _D2PTRS_END D2WIN_10072
+
+// #ifdef _DEFINE_VARS
+// #else
+
+// #endif

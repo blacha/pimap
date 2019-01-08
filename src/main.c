@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
         if (pAct)
         {
             printf("Loading Act %d @%d \n", pAct->dwAct + 1, pAct);
-            //LOG(logDEBUG1) << "Loaded Act" << pAct->dwAct+1 << " pointer = " << pAct;;
+            // LOG(logDEBUG1) << "Loaded Act" << pAct->dwAct + 1 << " pointer = " << pAct;
 
             for (INT i = bActLevels[pAct->dwAct]; i < bActLevels[pAct->dwAct + 1]; i++)
             {
