@@ -1,6 +1,6 @@
-#include "D2.h"
-#include "D2Structs.h"
-#include "D2Ptrs.h"
+#include "d2_client.h"
+#include "d2_structs.h"
+#include "d2_ptrs.h"
 
 #include <iostream>
 
@@ -15,58 +15,31 @@ int main(int argc, char *argv[])
     char *foldername = argv[1];
     int seed = atoi(argv[2]);
     int diff = atoi(argv[3]);
-    D2GameInit(foldername);
+    d2_game_init(foldername);
     printf("InitDone...\n");
     BYTE bActLevels[] = {1, 40, 75, 103, 109, 142};
 
+    // // 138
+    // Act *pAct = D2COMMON_LoadAct(5, seed, TRUE, FALSE, diff, (DWORD)NULL, bActLevels[5], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
+    // dump_map(pAct, 138);
+    // return 0;
+
     for (INT x = 0; x < 5; x++)
     {
-        Act *pAct = D2COMMON_LoadAct(x, seed, TRUE, FALSE, diff, NULL, bActLevels[x], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
-        printf("LoadingAct 0x%08x_%d \n", seed, diff);
+        Act *pAct = D2COMMON_LoadAct(x, seed, TRUE, FALSE, diff, (DWORD)NULL, bActLevels[x], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
         if (pAct)
         {
-            printf("Loading Act %d @%d \n", pAct->dwAct + 1, pAct);
+            printf("Loading Act %d [%d -> %d] \n", pAct->dwAct + 1, bActLevels[pAct->dwAct], bActLevels[pAct->dwAct + 1]);
             // LOG(logDEBUG1) << "Loaded Act" << pAct->dwAct + 1 << " pointer = " << pAct;
 
-            for (INT i = bActLevels[pAct->dwAct]; i < bActLevels[pAct->dwAct + 1]; i++)
+            for (INT levelCode = bActLevels[pAct->dwAct]; levelCode < bActLevels[pAct->dwAct + 1]; levelCode++)
             {
-                if (i == 20 || i == 59 || i == 63 || i == 93 || i == 99)
+                if (levelCode == 20 || levelCode == 59 || levelCode == 63 || levelCode == 93 || levelCode == 99)
                 {
                     continue;
                 }
 
-                Level *pLevel = GetLevel(pAct->pMisc, i); // Loading Town Level
-
-                if (!pLevel)
-                {
-                    printf("Skipping level %d\n", i, D2COMMON_GetLevelText(i)->szName);
-                    continue;
-                }
-
-                if (!pLevel->pRoom2First)
-                {
-                    printf("Init Level %d\n", pLevel->dwLevelNo);
-                    // D2COMMON_InitLevel(pLevel);
-                }
-
-                if (!pLevel->pRoom2First)
-                {
-                    printf("Failed Init %d\n", i);
-                    continue;
-                }
-
-                printf("MakeFolders");
-                CHAR szFolder[32] = "";
-                sprintf(szFolder, "maps/0x%08x_%d", seed, diff);
-
-                CHAR szMapName[64] = "";
-                sprintf(szMapName, "%s/0x%02x.json", szFolder, i);
-                printf("DumpMap %s\n", szMapName);
-                //     CCollisionMap *cMap = new CCollisionMap(pAct, pLevel->dwLevelNo);
-                //     cMap->CreateMap();
-                //     cMap->DumpMap(szMapName);
-
-                //     levelGenerated[i] = 1;
+                dump_map(pAct, levelCode);
             }
         }
     }

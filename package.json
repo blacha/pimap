@@ -8,10 +8,20 @@
   "scripts": {
     "build:mapgen": "./build.mapgen.sh",
     "build:mapserver": "tsc --watch --pretty",
-    "build:watch": "tsc --watch --pretty"
+    "build:watch": "tsc --watch --pretty",
+    "start:watch": "nodemon build/mapserver/index.js"
   },
   "devDependencies": {
+    "@types/express": "^4.16.0",
     "@types/node": "^10.12.18",
     "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "bblog": "^2.0.0",
+    "bblog-stream-console": "^2.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "promise-queue": "^2.2.5",
+    "ulid": "^2.3.0"
   }
 }

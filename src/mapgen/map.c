@@ -1,5 +1,5 @@
-int MAP_SIZE = 1000;
-int MAP[1000 * 1000];
+int MAP_SIZE = 1500;
+int MAP[1500 * 1500];
 
 int map_offset(int x, int y)
 {

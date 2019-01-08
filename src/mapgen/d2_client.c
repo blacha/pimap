@@ -180,7 +180,7 @@ Level *__fastcall d2_get_level(ActMisc *misc, DWORD levelno)
             return pLevel;
         }
     }
-    printf("D2COMMON_GetLevel %d - %s\n", levelno, D2COMMON_GetLevelText(levelno)->szName);
+    // printf("D2COMMON_GetLevel %d - %s\n", levelno, D2COMMON_GetLevelText(levelno)->szName);
     return D2COMMON_GetLevel(misc, levelno);
 }
 
@@ -324,10 +324,12 @@ int dump_map(Act *pAct, int levelCode)
     {
         return 1;
     }
+
     if (levelCode == 20 || levelCode == 59 || levelCode == 63 || levelCode == 93 || levelCode == 99)
     {
         return 0;
     }
+
     Level *pLevel = d2_get_level(pAct->pMisc, levelCode); // Loading Town Level
 
     char *levelName = D2COMMON_GetLevelText(levelCode)->szName;
@@ -339,7 +341,7 @@ int dump_map(Act *pAct, int levelCode)
 
     if (!pLevel->pRoom2First)
     {
-        printf("Init Level %d %s\n", pLevel->dwLevelNo, levelName);
+        // printf("Init Level %d %s\n", pLevel->dwLevelNo, levelName);
         D2COMMON_InitLevel(pLevel);
     }
 
@@ -355,7 +357,7 @@ int dump_map(Act *pAct, int levelCode)
     int mapWidth = pLevel->dwSizeX * 5;
     int mapHeight = pLevel->dwSizeY * 5;
 
-    printf("DumpMap %s \n\toffset: %dx%d\n\tsize: %dx%d\n", levelName, originX, originY, mapWidth, mapHeight);
+    printf("[%3d] DumpMap\toffset: %dx%d\tsize: %dx%d %s\n", levelCode, originX, originY, mapWidth, mapHeight, levelName);
     map_reset();
 
     // Start JSON DUMP
@@ -366,6 +368,11 @@ int dump_map(Act *pAct, int levelCode)
     json_object_start("offset");
     json_key_value("x", originX);
     json_key_value("y", originY);
+    json_object_end();
+
+    json_object_start("size");
+    json_key_value("width", mapWidth);
+    json_key_value("height", mapHeight);
     json_object_end();
 
     json_array_start("objects");
@@ -395,36 +402,4 @@ int dump_map(Act *pAct, int levelCode)
     dump_map_collision(mapWidth, mapHeight);
     json_array_end();
     json_end();
-}
-
-int dump_all_maps(int seed, int difficulty)
-{
-}
-
-int main(int argc, char *argv[])
-{
-
-    if (argc < 3)
-    {
-        printf("PiMap.exe <path> <seed> <difficulty>");
-        return 1;
-    }
-    char *foldername = argv[1];
-    int seed = atoi(argv[2]);
-    int diff = atoi(argv[3]);
-    d2_game_init(foldername);
-
-    printf("InitDone...\n");
-    BYTE bActLevels[] = {1, 40, 75, 103, 109, 142};
-
-    // INT i = 35;
-    INT x = 0;
-    // for (INT x = 0; x < 1; x++)
-    // {
-    Act *pAct = D2COMMON_LoadAct(x, seed, TRUE, FALSE, diff, (DWORD)NULL, bActLevels[x], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
-    printf("LoadingAct 0x%08x_%d %x \n", seed, diff, pAct);
-
-    dump_map(pAct, 13);
-
-    return 0;
 }
