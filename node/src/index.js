@@ -26,22 +26,7 @@ server.use(cors())
 
 const MAP_GENERATED = {};
 
-function rimraf(dir_path) {
-    if (fs.existsSync(dir_path)) {
-        fs.readdirSync(dir_path).forEach(function (entry) {
-            var entry_path = path.join(dir_path, entry);
-            if (fs.lstatSync(entry_path).isDirectory()) {
-                rimraf(entry_path);
-            } else {
-                fs.unlinkSync(entry_path);
-            }
-        });
-        fs.rmdirSync(dir_path);
-    }
-}
-
 function generateMaps(diff, seed) {
-
     const mapLogs = getFolderName(diff, seed) + '/log.json';
     const cwd = process.cwd();
     const command = 'wine ' + ['../pimap.exe', D2Path, seed, diff].map(c => `"${c}"`).join(' ');
