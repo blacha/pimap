@@ -1,35 +1,39 @@
 #include "d2_client.h"
 #include "d2_structs.h"
 #include "d2_ptrs.h"
-
 #include <iostream>
 
-int main(int argc, char *argv[])
-{
+#define INPUT_BUFFER 1024
 
-    if (argc < 3)
+const char COMMAND_EXIT[] = "$EXIT";
+const char COMMAND_MAP[] = "$MAP";
+const char COMMAND_DIFF[] = "$DIFF";
+const char COMMAND_SEED[] = "$SEED";
+
+bool starts_with(const char *prefix, const char *search_string)
+{
+    if (strncmp(prefix, search_string, strlen(search_string)) == 0)
     {
-        printf("PiMap.exe <path> <seed> <difficulty>");
         return 1;
     }
-    char *foldername = argv[1];
-    int seed = atoi(argv[2]);
-    int diff = atoi(argv[3]);
-    d2_game_init(foldername);
-    printf("InitDone...\n");
+    return 0;
+}
+
+void dump_all_maps(int seed, int difficulty)
+{
     BYTE bActLevels[] = {1, 40, 75, 103, 109, 142};
 
-    // // 138
-    // Act *pAct = D2COMMON_LoadAct(5, seed, TRUE, FALSE, diff, (DWORD)NULL, bActLevels[5], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
-    // dump_map(pAct, 138);
-    // return 0;
+    // // // 138
+    // Act *pAct = D2COMMON_LoadAct(5, seed, TRUE, FALSE, difficulty, (DWORD)NULL, bActLevels[5], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
+    // dump_map(pAct, 30);
+    // return;
 
     for (INT x = 0; x < 5; x++)
     {
-        Act *pAct = D2COMMON_LoadAct(x, seed, TRUE, FALSE, diff, (DWORD)NULL, bActLevels[x], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
+        Act *pAct = D2COMMON_LoadAct(x, seed, TRUE, FALSE, difficulty, (DWORD)NULL, bActLevels[x], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
         if (pAct)
         {
-            printf("Loading Act %d [%d -> %d] \n", pAct->dwAct + 1, bActLevels[pAct->dwAct], bActLevels[pAct->dwAct + 1]);
+            // printf("Loading Act %d [%d -> %d] \n", pAct->dwAct + 1, bActLevels[pAct->dwAct], bActLevels[pAct->dwAct + 1]);
             // LOG(logDEBUG1) << "Loaded Act" << pAct->dwAct + 1 << " pointer = " << pAct;
 
             for (INT levelCode = bActLevels[pAct->dwAct]; levelCode < bActLevels[pAct->dwAct + 1]; levelCode++)
@@ -43,4 +47,49 @@ int main(int argc, char *argv[])
             }
         }
     }
+}
+
+int main(int argc, char *argv[])
+{
+
+    if (argc < 1)
+    {
+        printf("pimap.exe <D2 Game Path>");
+        return 1;
+    }
+    /** Init the D2 client using the provided path */
+    char *foldername = argv[1];
+    d2_game_init(foldername);
+    printf("{\"message\": \"InitDone\"}\n");
+
+    char buffer[INPUT_BUFFER];
+
+    int seed;
+    int difficulty;
+    int rtn;
+    char c[INPUT_BUFFER];
+    /** Read in seed/Difficulty then generate all the maps */
+    while (fgets(buffer, INPUT_BUFFER, stdin) != NULL)
+    {
+        if (starts_with(buffer, COMMAND_EXIT) == 1)
+        {
+            return 0;
+        }
+        else if (starts_with(buffer, COMMAND_MAP) == 1)
+        {
+            dump_all_maps(seed, difficulty);
+            printf("{\"message\": \"DONE\"}\n");
+        }
+        else if (starts_with(buffer, COMMAND_SEED) == 1)
+        {
+            rtn = sscanf(buffer, "%s %d", &c, &seed);
+            printf("{\"seed\": %d, \"difficulty\": %d}\n", seed, difficulty);
+        }
+        else if (starts_with(buffer, COMMAND_DIFF) == 1)
+        {
+            rtn = sscanf(buffer, "%s %d", &c, &difficulty);
+            printf("{\"seed\": %d, \"difficulty\": %d}\n", seed, difficulty);
+        }
+    }
+    return 0;
 }

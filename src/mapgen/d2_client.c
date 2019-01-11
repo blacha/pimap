@@ -357,7 +357,7 @@ int dump_map(Act *pAct, int levelCode)
     int mapWidth = pLevel->dwSizeX * 5;
     int mapHeight = pLevel->dwSizeY * 5;
 
-    printf("[%3d] DumpMap\toffset: %dx%d\tsize: %dx%d %s\n", levelCode, originX, originY, mapWidth, mapHeight, levelName);
+    // printf("[%3d] DumpMap\toffset: %dx%d\tsize: %dx%d %s\n", levelCode, originX, originY, mapWidth, mapHeight, levelName);
     map_reset();
 
     // Start JSON DUMP

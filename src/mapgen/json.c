@@ -1,8 +1,8 @@
 #include <windows.h>
 #include <iostream>
 
-// #define JSON_PRINT(...) printf(__VA_ARGS__)
-#define JSON_PRINT(...)
+#define JSON_PRINT(...) printf(__VA_ARGS__)
+// #define JSON_PRINT(...)
 
 bool json_comma_enabled = false;
 
@@ -79,4 +79,5 @@ void json_object_end()
 void json_end()
 {
     JSON_PRINT("}\n");
+    json_comma_enabled = false;
 }

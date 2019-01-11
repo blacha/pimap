@@ -23,7 +23,7 @@ export class MapRoute implements PiMapRoute {
             throw new PiMapRouteError(422, 'Invalid level code');
         }
 
-        const seed = parseInt(req.params.seed, 16)
+        const seed = parseInt(req.params.seed, 10)
         if (isNaN(seed) || !isInSeedRange(seed)) {
             throw new PiMapRouteError(422, 'Invalid seed');
         }
