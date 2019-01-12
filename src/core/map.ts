@@ -11,5 +11,5 @@ export interface D2Map {
 
 export interface D2MapObject extends Point {
     id: number;
-    type: 'chest' | 'waypoint' | 'npc'
+    type: 'object' | 'exit' | 'npc';
 }

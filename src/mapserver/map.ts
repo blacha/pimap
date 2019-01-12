@@ -2,7 +2,7 @@ import { GameDifficulty } from "../core/difficulty";
 import { MapGenerator } from "./map.generator";
 import { PiMapRequest, PiMapRoute, PiMapRouteError } from "./route";
 
-const isInLevelRange = (levelCode: number) => levelCode > 0 && levelCode < 100;
+const isInLevelRange = (levelCode: number) => levelCode > 0 && levelCode < 150;
 const isInSeedRange = (seed: number) => seed > 0 && seed < 0xffffffff
 
 export class MapRoute implements PiMapRoute {

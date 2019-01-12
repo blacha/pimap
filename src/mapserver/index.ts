@@ -12,6 +12,7 @@ import { PI_MAP_COMMAND, D2_PATH } from './config';
 import { MapImageRoute } from './map.image';
 import { D2MapProcess, MapProcess } from './map.process';
 import { resolve } from 'url';
+import { MapGenerator } from './map.generator';
 
 
 if (!fs.existsSync(PI_MAP_COMMAND)) {
@@ -64,6 +65,7 @@ class D2MapServer {
 
     async init() {
         await MapProcess.init(Logger)
+        await MapGenerator.init(Logger);
         await new Promise(resolve => {
             this.server.listen(this.port, () => {
                 Logger.info({ port: this.port }, 'Server started...')

@@ -598,43 +598,7 @@ static bool object_is_useless(int id)
         return false;
     }
 }
-static bool object_is_waypoint(int id)
 
-{
-    switch (id)
-    {
-    case GameObject::Act1WildernessWaypoint:
-    case GameObject::TempleWaypoint:
-    case GameObject::IceCaveWaypoint:
-    case GameObject::ExpansionWildernessWaypoint:
-    case GameObject::WorldstoneWaypoint:
-    case GameObject::ExpansionWaypoint:
-    case GameObject::ValleyWaypoint:
-    case GameObject::PandamoniumFortressWaypoint:
-    case GameObject::Act2SewerWaypoint:
-    case GameObject::Act3TravincalWaypoint:
-    case GameObject::Act2CellerWaypoint:
-    case GameObject::Act3TownWaypoint:
-    case GameObject::WaypointH:
-    case GameObject::InnerHellWaypoint:
-    case GameObject::WaypointPortal:
-    case GameObject::Act2Waypoint:
-        return true;
-    default:
-        return false;
-    }
-}
-
-static bool object_is_shrine(int id)
-{
-    switch (id)
-    {
-    case GameObject::Shrine:
-        return true;
-    default:
-        return false;
-    }
-}
 static bool object_is_door(int id)
 {
     switch (id)

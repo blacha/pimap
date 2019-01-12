@@ -213,24 +213,14 @@ char *get_object_type(int code)
     {
         return NULL;
     }
-    if (object_is_waypoint(code))
+    if (object_is_door(code))
     {
-        return "waypoint";
-    }
-
-    if (object_is_shrine(code))
-    {
-        return "shrine";
+        return NULL;
     }
 
     if (object_is_chest(code))
     {
-        return "chest";
-    }
-
-    if (object_is_door(code))
-    {
-        return NULL;
+        return "object";
     }
 
     return "object";
@@ -247,19 +237,22 @@ int dump_objects(Act *pAct, Level *pLevel, Room2 *pRoom2)
     for (PresetUnit *pPresetUnit = pRoom2->pPreset; pPresetUnit; pPresetUnit = pPresetUnit->pPresetNext)
     {
         char *objectType = NULL;
+        int objectId = -1;
         int coordX = roomOffsetX + pPresetUnit->dwPosX;
         int coordY = roomOffsetY + pPresetUnit->dwPosY;
 
         if (pPresetUnit->dwType == UNIT_TYPE_NPC)
         {
-            if (pPresetUnit->dwTxtFileNo >= SuperUniqueNpc::Bishibosh)
-            {
-                objectType = "npc";
-            }
+            // if (pPresetUnit->dwTxtFileNo >= SuperUniqueNpc::Bishibosh)
+            // {
+            objectType = "npc";
+            objectId = pPresetUnit->dwTxtFileNo;
+            // }
         }
         else if (pPresetUnit->dwType == UNIT_TYPE_OBJECT)
         {
             objectType = get_object_type(pPresetUnit->dwTxtFileNo);
+            objectId = pPresetUnit->dwTxtFileNo;
         }
         else if (pPresetUnit->dwType == UNIT_TYPE_TILE)
         {
@@ -267,7 +260,8 @@ int dump_objects(Act *pAct, Level *pLevel, Room2 *pRoom2)
             {
                 if (*pRoomTile->nNum == pPresetUnit->dwTxtFileNo)
                 {
-                    objectType = "waypoint";
+                    objectId = pRoomTile->pRoom2->pLevel->dwLevelNo;
+                    objectType = "exit";
                 }
             }
         }
