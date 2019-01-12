@@ -1,9 +1,11 @@
 import { Log } from "bblog";
 import { ChildProcess, spawn } from "child_process";
 import { resolve } from "path";
-import { D2Difficulty } from "../util/d2/d2.difficulty";
+import { GameDifficulty } from "../core/difficulty";
 import { Logger } from "../util/log";
 import { D2_PATH, PI_MAP_COMMAND } from "./config";
+import { runCommand } from "../util/process";
+import { D2Map } from "../core/map";
 
 /** Wait atmost 10 seconds for things to work */
 const TIMEOUT = 10000;
@@ -16,20 +18,7 @@ interface D2MapResponse {
 }
 
 
-export interface D2MapObject {
-    id: string;
-    x: number;
-    y: number;
-}
-export interface D2Map {
-    id: number;
-    name: string;
-    offset: { x: number; y: number; }
-    size: { width: number; height: number; };
-    objects: D2MapObject[];
-    map: number[][]
 
-}
 function getJson(s: string) {
     try {
         return JSON.parse(s);
@@ -37,6 +26,8 @@ function getJson(s: string) {
         return null;
     }
 }
+
+const WINE_COMMAND = 'wine64';
 export class D2MapProcess {
 
     COMMANDS = {
@@ -55,16 +46,24 @@ export class D2MapProcess {
     lines: string[] = [];
     onLine: (line: any) => void;
 
+    version: string;
+    async init(log: Log) {
+        const versionResponse = await runCommand(WINE_COMMAND, ['--version']);
+        this.version = versionResponse.trim();
+        log.info({ version: this.version, command: WINE_COMMAND }, 'WineVersion');
+        // console.log(response);
+    }
+
     async startProcess(log: Log) {
         if (this.process != null) {
             return;
         }
 
         const args = [PI_MAP_COMMAND, D2_PATH];
-        log.info('Starting MapProcess')
+        log.info({ wineArgs: args }, 'Starting MapProcess')
 
 
-        this.process = spawn('wine', args, { cwd });
+        this.process = spawn(WINE_COMMAND, args, { cwd });
         this.process.stdout.on('data', this.onData.bind(this));
         this.process.on('error', err => this.onError(err));
         this.process.on('close', code => this.onClose(code));
@@ -136,10 +135,10 @@ export class D2MapProcess {
         return { seed: this.seed, difficulty: this.difficulty };
     }
 
-    async setDifficulty(difficulty: D2Difficulty, log: Log): Promise<D2MapResponse> {
-        const diffCommand = D2Difficulty[difficulty]
+    async setDifficulty(difficulty: GameDifficulty, log: Log): Promise<D2MapResponse> {
+        const diffCommand = GameDifficulty[difficulty]
         // log.info({ difficulty, diffCommand }, 'SetDiff')
-        const response = await this.setCommand(this.COMMANDS.DIFFICULTY, D2Difficulty[difficulty], log)
+        const response = await this.setCommand(this.COMMANDS.DIFFICULTY, GameDifficulty[difficulty], log)
         // log.info(response, 'SetDiff:Response')
 
         this.difficulty = response.difficulty;
@@ -266,4 +265,4 @@ export class D2MapProcess {
 
 
 
-export const MAP_PROCESS = new D2MapProcess();
+export const MapProcess = new D2MapProcess();

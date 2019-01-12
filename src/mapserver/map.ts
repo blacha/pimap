@@ -1,4 +1,4 @@
-import { D2Difficulty } from "../util/d2/d2.difficulty";
+import { GameDifficulty } from "../core/difficulty";
 import { MapGenerator } from "./map.generator";
 import { PiMapRequest, PiMapRoute, PiMapRouteError } from "./route";
 
@@ -10,14 +10,14 @@ export class MapRoute implements PiMapRoute {
 
 
     async process(req: PiMapRequest) {
-        const { levelCode, seed, difficulty } = this.validateParams(req);
+        const { levelCode, seed, difficulty } = MapRoute.validateParams(req);
 
 
         const map = await MapGenerator.getMap(seed, difficulty, levelCode, req.log);
-        return { id: req.id, levelCode, seed, difficulty: D2Difficulty[difficulty], map };
+        return { id: req.id, levelCode, seed, difficulty: GameDifficulty[difficulty], map };
     }
 
-    validateParams(req: PiMapRequest) {
+    static validateParams(req: PiMapRequest) {
         const levelCode = parseInt(req.params.levelCode, 10);
         if (isNaN(levelCode) || !isInLevelRange(levelCode)) {
             throw new PiMapRouteError(422, 'Invalid level code');
@@ -28,8 +28,8 @@ export class MapRoute implements PiMapRoute {
             throw new PiMapRouteError(422, 'Invalid seed');
         }
 
-        const difficulty = req.params.difficulty as D2Difficulty;
-        if (D2Difficulty[difficulty] == null) {
+        const difficulty = req.params.difficulty as GameDifficulty;
+        if (GameDifficulty[difficulty] == null) {
             throw new PiMapRouteError(422, 'Invalid difficulty');
         }
 

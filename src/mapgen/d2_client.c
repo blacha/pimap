@@ -13,12 +13,6 @@
 #include "map.h"
 #include "json.h"
 
-#define MAP_DATA_INVALID -1      // Invalid
-#define MAP_DATA_CLEANED 11110   // Cleaned for start/end positions
-#define MAP_DATA_FILLED 11111    // Filled gaps
-#define MAP_DATA_THICKENED 11113 // Wall thickened
-#define MAP_DATA_AVOID 11115     // Should be avoided
-
 #define UNIT_TYPE_PLAYER 0
 #define UNIT_TYPE_NPC 1
 #define UNIT_TYPE_OBJECT 2
@@ -215,22 +209,26 @@ void add_collision_data(CollMap *pCol, int originX, int originY)
 
 char *get_object_type(int code)
 {
-    if (isWaypoint(code))
+    if (object_is_useless(code))
+    {
+        return NULL;
+    }
+    if (object_is_waypoint(code))
     {
         return "waypoint";
     }
 
-    if (isShrine(code))
+    if (object_is_shrine(code))
     {
         return "shrine";
     }
 
-    if (isChest(code))
+    if (object_is_chest(code))
     {
         return "chest";
     }
 
-    if (isDoor(code))
+    if (object_is_door(code))
     {
         return NULL;
     }
@@ -297,6 +295,7 @@ void dump_map_collision(int width, int height)
         for (int x = 0; x < width; x++)
         {
             char mapVal = map_value(x, y) % 2 ? 'X' : ' ';
+            // printf("%c", mapVal);
             if (mapVal == last)
             {
                 count++;
@@ -314,6 +313,7 @@ void dump_map_collision(int width, int height)
             count = 1;
             last = mapVal;
         }
+        // printf("\n");
         json_array_end();
     }
 }

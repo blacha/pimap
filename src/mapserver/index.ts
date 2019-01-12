@@ -1,3 +1,5 @@
+import 'source-map-support/register';
+
 import * as fs from 'fs';
 import * as express from 'express';
 import * as cors from 'cors';
@@ -7,6 +9,9 @@ import { PiMapRoute, PiMapRequest, PiMapResponse, PiMapRouteError } from './rout
 import { HealthRoute } from './health';
 import { MapRoute } from './map';
 import { PI_MAP_COMMAND, D2_PATH } from './config';
+import { MapImageRoute } from './map.image';
+import { D2MapProcess, MapProcess } from './map.process';
+import { resolve } from 'url';
 
 
 if (!fs.existsSync(PI_MAP_COMMAND)) {
@@ -35,8 +40,10 @@ class D2MapServer {
             const startTime = Date.now();
             try {
                 const output = await route.process(req, res);
-                res.status(200);
-                res.json(output);
+                if (output != null) {
+                    res.status(200);
+                    res.json(output);
+                }
             } catch (e) {
 
                 if (e instanceof PiMapRouteError) {
@@ -55,10 +62,15 @@ class D2MapServer {
         })
     }
 
-    listen() {
-        this.server.listen(this.port, () => {
-            Logger.info({ port: this.port }, 'Server started...')
-        });
+    async init() {
+        await MapProcess.init(Logger)
+        await new Promise(resolve => {
+            this.server.listen(this.port, () => {
+                Logger.info({ port: this.port }, 'Server started...')
+                resolve();
+            });
+        })
+
     }
 }
 
@@ -68,4 +80,6 @@ export const MapServer = new D2MapServer();
 
 MapServer.bind(new HealthRoute());
 MapServer.bind(new MapRoute());
-MapServer.listen();
+MapServer.bind(new MapImageRoute());
+MapServer.init()
+    .catch(e => Logger.fatal({ error: e }, 'Uncaucght Exception'))

@@ -19,9 +19,11 @@
   "dependencies": {
     "bblog": "^2.0.0",
     "bblog-stream-console": "^2.0.0",
+    "canvas": "^2.3.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "promise-queue": "^2.2.5",
+    "source-map-support": "^0.5.10",
     "ulid": "^2.3.0"
   }
 }

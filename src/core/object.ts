@@ -1,8 +1,62 @@
-#ifndef _GameObject_h__
-#define _GameObject_h__
 
-enum GameObject
-{
+export enum GameObjectInteractType {
+    GeneralObject = 0x00,		// Stash, chests, etc.
+    Well = 0x01,
+    HealthShrine = 0x02,
+    TrappedChest = 0x05,
+    MonsterChest = 0x08,
+    ManaShrine = 0x0D,
+    StaminaShrine = 0x0E,
+    ExperienceShrine = 0x0F,
+    FireShrine = 0x13,
+    Portal = 0x79,		// Confirm... Pindle portal at least... red only ?
+    LockedChest = 0x80
+}
+
+// Tokens: { "NU", "OP", "ON", "S1", "S2", "S3", "S4", "S5" }
+export enum GameObjectMode {
+    Neutral,
+    Operating,
+    Opened,
+    Special1,	// On ground
+    Special2,	// On cursor
+    Special3,	// Dropping
+    Special4,
+    Special5
+}
+
+export enum GameObjectType {
+    Dummy = 0,
+    RefillingShrine = 1,
+    HealthShrine = 2,
+    ManaShrine = 3,
+    HealthExchangeShrine = 4,
+    ManaExchangeShrine = 5,
+    ArmorShrine = 6,
+    CombatShrine = 7,
+    ResistFireShrine = 8,
+    ResistColdShrine = 9,
+    ResistLightningShrine = 10,
+    ResistPoisonShrine = 11,
+    SkillShrine = 12,
+    ManaRechargeShrine = 13,
+    StaminaShrine = 14,
+    ExperienceShrine = 15,
+    ShrineOfEnirhs = 16,
+    PortalShrine = 17,
+    GemShrine = 18,
+    StormShrine = 19,
+    WarpingShrine = 20,
+    ExplodingShrine = 21,
+    PoisonShrine = 22,
+
+    Waypoint = 30,
+    Portal,
+
+    Shrine = 128
+}
+
+export enum GameObject {
     TestData1 = 0,
     Casket5 = 1,
     Shrine = 2,
@@ -415,8 +469,8 @@ enum GameObject
     FortressBrazier2 = 409,
 
     // LoD
-    SiegeMachineControl = 573,
-    PotOTorch = 574,
+    SiegeMachineControl = 408,
+    PotOTorch = 409,
     PyoxFirePit = 410,
     ExpansionChestRight = 413,
     ExpansionWildernessShrine1 = 414,
@@ -578,178 +632,92 @@ enum GameObject
     FirePlaceGuy = 570,
     DoorBlocker1 = 571,
     DoorBlocker2 = 572,
-    CountessChest = 580,
 
     NotApplicable
-};
-
-static bool object_is_useless(int id)
-{
-    switch (id)
-    {
-    case GameObject::AmbientSoundGenerator:
-    case GameObject::InvisibleRiverSound1:
-    case GameObject::InvisibleRiverSound2:
-    case GameObject::ForestNightSound1:
-    case GameObject::ForestNightSound2:
-    case GameObject::InvisibleTownSound:
-        return true;
-    default:
-        return false;
-    }
 }
-static bool object_is_waypoint(int id)
-
-{
-    switch (id)
-    {
-    case GameObject::Act1WildernessWaypoint:
-    case GameObject::TempleWaypoint:
-    case GameObject::IceCaveWaypoint:
-    case GameObject::ExpansionWildernessWaypoint:
-    case GameObject::WorldstoneWaypoint:
-    case GameObject::ExpansionWaypoint:
-    case GameObject::ValleyWaypoint:
-    case GameObject::PandamoniumFortressWaypoint:
-    case GameObject::Act2SewerWaypoint:
-    case GameObject::Act3TravincalWaypoint:
-    case GameObject::Act2CellerWaypoint:
-    case GameObject::Act3TownWaypoint:
-    case GameObject::WaypointH:
-    case GameObject::InnerHellWaypoint:
-    case GameObject::WaypointPortal:
-    case GameObject::Act2Waypoint:
-        return true;
-    default:
-        return false;
-    }
+export enum WarpType {
+    Act1WildernessToCaveCliffL = 0,
+    Act1WildernessToCaveCliffR = 1,
+    Act1WildernessToCaveFloorL = 2,
+    Act1WildernessToCaveFloorR = 3,
+    Act1CaveUp = 4,
+    Act1CaveDown = 5,
+    Act1GraveyardToCrypt1 = 6,
+    Act1GraveyardToCrypt2 = 7,
+    Act1CryptUp = 8,
+    Act1CryptDown = 9,
+    Act1WildernessToTower = 10,
+    Act1TowerToWilderness = 11,
+    Act1TowerToCrypt = 12,
+    Act1JailUp = 13,
+    Act1JailDown = 14,
+    Act1CathedralToCatacombs = 15,
+    Act1CatacombsToCathedral = 16,
+    Act1CatacombsUp = 17,
+    Act1CatacombsDown = 18,
+    Act2TownToSewerTrap = 19,
+    Act2TownToSewerDock = 20,
+    Act2SewerDockToTown = 21,
+    Act2SewerUp = 22,
+    Act2SewerDown = 23,
+    Act2TownToHarem = 24,
+    Act2HaremToTown = 25,
+    Act2HaremUp1 = 26,
+    Act2HaremUp2 = 27,
+    Act2HaremDown1 = 28,
+    Act2HaremDown2 = 29,
+    Act2BasementUp1 = 30,
+    Act2BasementUp2 = 31,
+    Act2BasementDown = 32,
+    Act2DesertToTombL1 = 33,
+    Act2DesertToTombL2 = 34,
+    Act2DesertToTombR1 = 35,
+    Act2DesertToTombR2 = 36,
+    Act2DesertToTombViper = 37,
+    Act2DesertToTombTal1 = 38,
+    Act2DesertToTombTal2 = 39,
+    Act2DesertToTombTal3 = 40,
+    Act2DesertToTombTal4 = 41,
+    Act2DesertToTombTal5 = 42,
+    Act2DesertToTombTal6 = 43,
+    Act2DesertToTombTal7 = 44,
+    Act2TombUp = 45,
+    Act2TombDown = 46,
+    Act2DesertToLair = 47,
+    Act2LairUp = 48,
+    Act2LairDown = 49,
+    Act2DesertToSewerTrap = 50,
+    Act3JungleToSpider = 51,
+    Act3SpiderToJungle = 52,
+    Act3JungleToDungeonFort = 53,
+    Act3JungleToDungeonHole = 54,
+    Act3DungeonUp = 55,
+    Act3DungeonDown = 56,
+    Act3KurastToSewer = 57,
+    Act3SewerUpL = 58,
+    Act3SewerUpR = 59,
+    Act3SewerDown = 60,
+    Act3KurastToTemple = 61,
+    Act3TempleUpL = 62,
+    Act3TempleUpR = 63,
+    Act3TravincalToMephisto = 64,
+    Act3MephistoUpL = 65,
+    Act3MephistoUpR = 66,
+    Act3MephistoDownL = 67,
+    Act3MephistoDownR = 68,
+    Act4MesaToLava = 69,
+    Act4LavaToMesa = 70,
+    //Expansion,
+    Act5BarricadeDownWall = 71,
+    Act5BarricadeDownFloor = 72,
+    Act5IceCavesUp = 73,
+    Act5IceCavesDown = 74,
+    Act5IceCavesDownFloor = 75,
+    Act5TempleEntrance = 76,
+    Act5TempleDown = 77,
+    Act5TempleUp = 78,
+    Act5MountainTopToIce = 79,
+    Act5MountainTopToBaal = 80,
+    Act5BaalTempleUp = 81,
+    Act5BaalTempleDown = 82
 }
-
-static bool object_is_shrine(int id)
-{
-    switch (id)
-    {
-    case GameObject::Shrine:
-        return true;
-    default:
-        return false;
-    }
-}
-static bool object_is_door(int id)
-{
-    switch (id)
-    {
-    case GameObject::DoorGateLeft:
-    case GameObject::DoorGateRight:
-    case GameObject::DoorWoodenLeft:
-    case GameObject::DoorWoodenRight:
-    case GameObject::DoorCourtyardLeft:
-    case GameObject::DoorCourtyardRight:
-    case GameObject::DoorCathedralDouble:
-    case GameObject::DoorMonasteryDoubleRight:
-    case GameObject::AndarielDoor:
-    case GameObject::DoorCathedralLeft:
-    case GameObject::DoorCathedralRight:
-    case GameObject::DoorWoodenLeft2:
-    case GameObject::TrappDoor:
-    case GameObject::DoorByAct2Dock:
-    case GameObject::TombDoorLeft:
-    case GameObject::TombDoorRight:
-    case GameObject::TombDoorLeft2:
-    case GameObject::TombDoorRight2:
-    case GameObject::SecretDoor1:
-    case GameObject::TyraelsDoor:
-    case GameObject::SlimeDoor1:
-    case GameObject::SlimeDoor2:
-    case GameObject::IronGrateDoorLeft:
-    case GameObject::IronGrateDoorRight:
-    case GameObject::WoodenGrateDoorLeft:
-    case GameObject::WoodenGrateDoorRight:
-    case GameObject::WoodenDoorLeft:
-    case GameObject::WoodenDoorRight:
-    case GameObject::TeleportationPad1:
-    case GameObject::TeleportationPad2:
-    case GameObject::TeleportationPad3:
-    case GameObject::TeleportationPad4:
-    case GameObject::DummyArcaneThing1:
-    case GameObject::DummyArcaneThing2:
-    case GameObject::DummyArcaneThing3:
-    case GameObject::DummyArcaneThing4:
-    case GameObject::DummyArcaneThing5:
-    case GameObject::DummyArcaneThing6:
-    case GameObject::DummyArcaneThing7:
-    case GameObject::Act3SewerStairs:
-    case GameObject::Act3SewerStairsToLevel3:
-    case GameObject::ExpansionTownGate:
-    case GameObject::SiegeHellGate:
-    case GameObject::PenBreakableDoor:
-    case GameObject::ArreatSummitDoorToWorldstone:
-        return true;
-    default:
-        return false;
-    }
-}
-static bool object_is_chest(int id)
-{
-    switch (id)
-    {
-    case GameObject::Act1LargeChest1:
-    case GameObject::Act1MediumChestRight:
-    case GameObject::Act1TallChestRight:
-    case GameObject::Act2LargeChestLeft:
-    case GameObject::Act2LargeChestRight:
-    case GameObject::Act2MediumChestRight:
-    case GameObject::ArcaneLargeChestLeft:
-    case GameObject::ArcaneLargeChestRight:
-    case GameObject::ArcaneSmallChestLeft:
-    case GameObject::ArcaneSmallChestRight:
-    case GameObject::BurialChestLeft:
-    case GameObject::BurialChestRight:
-    case GameObject::ExpansionChestLeft:
-    case GameObject::ExpansionChestRight:
-    case GameObject::ExpansionExplodingChest:
-    case GameObject::ExpansionSmallChestLeft:
-    case GameObject::ExpansionSmallChestRight:
-    case GameObject::ExpansionSnowyWoodChest2Left:
-    case GameObject::ExpansionSnowyWoodChest2Right:
-    case GameObject::ExpansionSnowyWoodChestLeft:
-    case GameObject::ExpansionSnowyWoodChestRight:
-    case GameObject::ExpansionSpecialChest:
-    case GameObject::ExpansionWoodChestLeft:
-    case GameObject::ExpansionWoodChestRight:
-    case GameObject::Gchest1L:
-    case GameObject::Gchest2R:
-    case GameObject::Gchest3R:
-    case GameObject::GLchest3L:
-    case GameObject::HoradricCubeChest:
-    case GameObject::HoradricScrollChest:
-    case GameObject::InnerHellBoneChest:
-    case GameObject::JungleChest:
-    case GameObject::JungleMediumChestLeft:
-    case GameObject::KhalimChest1:
-    case GameObject::KhalimChest2:
-    case GameObject::KhalimChest3:
-    case GameObject::LargeChestLeft2:
-    case GameObject::LargeChestR:
-    case GameObject::LargeChestRight:
-    case GameObject::LargeChestLeft:
-    case GameObject::MafistoLargeChestLeft:
-    case GameObject::MafistoLargeChestRight:
-    case GameObject::MafistoMediumChestLeft:
-    case GameObject::MafistoMediumChestRight:
-    case GameObject::MediumChestLeft:
-    case GameObject::SparklyChest:
-    case GameObject::SpiderLairLargeChestLeft:
-    case GameObject::SpiderLairMediumChestRight:
-    case GameObject::SpiderLairTallChestLeft:
-    case GameObject::SpiderLairTallChestRight:
-    case GameObject::StaffOfKingsChest:
-    case GameObject::TallChestLeft:
-    case GameObject::TombLargeChestL:
-    case GameObject::TombLargeChestR:
-        return true;
-    default:
-        return false;
-    }
-}
-#endif

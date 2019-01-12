@@ -2,6 +2,7 @@
 #include "d2_structs.h"
 #include "d2_ptrs.h"
 #include <iostream>
+#include "json.h"
 
 #define INPUT_BUFFER 1024
 
@@ -24,8 +25,9 @@ void dump_all_maps(int seed, int difficulty)
     BYTE bActLevels[] = {1, 40, 75, 103, 109, 142};
 
     // // // 138
-    // Act *pAct = D2COMMON_LoadAct(5, seed, TRUE, FALSE, difficulty, (DWORD)NULL, bActLevels[5], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
-    // dump_map(pAct, 30);
+    // int act = 1;
+    // Act *pAct = D2COMMON_LoadAct(act, seed, TRUE, FALSE, difficulty, (DWORD)NULL, bActLevels[act], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
+    // dump_map(pAct, 32);
     // return;
 
     for (INT x = 0; x < 5; x++)
@@ -46,6 +48,7 @@ void dump_all_maps(int seed, int difficulty)
                 dump_map(pAct, levelCode);
             }
         }
+        return;
     }
 }
 
@@ -57,10 +60,25 @@ int main(int argc, char *argv[])
         printf("pimap.exe <D2 Game Path>");
         return 1;
     }
+
     /** Init the D2 client using the provided path */
     char *foldername = argv[1];
     d2_game_init(foldername);
     printf("{\"message\": \"InitDone\"}\n");
+
+    /** Seed/Diff has been passed in just generate the map that is required */
+    if (argc > 2)
+    {
+        int arg_seed = atoi(argv[2]);
+        int arg_diff = atoi(argv[3]);
+        json_start();
+        json_key_value("seed", arg_seed);
+        json_key_value("diff", arg_diff);
+        json_end();
+
+        dump_all_maps(arg_seed, arg_diff);
+        return 0;
+    }
 
     char buffer[INPUT_BUFFER];
 
