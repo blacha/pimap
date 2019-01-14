@@ -1,3 +1,5 @@
+import { ActType } from "./act";
+
 export enum AreaLevel {
     Abaddon = 125,
     AncientTunnels = 65,
@@ -144,3 +146,29 @@ export enum AreaLevel {
     MapsRuinedCitadel = 141,
 }
 
+const ACT_LEVELS = {
+    ACT_I: 40,
+    ACT_II: 75,
+    ACT_III: 103,
+    ACT_IV: 109,
+    ACT_V: 142
+}
+export const AreaUtil = {
+    getAct(code: AreaLevel): ActType {
+        if (code < ACT_LEVELS.ACT_I) {
+            return ActType.ACT_I;
+        }
+        if (code < ACT_LEVELS.ACT_II) {
+            return ActType.ACT_II;
+        }
+        if (code < ACT_LEVELS.ACT_III) {
+            return ActType.ACT_III;
+        }
+        if (code < ACT_LEVELS.ACT_IV) {
+            return ActType.ACT_IV;
+        }
+        if (code < ACT_LEVELS.ACT_V) {
+            return ActType.ACT_V;
+        }
+    }
+}

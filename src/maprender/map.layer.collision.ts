@@ -4,6 +4,7 @@ import { GameObject } from '../core/object';
 import { GameObjectClass, GameObjectClasses } from '../core/object.type';
 import { toHexString } from '../util/to.hex';
 import { MapExtents, MapRenderer } from './map.render';
+import { AreaUtil } from '../core/area';
 
 
 export class MapLayerCollision {
@@ -16,8 +17,21 @@ export class MapLayerCollision {
     render(ctx: CanvasRenderingContext2D, extent: MapExtents): D2MapObject[] {
         const objects = [];
         // console.time('RenderAllMaps'); // tslint:disable-line
-        for (const map of this.base.maps) {
+        for (const map of Object.values(this.base.maps)) {
+            const act = AreaUtil.getAct(map.id);
+            if (act !== this.base.act) {
+                continue;
+            }
+
+            if (!this.base.isMapInBounds(map, extent)) {
+                continue;
+            }
+
+            console.log(map.name, map.offset.x, map.offset.y);
+            console.time('Render:' + map.name); // tslint:disable-line
             this.renderMap(map, ctx, extent, objects);
+            console.timeEnd('Render:' + map.name); // tslint:disable-line
+
         }
         // console.timeEnd('RenderAllMaps'); // tslint:disable-line
         return objects;
@@ -26,12 +40,6 @@ export class MapLayerCollision {
     renderMap(mapInfo: D2Map, ctx: CanvasRenderingContext2D, extent: MapExtents, objects: D2MapObject[]) {
         ctx.fillStyle = 'white';
         const map = mapInfo.map;
-
-        if (!this.base.isMapInBounds(mapInfo, extent)) {
-            return;
-        }
-
-        // console.time('RenderMap:' + toHexString(mapInfo.id)); // tslint:disable-line
 
         let size = 1;
         for (var yOffset = 0; yOffset < map.length; yOffset++) {

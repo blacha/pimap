@@ -1,10 +1,10 @@
 import { AreaLevel } from '../core/area';
-import { D2MapObject } from '../core/map';
+import { D2MapObject, D2Map } from '../core/map';
 import { MapExtents, MapRenderer } from './map.render';
 import { GameObjectClasses, GameObjectClass } from '../core/object.type';
 import { GameObject } from '../core/object';
 import { Sprites, SpriteSheet } from './sprite';
-import { NpcCode } from '../core/npc';
+import { NpcCode, NpcUtil } from '../core/npc';
 
 export class ObjectRenderShrine {
     type = GameObjectClass.SHRINE;
@@ -17,29 +17,51 @@ export class ObjectRenderShrine {
 
 export class MapLayerObject {
 
+    /** should we render the words for exits */
+    isExitTextEnabled = true;
+
     base: MapRenderer;
     sheet: SpriteSheet;
+    correctTombId: number;
 
     constructor(base: MapRenderer, sheet: SpriteSheet) {
         this.base = base;
         this.sheet = sheet;
     }
 
-    static isGoodExit(obj: D2MapObject) {
+    isGoodExit(obj: D2MapObject) {
         switch (obj.id) {
             case AreaLevel.RuinedTemple:
             case AreaLevel.DuranceOfHateLevel3:
                 return true;
+            case AreaLevel.TalRashasTomb1:
+            case AreaLevel.TalRashasTomb2:
+            case AreaLevel.TalRashasTomb3:
+            case AreaLevel.TalRashasTomb4:
+            case AreaLevel.TalRashasTomb5:
+            case AreaLevel.TalRashasTomb6:
+            case AreaLevel.TalRashasTomb7:
+                return this.isCorrectTomb(this.base.getMapById(obj.id))
             default:
                 return false;
         }
     }
 
+    // TODO could just calculate this at the start
+    isCorrectTomb(map: D2Map) {
+        if (this.correctTombId == null) {
+            const isTomb = map.objects.find(f => f.type === 'object' && f.id === GameObject.HoradricOrifice) != null;
+            if (isTomb) {
+                this.correctTombId = map.id;
+            }
+        }
+
+        return this.correctTombId == map.id;
+    }
+
     render(ctx: CanvasRenderingContext2D, extent: MapExtents, objects: D2MapObject[]) {
-        console.log('Render', extent);
 
         for (const obj of objects) {
-            // console.log(obj);
             if (obj.type === 'exit') {
                 this.renderExit(ctx, extent, obj);
             } else if (obj.type === 'npc') {
@@ -51,25 +73,47 @@ export class MapLayerObject {
     }
 
     renderExit(ctx: CanvasRenderingContext2D, extent: MapExtents, obj: D2MapObject) {
-        console.log('Exit', obj, AreaLevel[obj.id]);
+        // console.log('Exit', obj, AreaLevel[obj.id]);
         const drawX = obj.x - extent.min.x;
         const drawY = obj.y - extent.min.y;
 
-        ctx.fillStyle = "purple";
-        ctx.fillRect(drawX, drawY, 16, 16);
-        ctx.font = '30px Roboto';
-        // ctx.rotate(0.1);
-        ctx.fillText(AreaLevel[obj.id], drawX, drawY);
+        if (this.isExitTextEnabled) {
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(0,0,0,0.87)';
+            ctx.fillStyle = 'rgba(255,255,255,0.87)';
+            ctx.font = '18px Impact';
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+        }
+
+        ctx.fillText(AreaLevel[obj.id], drawX, drawY + 16);
+        ctx.strokeText(AreaLevel[obj.id], drawX, drawY + 16);
+
+        if (this.isGoodExit(obj)) {
+            Sprites.ExitGood.draw(ctx, this.sheet, drawX, drawY, 24);
+        } else {
+            Sprites.Exit.draw(ctx, this.sheet, drawX, drawY, 24);
+        }
+
+
     }
 
+
+
     renderNpc(ctx: CanvasRenderingContext2D, extent: MapExtents, obj: D2MapObject) {
-        console.log('Npc', obj, NpcCode[obj.id]);
+        if (NpcUtil.isUseless(obj.id)) {
+            return;
+        }
+        if (NpcUtil.isTownFolk(obj.id)) {
+            return;
+        }
 
         const drawX = obj.x - extent.min.x;
         const drawY = obj.y - extent.min.y;
 
-        ctx.fillStyle = "pink";
-        ctx.fillRect(drawX, drawY, 16, 16);
+        console.log('Npc', obj, NpcCode[obj.id]);
+
+        Sprites.Unkown.draw(ctx, this.sheet, drawX, drawY, 24);
     }
 
     renderObject(ctx: CanvasRenderingContext2D, extent: MapExtents, obj: D2MapObject) {
@@ -78,8 +122,7 @@ export class MapLayerObject {
             return;
         }
         if (typeof objType !== 'string') {
-            console.log('Skipping', obj.id, GameObjectClasses[obj.id], GameObject[obj.id]);
-
+            // console.log('Skipping', obj.id, GameObjectClasses[obj.id], GameObject[obj.id]);
             return;
         }
         const drawX = obj.x - extent.min.x;

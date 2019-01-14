@@ -114,7 +114,7 @@ export const GameObjectClasses = {
     [GameObject.TombDoorRight2]: GameObjectClass.DOOR,
     [GameObject.DurielsLairPortal]: GameObjectClass.QUEST,
     [GameObject.Brazier3]: GameObjectClass.USELESS,
-    [GameObject.FloorBrazier]: GameObjectClass.CHEST,
+    [GameObject.FloorBrazier]: GameObjectClass.USELESS,
     [GameObject.Flies]: GameObjectClass.USELESS,
     [GameObject.ArmorStandRight]: GameObjectClass.CHEST,
     [GameObject.ArmorStandLeft]: GameObjectClass.CHEST,

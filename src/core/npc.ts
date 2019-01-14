@@ -738,6 +738,9 @@ export enum NpcCode {
     Specter3 = 732,
     BurningSoul3 = 733,
 
+    Unk1 = 942,
+    Unk2 = 943,
+    Unk3 = 925,
     Invalid,
     NotApplicable = 0xFFFF
 }
@@ -746,6 +749,12 @@ export enum NpcCode {
 
 function isUseless(code: NpcCode) {
     switch (code) {
+        case NpcCode.Unk1:
+        case NpcCode.Unk2:
+        case NpcCode.Unk3:
+
+        case NpcCode.MummyGenerator:
+        case NpcCode.GargoyleTrap:
         case NpcCode.Gorgon:			// Unused
         case NpcCode.Gorgon2:			// Unused
         case NpcCode.Gorgon3:			// Unused
@@ -1018,11 +1027,24 @@ function isSoul(code: NpcCode) {
             return false;
     }
 }
+
+function isImportantNpc(code: NpcCode) {
+    switch (code) {
+        case NpcCode.Summoner:
+            return true;
+        default:
+            break;
+    }
+    if (code > 900) {
+        return true;
+    }
+}
 export const NpcUtil = {
     isResurrecter,
     isMonster,
     isTownFolk,
     isUseless,
+    isImportantNpc,
 
     isDoll,
     isSoul

@@ -69,5 +69,5 @@ export const Sprites = {
     MonsterUnique: new Sprite('RedCircle', 1, 0),
     MonsterSuperUnique: new Sprite('PurpleCircle', 10, 0),
 
-    Unkown: new Sprite('QuestionMark', 10, 10)
+    Unkown: new Sprite('QuestionMark', 6, 5)
 };

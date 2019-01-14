@@ -11,10 +11,8 @@ export class MapRoute implements PiMapRoute {
 
     async process(req: PiMapRequest) {
         const { levelCode, seed, difficulty } = MapRoute.validateParams(req);
-
-
-        const map = await MapGenerator.getMap(seed, difficulty, levelCode, req.log);
-        return { id: req.id, levelCode, seed, difficulty: GameDifficulty[difficulty], map };
+        const maps = await MapGenerator.getMaps(seed, difficulty, req.log);
+        return { id: req.id, levelCode, seed, difficulty: GameDifficulty[difficulty], map: maps[levelCode] };
     }
 
     static validateParams(req: PiMapRequest) {

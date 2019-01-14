@@ -10,8 +10,9 @@ const CACHE_FILE = './cache.dat';
 
 // Max one command at a time with 100 requests in queue
 const commandQueue = new PromiseQueue(1, 100)
+export type D2MapObj = { [key: string]: D2Map };
 export class D2MapGenerator {
-    maps = {};
+    maps: { [key: string]: D2MapObj } = {};
 
     constructor() { }
 
@@ -39,7 +40,7 @@ export class D2MapGenerator {
         return this.maps[mapId] != null;
     }
 
-    async getMap(seed: number, difficulty: GameDifficulty, levelCode: number, log: Log): Promise<D2Map> {
+    async getMaps(seed: number, difficulty: GameDifficulty, log: Log): Promise<D2MapObj> {
         if (!this.hasMap(seed, difficulty)) {
             await commandQueue.add(() => this.generateMap(seed, difficulty, log));
             if (!this.hasMap(seed, difficulty)) {
@@ -51,7 +52,7 @@ export class D2MapGenerator {
         };
 
         const mapId = D2MapGenerator.mapId(seed, difficulty);
-        return this.maps[mapId][levelCode];
+        return this.maps[mapId];
 
     }
 
