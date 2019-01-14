@@ -27,7 +27,7 @@ function getJson(s: string) {
     }
 }
 
-const WINE_COMMAND = 'wine64';
+const WINE_COMMAND = 'wine';
 export class D2MapProcess {
 
     COMMANDS = {
@@ -51,7 +51,6 @@ export class D2MapProcess {
         const versionResponse = await runCommand(WINE_COMMAND, ['--version']);
         this.version = versionResponse.trim();
         log.info({ version: this.version, command: WINE_COMMAND }, 'WineVersion');
-        // console.log(response);
     }
 
     async startProcess(log: Log) {

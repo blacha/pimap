@@ -243,15 +243,23 @@ int dump_objects(Act *pAct, Level *pLevel, Room2 *pRoom2)
 
         if (pPresetUnit->dwType == UNIT_TYPE_NPC)
         {
-            // if (pPresetUnit->dwTxtFileNo >= SuperUniqueNpc::Bishibosh)
-            // {
+            if (npc_is_useless(pPresetUnit->dwTxtFileNo))
+            {
+                continue;
+            }
+
             objectType = "npc";
             objectId = pPresetUnit->dwTxtFileNo;
-            // }
         }
         else if (pPresetUnit->dwType == UNIT_TYPE_OBJECT)
         {
+
             objectType = get_object_type(pPresetUnit->dwTxtFileNo);
+            if (!objectType)
+            {
+                continue;
+            }
+
             objectId = pPresetUnit->dwTxtFileNo;
         }
         else if (pPresetUnit->dwType == UNIT_TYPE_TILE)
@@ -307,7 +315,6 @@ void dump_map_collision(int width, int height)
             count = 1;
             last = mapVal;
         }
-        // printf("\n");
         json_array_end();
     }
 }

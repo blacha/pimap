@@ -49,6 +49,13 @@ FUNCPTR(FOG, 10089, DWORD __fastcall, (DWORD _1), -10089)                       
 FUNCPTR(FOG, 10218, DWORD __fastcall, (VOID), -10218)                                                               // 1.13d
 FUNCPTR(FOG, WriteLogFile, DWORD __cdecl, (char *szFormat), -10029)                                                 // 1.13d
 
+FUNCPTR(D2COMMON, GetObjectTxt, ObjectTxt *__stdcall, (DWORD objno), 0x1ADC0)
+// FUNCPTR(D2CLIENT, GetMonsterTxt, MonsterTxt *__fastcall, (DWORD monno), 0x1434) // Broken
+// FUNCPTR(D2CLIENT, GetMonsterTxt, MonsterTxt *__fastcall, (DWORD monno), 0x1390) // Broken Updated
+// FUNCPTR(D2CLIENT, GetMonsterTxt, MonsterTxt *__fastcall, (DWORD monno), 0x1230) // Updated 1.13c
+
+FUNCPTR(D2CLIENT, GetMonsterOwner, DWORD __fastcall, (DWORD nMonsterId), 0x8E3D0)
+
 FUNCPTR(D2CLIENT, InitGameMisc_I, VOID __stdcall, (DWORD Dummy1, DWORD Dummy2, DWORD Dummy3), 0x4559B) //  1.13d
 VARPTR(STORM, MPQHashTable, DWORD, 0x52A60)                                                            // 1.13d
 ASMPTR(D2CLIENT, LoadAct_1, 0x737F0)                                                                   // 1.13d
@@ -68,7 +75,8 @@ FUNCPTR(D2COMMON, InitLevel, void __stdcall, (Level * pLevel), 0x6DDF0)         
 FUNCPTR(D2COMMON, LoadAct, Act *__stdcall, (DWORD ActNumber, DWORD MapId, DWORD Unk, DWORD Unk_2, DWORD Unk_3, DWORD Unk_4, DWORD TownLevelId, DWORD Func_1, DWORD Func_2), 0x24810) // 1.13d
 FUNCPTR(D2COMMON, UnloadAct, VOID __stdcall, (Act * pAct), 0x24590)
 
-FUNCPTR(D2LANG, 10009, DWORD __fastcall, (DWORD _1, CHAR *_2, DWORD _3), -10009)           //  1.13d
+FUNCPTR(D2LANG, 10009, DWORD __fastcall, (DWORD _1, CHAR *_2, DWORD _3), -10009) //  1.13d
+FUNCPTR(D2LANG, GetLocaleText, wchar_t *__fastcall, (WORD nLocaleTxtNo), 0x98A0)
 FUNCPTR(D2COMMON, InitDataTables, DWORD __stdcall, (DWORD _1, DWORD _2, DWORD _3), -10081) //  1.13d
 
 FUNCPTR(D2WIN, 10174, DWORD __fastcall, (VOID), -10174)                                                     //  1.13d

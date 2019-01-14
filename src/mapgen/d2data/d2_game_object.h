@@ -580,13 +580,48 @@ enum GameObject
     DoorBlocker2 = 572,
     CountessChest = 580,
 
-    NotApplicable
+    // NotApplicable
 };
 
 static bool object_is_useless(int id)
 {
     switch (id)
     {
+    case GameObject::SmallFire:
+    case GameObject::MediumFire:
+    case GameObject::LargeFire:
+    case GameObject::HellFire1:
+    case GameObject::HellFire2:
+    case GameObject::HellFire3:
+    case GameObject::PyoxFirePit:
+    case GameObject::ExpansionCampFire:
+    case GameObject::FirePlaceGuy:
+    case GameObject::BlacksmithForge:
+    case GameObject::Torch1Tiki:
+    case GameObject::Torch2Wall:
+    case GameObject::RogueTorch1:
+    case GameObject::RogueTorch2:
+    case GameObject::JungleTorch:
+    case GameObject::TombsWallTorchLeft:
+    case GameObject::TombsWallTorchRight:
+    case GameObject::Act3SewerTorch:
+    case GameObject::Act3KurastTorch:
+    case GameObject::Act3TownTorch:
+    case GameObject::PotOTorch:
+    case GameObject::ExpansionTorch1:
+    case GameObject::ExpansionTownTorch:
+    case GameObject::ExpansionTorch2:
+    case GameObject::IceCaveTorch1:
+    case GameObject::IceCaveTorch2:
+    case GameObject::ExpansionTikiTorch:
+    case GameObject::WorldstoneTorch1:
+    case GameObject::WorldstoneTorch2:
+    case GameObject::ExpansionTempleTorch1:
+    case GameObject::ExpansionTempleTorch2:
+    case GameObject::RedBaalsLairTorch1:
+    case GameObject::RedBaalsLairTorch2:
+    case GameObject::ArreatsSummitTorch2:
+    case GameObject::BaalTorchBig:
     case GameObject::AmbientSoundGenerator:
     case GameObject::InvisibleRiverSound1:
     case GameObject::InvisibleRiverSound2:

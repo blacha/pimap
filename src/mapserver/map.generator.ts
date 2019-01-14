@@ -35,20 +35,20 @@ export class D2MapGenerator {
         return `${toHexString(seed, 8)}_${difficulty}`;
     }
 
-    hasMap(seed: number, difficulty: GameDifficulty) {
+    async hasMap(seed: number, difficulty: GameDifficulty) {
         const mapId = D2MapGenerator.mapId(seed, difficulty);
         return this.maps[mapId] != null;
     }
 
     async getMaps(seed: number, difficulty: GameDifficulty, log: Log): Promise<D2MapObj> {
-        if (!this.hasMap(seed, difficulty)) {
+        const hasMap = await this.hasMap(seed, difficulty);
+        if (!hasMap) {
             await commandQueue.add(() => this.generateMap(seed, difficulty, log));
-            if (!this.hasMap(seed, difficulty)) {
+            const nowHasMap = await this.hasMap(seed, difficulty);
+            if (!nowHasMap) {
                 log.fatal({ seed, difficulty }, 'Failed to make map')
                 throw new Error('Failed to make map')
             }
-
-            fs.writeFileSync(CACHE_FILE, JSON.stringify(this.maps));
         };
 
         const mapId = D2MapGenerator.mapId(seed, difficulty);

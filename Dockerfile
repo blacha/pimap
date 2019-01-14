@@ -1,5 +1,6 @@
+
+# Build piMap in a container
 FROM ubuntu:18.04 as build
-# FROM portown/alpine-mingw-w64
 RUN apt-get update \
     && apt-get install --no-install-recommends --no-install-suggests -y \
     mingw-w64
@@ -11,15 +12,26 @@ COPY ./build.mapgen.sh /build
 WORKDIR /build
 RUN ./build.mapgen.sh
 
+# Make a run environment with nodejs and wine
+FROM suchja/wine
+USER root
+RUN apt-get update -yq \
+    && apt-get install curl gnupg -yq \
+    && curl -sL https://deb.nodesource.com/setup_10.x | bash \
+    && apt-get install nodejs -yq
 
-FROM alpine:latest
-RUN apk add --update --no-cache wine libpng ncurses bash freetype
+COPY --from=build /build/bin/pimap.exe /app/bin/pimap.exe
 
-COPY --from=build /build/bin/pimap.exe /app
+VOLUME [ "/app/game" ]
 
-# ENV WINEARCH win32
-# ENV DISPLAY :0
+RUN chown xclient:xusers -R /app
 
-# FROM ubuntu:18.04
+USER xclient
+WORKDIR /app
+ADD package.json /app/package.json
+RUN npm i --production
 
-# RUN apt-get update && apt-get install wine -y
+ADD assets /app/assets
+ADD build /app/build/
+
+CMD ["node", "build/mapserver/index.js"]

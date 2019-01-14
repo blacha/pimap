@@ -24,10 +24,10 @@ void dump_all_maps(int seed, int difficulty)
 {
     BYTE bActLevels[] = {1, 40, 75, 103, 109, 142};
 
-    // // // 138
-    // int act = 1;
+    // // // // 138
+    // int act = 5;
     // Act *pAct = D2COMMON_LoadAct(act, seed, TRUE, FALSE, difficulty, (DWORD)NULL, bActLevels[act], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
-    // dump_map(pAct, 32);
+    // dump_map(pAct, 139);
     // return;
 
     for (INT x = 0; x < 5; x++)
