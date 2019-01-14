@@ -48,7 +48,6 @@ void dump_all_maps(int seed, int difficulty)
                 dump_map(pAct, levelCode);
             }
         }
-        return;
     }
 }
 

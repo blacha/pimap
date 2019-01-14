@@ -57,6 +57,9 @@ export class MapLayerObject {
 
         ctx.fillStyle = "purple";
         ctx.fillRect(drawX, drawY, 16, 16);
+        ctx.font = '30px Roboto';
+        // ctx.rotate(0.1);
+        ctx.fillText(AreaLevel[obj.id], drawX, drawY);
     }
 
     renderNpc(ctx: CanvasRenderingContext2D, extent: MapExtents, obj: D2MapObject) {
@@ -81,7 +84,7 @@ export class MapLayerObject {
         }
         const drawX = obj.x - extent.min.x;
         const drawY = obj.y - extent.min.y;
-        console.log('Drawing', obj.id, GameObjectClasses[obj.id], GameObject[obj.id], `@ ${drawX}x${drawY}`);
+        // console.log('Drawing', obj.id, GameObjectClasses[obj.id], GameObject[obj.id], `@ ${drawX}x${drawY}`);
         if (this.base.inBounds(drawX, drawY)) {
             this.drawObject(ctx, extent, drawX, drawY, obj);
         } else {

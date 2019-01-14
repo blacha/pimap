@@ -135,6 +135,12 @@ export enum AreaLevel {
     UndergroundPassageLevel1 = 10,
     UndergroundPassageLevel2 = 14,
     UpperKurast = 81,
-    ValleyOfSnakes = 45
+    ValleyOfSnakes = 45,
+
+    MapsAncientTemple = 137,
+    MapsDesecratedTemple = 138,
+    MapsFrigidPlateau = 139,
+    MapsInfernalTrial = 140,
+    MapsRuinedCitadel = 141,
 }
 

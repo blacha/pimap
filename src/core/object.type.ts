@@ -388,7 +388,7 @@ export const GameObjectClasses = {
     [GameObject.HellSkeletonSpawnNE]: 373,
     [GameObject.Act3WaterFog]: 374,
     [GameObject.DummyNotUsed]: 375,
-    [GameObject.HellForge]: 376,
+    [GameObject.HellForge]: GameObjectClass.QUEST,
     [GameObject.GuildPortal]: 377,
     [GameObject.HratliStartPosition]: 378,
     [GameObject.HratliEndPosition]: 379,

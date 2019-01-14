@@ -12,6 +12,7 @@ export class SpriteSheet {
 }
 
 
+const TWO_PI = Math.PI * 2;
 export class Sprite {
     name: string;
     x: number;
@@ -34,6 +35,13 @@ export class Sprite {
 
         // console.log('draw', this.name, '@', `${drawX},${drawY}`);
         ctx.drawImage(sheet.image, sourceX, sourceY, baseSize, baseSize, drawX, drawY, drawSize, drawSize);
+        // ctx.beginPath();
+        // ctx.arc(drawX, drawY, drawSize / 4, 0, 2 * Math.PI, false);
+        // ctx.fillStyle = 'green';
+        // ctx.fill();
+        // ctx.lineWidth = 2;
+        // ctx.strokeStyle = 'black';
+        // ctx.stroke();
     }
 }
 

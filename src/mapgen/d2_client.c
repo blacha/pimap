@@ -269,7 +269,7 @@ int dump_objects(Act *pAct, Level *pLevel, Room2 *pRoom2)
         if (objectType)
         {
             json_object_start();
-            json_key_value("id", pPresetUnit->dwTxtFileNo);
+            json_key_value("id", objectId);
             json_key_value("type", objectType);
             json_key_value("x", coordX);
             json_key_value("y", coordY);
