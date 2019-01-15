@@ -1,11 +1,12 @@
+import { toHexString } from "../to.hex";
 
 export class BitReader {
-    bytes: number[] | Buffer;
+    buffer: number[] | Buffer;
     /** Offset in bits */
     offset: number;
     constructor(bytes: number[] | Buffer, offset: number = 0) {
         this.offset = offset;
-        this.bytes = bytes;
+        this.buffer = bytes;
     }
 
     getBitValue(byte: number, offset: number, length: number): number {
@@ -21,14 +22,14 @@ export class BitReader {
         let bitPos = this.offset % 8;
         this.offset = this.offset + length;
 
-        let b = this.bytes[bytePos];
+        let b = this.buffer[bytePos];
         let result = 0;
         let byteBits;
         let totBits = 0;
 
         while (length > 0) {
             if (bitPos === 8) {
-                b = this.bytes[++bytePos];
+                b = this.buffer[++bytePos];
                 bitPos = 0;
             }
             byteBits = Math.min(length, 8 - bitPos);
@@ -52,9 +53,21 @@ export class BitReader {
         return bits;
     }
 
-    int8le(): number { return this.readBitsLittleEndian(8) }
+    byte(): number { return this.readBits(8) }
     int16le(): number { return this.readBitsLittleEndian(16) }
     int32le(): number { return this.readBitsLittleEndian(32) }
+
+    bytes(count: number): number[] {
+        const bytes: number[] = [];
+        for (let i = 0; i < count; i++) {
+            const byte = this.readBits(8);
+            if (byte === 0x00) {
+                continue;
+            }
+            bytes.push(byte);
+        }
+        return bytes;
+    }
 
     string(count: number): string {
         let buf = '';
@@ -75,6 +88,10 @@ export class BitReader {
             buf += String.fromCharCode(byte);
         }
         return buf;
+    }
+
+    offsetHex(size = 5) {
+        return toHexString(this.offset / 8, size);
     }
 
 }

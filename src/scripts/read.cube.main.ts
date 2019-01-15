@@ -10,13 +10,8 @@ if (fileName == null) {
 Logger.info({ fileName }, 'Reading..')
 const data = readFileSync(fileName);
 
-// console.log(data.toString())
 
-// const vars = binary.parse(data)
-//     .word32ls('count').vars;
-// console.log(vars);
 const bitReader = new BitReader(data);
-const recordCount = bitReader.int32le();
 
 const INPUT_COUNT = 7;
 const OUTPUT_COUNT = 3;
@@ -25,12 +20,12 @@ function readInputs(count: number) {
     const inputs = [];
     for (let i = 0; i < count; i++) {
         const intputItem = {
-            inputFlags: bitReader.int8le(),
-            itemType: bitReader.int8le(),
+            inputFlags: bitReader.byte(),
+            itemType: bitReader.byte(),
             item: bitReader.int16le(),
             itemId: bitReader.int16le(),
-            quality: bitReader.int8le(),
-            quantity: bitReader.int8le()
+            quality: bitReader.byte(),
+            quantity: bitReader.byte()
         }
         if (intputItem.item === 0) {
             continue;
@@ -43,15 +38,15 @@ function readOutputs(count: number) {
     const outputs = [];
     for (let i = 0; i < count; i++) {
         const intputItem = {
-            itemFlags: bitReader.int8le(),
-            itemType: bitReader.int8le(),
+            itemFlags: bitReader.byte(),
+            itemType: bitReader.byte(),
             item: bitReader.int16le(),
             itemId: bitReader.int16le(),
             param: bitReader.int16le(),
-            type: bitReader.int8le(),
-            lvl: bitReader.int8le(),
-            pLvl: bitReader.int8le(),
-            iLvl: bitReader.int8le(),
+            type: bitReader.byte(),
+            lvl: bitReader.byte(),
+            pLvl: bitReader.byte(),
+            iLvl: bitReader.byte(),
             prefixId: [bitReader.int16le(), bitReader.int16le(), bitReader.int16le()],
             suffixId: [bitReader.int16le(), bitReader.int16le(), bitReader.int16le()],
             mods: readOutputMod(5)
@@ -83,10 +78,10 @@ function readOutputMod(count: number) {
 function readRecord() {
 
     return {
-        enabled: bitReader.int8le(),
-        ladder: bitReader.int8le(),
-        minDiff: bitReader.int8le(),
-        classId: bitReader.int8le(),
+        enabled: bitReader.byte(),
+        ladder: bitReader.byte(),
+        minDiff: bitReader.byte(),
+        classId: bitReader.byte(),
         op: bitReader.int32le(),
         param: bitReader.int32le(),
         valueId: bitReader.int32le(),
@@ -100,9 +95,14 @@ function readRecord() {
 }
 
 
-for (let i = 0; i < recordCount; i++) {
-    console.log(readRecord());
-}
+
+// const record = readRecord();
+
+// ItemC
+
+// for (let i = 0; i < recordCount; i++) {
+//     console.log(readRecord());
+// }
 // console.log(readRecord());
 // console.log(readRecord());
 // console.log(readRecord());

@@ -72,5 +72,4 @@ ${isUseless}
 #endif
 `
 
-
 writeFileSync('src/mapgen/d2data/d2_game_object.h', gameObjectH)
