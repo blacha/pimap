@@ -1,3 +1,4 @@
+const BAD_CHAR = String.fromCharCode(255);
 export const Lang = {
     data: {},
     loadLangFile(fileData: string) {
@@ -5,10 +6,14 @@ export const Lang = {
         for (const line of lines) {
             const [key, ...rest] = line.split('\t')
             let words = rest.join('\t');
-            if (words.charCodeAt(0) === 255) {
-                words = words.substr(3);
+
+            let badIndex = words.indexOf(BAD_CHAR);
+            while (badIndex > -1) {
+                words = words.substr(0, badIndex) + words.substr(badIndex + 3);
+                badIndex = words.indexOf(BAD_CHAR);
             }
-            this.data[key] = words
+
+            this.data[key] = words.replace('(', '').replace(')', '');
         }
     },
     t(key: string) {

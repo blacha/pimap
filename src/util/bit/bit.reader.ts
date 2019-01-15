@@ -17,6 +17,10 @@ export class BitReader {
         return this.readBits(1);
     }
 
+    bits(length: number) {
+        return this.readBits(length);
+    }
+
     readBits(length: number) {
         let bytePos = Math.floor(this.offset / 8);
         let bitPos = this.offset % 8;
@@ -56,6 +60,8 @@ export class BitReader {
     byte(): number { return this.readBits(8) }
     int16le(): number { return this.readBitsLittleEndian(16) }
     int32le(): number { return this.readBitsLittleEndian(32) }
+    int32(): number { return this.readBits(32) }
+    int16(): number { return this.readBits(16) }
 
     bytes(count: number): number[] {
         const bytes: number[] = [];
