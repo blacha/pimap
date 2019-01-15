@@ -3,6 +3,7 @@
 
 enum GameObject
 {
+    NotApplicable = -1,
     TestData1 = 0,
     Casket5 = 1,
     Shrine = 2,
@@ -411,12 +412,8 @@ enum GameObject
     KhalimChest1 = 405,
     KhalimChest2 = 406,
     KhalimChest3 = 407,
-    FortressBrazier1 = 408,
-    FortressBrazier2 = 409,
-
-    // LoD
-    SiegeMachineControl = 573,
-    PotOTorch = 574,
+    SiegeMachineControl = 408,
+    PotOTorch = 409,
     PyoxFirePit = 410,
     ExpansionChestRight = 413,
     ExpansionWildernessShrine1 = 414,
@@ -577,62 +574,8 @@ enum GameObject
     BaalsPortal2 = 569,
     FirePlaceGuy = 570,
     DoorBlocker1 = 571,
-    DoorBlocker2 = 572,
-    CountessChest = 580,
-
-    // NotApplicable
+    DoorBlocker2 = 572
 };
-
-static bool object_is_useless(int id)
-{
-    switch (id)
-    {
-    case GameObject::SmallFire:
-    case GameObject::MediumFire:
-    case GameObject::LargeFire:
-    case GameObject::HellFire1:
-    case GameObject::HellFire2:
-    case GameObject::HellFire3:
-    case GameObject::PyoxFirePit:
-    case GameObject::ExpansionCampFire:
-    case GameObject::FirePlaceGuy:
-    case GameObject::BlacksmithForge:
-    case GameObject::Torch1Tiki:
-    case GameObject::Torch2Wall:
-    case GameObject::RogueTorch1:
-    case GameObject::RogueTorch2:
-    case GameObject::JungleTorch:
-    case GameObject::TombsWallTorchLeft:
-    case GameObject::TombsWallTorchRight:
-    case GameObject::Act3SewerTorch:
-    case GameObject::Act3KurastTorch:
-    case GameObject::Act3TownTorch:
-    case GameObject::PotOTorch:
-    case GameObject::ExpansionTorch1:
-    case GameObject::ExpansionTownTorch:
-    case GameObject::ExpansionTorch2:
-    case GameObject::IceCaveTorch1:
-    case GameObject::IceCaveTorch2:
-    case GameObject::ExpansionTikiTorch:
-    case GameObject::WorldstoneTorch1:
-    case GameObject::WorldstoneTorch2:
-    case GameObject::ExpansionTempleTorch1:
-    case GameObject::ExpansionTempleTorch2:
-    case GameObject::RedBaalsLairTorch1:
-    case GameObject::RedBaalsLairTorch2:
-    case GameObject::ArreatsSummitTorch2:
-    case GameObject::BaalTorchBig:
-    case GameObject::AmbientSoundGenerator:
-    case GameObject::InvisibleRiverSound1:
-    case GameObject::InvisibleRiverSound2:
-    case GameObject::ForestNightSound1:
-    case GameObject::ForestNightSound2:
-    case GameObject::InvisibleTownSound:
-        return true;
-    default:
-        return false;
-    }
-}
 
 static bool object_is_door(int id)
 {
@@ -666,7 +609,6 @@ static bool object_is_door(int id)
     case GameObject::WoodenGrateDoorRight:
     case GameObject::WoodenDoorLeft:
     case GameObject::WoodenDoorRight:
-    case GameObject::TeleportationPad1:
     case GameObject::TeleportationPad2:
     case GameObject::TeleportationPad3:
     case GameObject::TeleportationPad4:
@@ -683,72 +625,186 @@ static bool object_is_door(int id)
     case GameObject::SiegeHellGate:
     case GameObject::PenBreakableDoor:
     case GameObject::ArreatSummitDoorToWorldstone:
+    case GameObject::ArreatSummitDoor:
+    case GameObject::DoorBlocker1:
+    case GameObject::DoorBlocker2:
         return true;
     default:
         return false;
     }
 }
-static bool object_is_chest(int id)
+
+static bool object_is_useless(int id)
 {
     switch (id)
     {
-    case GameObject::Act1LargeChest1:
-    case GameObject::Act1MediumChestRight:
-    case GameObject::Act1TallChestRight:
-    case GameObject::Act2LargeChestLeft:
-    case GameObject::Act2LargeChestRight:
-    case GameObject::Act2MediumChestRight:
-    case GameObject::ArcaneLargeChestLeft:
-    case GameObject::ArcaneLargeChestRight:
-    case GameObject::ArcaneSmallChestLeft:
-    case GameObject::ArcaneSmallChestRight:
-    case GameObject::BurialChestLeft:
-    case GameObject::BurialChestRight:
-    case GameObject::ExpansionChestLeft:
-    case GameObject::ExpansionChestRight:
-    case GameObject::ExpansionExplodingChest:
-    case GameObject::ExpansionSmallChestLeft:
-    case GameObject::ExpansionSmallChestRight:
-    case GameObject::ExpansionSnowyWoodChest2Left:
-    case GameObject::ExpansionSnowyWoodChest2Right:
-    case GameObject::ExpansionSnowyWoodChestLeft:
-    case GameObject::ExpansionSnowyWoodChestRight:
-    case GameObject::ExpansionSpecialChest:
-    case GameObject::ExpansionWoodChestLeft:
-    case GameObject::ExpansionWoodChestRight:
-    case GameObject::Gchest1L:
-    case GameObject::Gchest2R:
-    case GameObject::Gchest3R:
-    case GameObject::GLchest3L:
-    case GameObject::HoradricCubeChest:
-    case GameObject::HoradricScrollChest:
-    case GameObject::InnerHellBoneChest:
-    case GameObject::JungleChest:
-    case GameObject::JungleMediumChestLeft:
-    case GameObject::KhalimChest1:
-    case GameObject::KhalimChest2:
-    case GameObject::KhalimChest3:
-    case GameObject::LargeChestLeft2:
-    case GameObject::LargeChestR:
-    case GameObject::LargeChestRight:
-    case GameObject::LargeChestLeft:
-    case GameObject::MafistoLargeChestLeft:
-    case GameObject::MafistoLargeChestRight:
-    case GameObject::MafistoMediumChestLeft:
-    case GameObject::MafistoMediumChestRight:
-    case GameObject::MediumChestLeft:
-    case GameObject::SparklyChest:
-    case GameObject::SpiderLairLargeChestLeft:
-    case GameObject::SpiderLairMediumChestRight:
-    case GameObject::SpiderLairTallChestLeft:
-    case GameObject::SpiderLairTallChestRight:
-    case GameObject::StaffOfKingsChest:
-    case GameObject::TallChestLeft:
-    case GameObject::TombLargeChestL:
-    case GameObject::TombLargeChestR:
+    case GameObject::TestData1:
+    case GameObject::LargeUrn1:
+    case GameObject::Barrel:
+    case GameObject::TowerTome:
+    case GameObject::Urn2:
+    case GameObject::Bench:
+    case GameObject::BarrelExploding:
+    case GameObject::RogueFountain:
+    case GameObject::CainGibbet:
+    case GameObject::HoleAnim:
+    case GameObject::Brazier:
+    case GameObject::Fountain:
+    case GameObject::Crucifix:
+    case GameObject::Candles1:
+    case GameObject::Candles2:
+    case GameObject::Standard1:
+    case GameObject::Standard2:
+    case GameObject::Torch1Tiki:
+    case GameObject::Torch2Wall:
+    case GameObject::RogueBonfire:
+    case GameObject::River1:
+    case GameObject::River2:
+    case GameObject::River3:
+    case GameObject::River4:
+    case GameObject::River5:
+    case GameObject::AmbientSoundGenerator:
+    case GameObject::Crate:
+    case GameObject::RogueTorch1:
+    case GameObject::RogueTorch2:
+    case GameObject::Urn3:
+    case GameObject::RogueCorpseRolling:
+    case GameObject::CorpseOnStick1:
+    case GameObject::CorpseOnStick2:
+    case GameObject::InvisibleObject:
+    case GameObject::InvisibleRiverSound1:
+    case GameObject::InvisibleRiverSound2:
+    case GameObject::Ripple1:
+    case GameObject::Ripple2:
+    case GameObject::Ripple3:
+    case GameObject::Ripple4:
+    case GameObject::ForestNightSound1:
+    case GameObject::ForestNightSound2:
+    case GameObject::YetiDung:
+    case GameObject::SewerDrip:
+    case GameObject::HealthOrama:
+    case GameObject::InvisibleTownSound:
+    case GameObject::Obelisk:
+    case GameObject::BubblingPoolOfBlood:
+    case GameObject::LargeUrn4:
+    case GameObject::LargeUrn5:
+    case GameObject::Brazier3:
+    case GameObject::FloorBrazier:
+    case GameObject::Flies:
+    case GameObject::Malus:
+    case GameObject::Drinker:
+    case GameObject::Gesturer:
+    case GameObject::JungleTorch:
+    case GameObject::JerhynPlaceHolder1:
+    case GameObject::JerhynPlaceHolder2:
+    case GameObject::VileDogAfterglow:
+    case GameObject::DesertJug1:
+    case GameObject::DesertJug2:
+    case GameObject::GuardCorpse:
+    case GameObject::HiddenStashRock:
+    case GameObject::SkeletonCorpseIsAnOxymoron:
+    case GameObject::HiddenStashRockB:
+    case GameObject::SmallFire:
+    case GameObject::MediumFire:
+    case GameObject::LargeFire:
+    case GameObject::Act1CliffHidingSpot:
+    case GameObject::HollowLog:
+    case GameObject::SkeletonCorpseIsStillAnOxymoron:
+    case GameObject::LooseRock:
+    case GameObject::LooseBoulder:
+    case GameObject::GuardCorpseOnAStick:
+    case GameObject::Bookshelf1:
+    case GameObject::Bookshelf2:
+    case GameObject::TombCoffin:
+    case GameObject::JungleStashObject1:
+    case GameObject::JungleStashObject2:
+    case GameObject::JungleStashObject3:
+    case GameObject::JungleStashObject4:
+    case GameObject::DummyCainPortal:
+    case GameObject::TeleportationPad1:
+    case GameObject::StairsL:
+    case GameObject::StairsR:
+    case GameObject::FloorTrap:
+    case GameObject::StashBox:
+    case GameObject::StashAltar:
+    case GameObject::Act3WaterRocks:
+    case GameObject::Basket1:
+    case GameObject::Basket2:
+    case GameObject::Act3WaterLogs:
+    case GameObject::Act3WaterRocksGirl:
+    case GameObject::Act3WaterBubbles:
+    case GameObject::Act3WaterLogsX:
+    case GameObject::Act3WaterRocksB:
+    case GameObject::Act3WaterRocksGirlC:
+    case GameObject::Act3WaterRocksY:
+    case GameObject::Act3WaterLogsZ:
+    case GameObject::WebCoveredTree1:
+    case GameObject::WebCoveredTree2:
+    case GameObject::WebCoveredTree3:
+    case GameObject::WebCoveredTree4:
+    case GameObject::Pillar:
+    case GameObject::Cocoon:
+    case GameObject::Cocoon2:
+    case GameObject::SkullPileH1:
+    case GameObject::Act3WaterRocksGirlW:
+    case GameObject::Act3BigLog:
+    case GameObject::PillarH2:
+    case GameObject::Act3BigLogC:
+    case GameObject::Act3BigLogD:
+    case GameObject::BurningBodyTown:
+    case GameObject::SewersRatNest:
+    case GameObject::BurningBodyTown2:
+    case GameObject::SewersRatNest2:
+    case GameObject::Act1BedBed1:
+    case GameObject::Act1BedBed2:
+    case GameObject::ExplodingCow:
+    case GameObject::GidbinnAltarDecoy:
+    case GameObject::DiabloRightLight:
+    case GameObject::DiabloLeftLight:
+    case GameObject::DiabloStartPoint:
+    case GameObject::Act1CabinStool:
+    case GameObject::Act1CabinWood:
+    case GameObject::Act1CabinWood2:
+    case GameObject::HellSkeletonSpawnNW:
+    case GameObject::TombsFloorTrapSpikes:
+    case GameObject::MaggotLairGooPile:
+    case GameObject::Bank:
+    case GameObject::GoldPlaceHolder:
+    case GameObject::GuardCorpse2:
+    case GameObject::TombsWallTorchLeft:
+    case GameObject::TombsWallTorchRight:
+    case GameObject::Act3SewerTorch:
+    case GameObject::Act3KurastTorch:
+    case GameObject::HellFire1:
+    case GameObject::HellFire2:
+    case GameObject::HellFire3:
+    case GameObject::Act3TownTorch:
+    case GameObject::PotOTorch:
+    case GameObject::PyoxFirePit:
+    case GameObject::ExpansionWildernessBarrel:
+    case GameObject::ExpansionSiegeBarrel:
+    case GameObject::ExpansionTorch1:
+    case GameObject::ExpansionCampFire:
+    case GameObject::ExpansionTownTorch:
+    case GameObject::ExpansionTorch2:
+    case GameObject::IceCaveTorch1:
+    case GameObject::IceCaveTorch2:
+    case GameObject::ExpansionTikiTorch:
+    case GameObject::WorldstoneTorch1:
+    case GameObject::WorldstoneTorch2:
+    case GameObject::ExpansionTempleTorch1:
+    case GameObject::ExpansionTempleTorch2:
+    case GameObject::BlacksmithForge:
+    case GameObject::RedBaalsLairTorch1:
+    case GameObject::RedBaalsLairTorch2:
+    case GameObject::CandlesTemple:
+    case GameObject::ArreatsSummitTorch2:
+    case GameObject::BaalTorchBig:
+    case GameObject::FirePlaceGuy:
         return true;
     default:
         return false;
     }
 }
+
 #endif
