@@ -633,7 +633,7 @@ export enum GameObject {
     DoorBlocker1 = 571,
     DoorBlocker2 = 572,
 
-    NotApplicable
+    NotApplicable = -1
 }
 export enum WarpType {
     Act1WildernessToCaveCliffL = 0,

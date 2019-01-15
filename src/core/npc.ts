@@ -1,5 +1,6 @@
 
-
+// TODO NPC Codes have changed in pod, they go upto 850+ units,
+// Superuniques are last NpcCode + SuperUnique offset explains units upto 950ish
 export enum NpcCode {
     Skeleton = 0,
     Returned = 1,

@@ -71,7 +71,7 @@ export class D2MapGenerator {
         }
 
         const maps = await MapProcess.getMaps(log);
-        log.info({ mapId, maps: Object.keys(maps).join(', ') }, 'GotMaps');
+        log.info({ mapId, maps: Object.keys(maps).length }, 'GotMaps');
         this.maps[mapId] = maps;
         return maps;
     }
