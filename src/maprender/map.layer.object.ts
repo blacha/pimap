@@ -73,7 +73,6 @@ export class MapLayerObject {
     }
 
     renderExit(ctx: CanvasRenderingContext2D, extent: MapExtents, obj: D2MapObject) {
-        // console.log('Exit', obj, AreaLevel[obj.id]);
         const drawX = obj.x - extent.min.x;
         const drawY = obj.y - extent.min.y;
 
@@ -94,8 +93,6 @@ export class MapLayerObject {
         } else {
             Sprites.Exit.draw(ctx, this.sheet, drawX, drawY, 24);
         }
-
-
     }
 
 
@@ -111,7 +108,7 @@ export class MapLayerObject {
         const drawX = obj.x - extent.min.x;
         const drawY = obj.y - extent.min.y;
 
-        console.log('Npc', obj, NpcCode[obj.id]);
+        this.base.log.info({ npcName: NpcCode[obj.id], npcId: obj.id }, 'RenderNpc');
 
         Sprites.Unkown.draw(ctx, this.sheet, drawX, drawY, 24);
     }

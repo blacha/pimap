@@ -4,6 +4,7 @@ import { Point, Size } from "../core/size";
 import { MapLayerObject } from "./map.layer.object";
 import { SpriteSheet } from "./sprite";
 import { ActType } from "../core/act";
+import { Log } from "bblog";
 
 export interface MapExtents {
     min: Point;
@@ -22,6 +23,8 @@ export class MapRenderer {
     layerCollision: MapLayerCollision;
     layerObject: MapLayerObject;
 
+    log: Log;
+
     constructor(maps: { [key: string]: D2Map }, size: Size, sprites: SpriteSheet) {
         this.maps = maps;
         this.size = size;
@@ -31,7 +34,6 @@ export class MapRenderer {
     }
 
     getMapById(id: number): D2Map {
-        console.log('get-map', id, this.maps[id] == null)
         return this.maps[id];
     }
 
@@ -87,7 +89,6 @@ export class MapRenderer {
         const centerY = this.center.y;
         const halfMapWidth = this.size.width / 2;
         const halfMapHeight = this.size.height / 2;
-        console.log('center', centerX, centerY, 'size', this.size)
         return {
             min: { x: centerX - halfMapWidth, y: centerY - halfMapHeight },
             max: { x: centerX + halfMapWidth, y: centerY + halfMapHeight }

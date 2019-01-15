@@ -5,6 +5,7 @@ import { toHexString } from "../util/to.hex";
 import { MapProcess } from './map.process';
 import * as fs from 'fs';
 import { D2Map } from "../core/map";
+import { MapCache } from "./map.cache";
 
 const CACHE_FILE = './cache.dat';
 
@@ -12,52 +13,28 @@ const CACHE_FILE = './cache.dat';
 const commandQueue = new PromiseQueue(1, 100)
 export type D2MapObj = { [key: string]: D2Map };
 export class D2MapGenerator {
-    maps: { [key: string]: D2MapObj } = {};
-
-    constructor() { }
-
-    async init(log: Log) {
-        if (!fs.existsSync(CACHE_FILE)) {
-            return;
-        }
-        try {
-            this.maps = JSON.parse(fs.readFileSync(CACHE_FILE).toString())
-        } catch (e) {
-            // ignore
-        }
-        log.info({ mapCount: Object.keys(this.maps).length }, 'LoadedCache')
-    }
-
-    mapId(seed: number, difficulty: GameDifficulty, levelCode?: number) {
-        if (levelCode != null) {
-            return `${toHexString(seed, 8)}_${difficulty}_${levelCode}`;
-        }
-        return `${toHexString(seed, 8)}_${difficulty}`;
-    }
-
-    async hasMap(seed: number, difficulty: GameDifficulty) {
-        const mapId = this.mapId(seed, difficulty);
-        return this.maps[mapId] != null;
-    }
+    cache = new MapCache();
 
     async getMaps(seed: number, difficulty: GameDifficulty, log: Log): Promise<D2MapObj> {
-        const hasMap = await this.hasMap(seed, difficulty);
+        const hasMap = await this.cache.hasMap(seed, difficulty, log);
         if (!hasMap) {
             await commandQueue.add(() => this.generateMap(seed, difficulty, log));
-            const nowHasMap = await this.hasMap(seed, difficulty);
+            const nowHasMap = await this.cache.hasMap(seed, difficulty, log);
             if (!nowHasMap) {
                 log.fatal({ seed, difficulty }, 'Failed to make map')
                 throw new Error('Failed to make map')
             }
         };
 
-        const mapId = this.mapId(seed, difficulty);
-        return this.maps[mapId];
-
+        const mapStorage = await this.cache.getMap(seed, difficulty, log);
+        if (mapStorage == null) {
+            return null;
+        }
+        return mapStorage.maps;
     }
 
     async generateMap(seed: number, difficulty: GameDifficulty, log: Log) {
-        const mapId = this.mapId(seed, difficulty);
+        const mapId = MapCache.mapId(seed, difficulty);
         const seedResponse = await MapProcess.setSeed(seed, log);
         if (seedResponse.seed !== seed) {
             log.error({ mapId, response: seedResponse, seed, difficulty }, 'Invalid seed');
@@ -72,7 +49,7 @@ export class D2MapGenerator {
 
         const maps = await MapProcess.getMaps(log);
         log.info({ mapId, maps: Object.keys(maps).length }, 'GotMaps');
-        this.maps[mapId] = maps;
+        await this.cache.setMap(seed, difficulty, maps, log);
         return maps;
     }
 }

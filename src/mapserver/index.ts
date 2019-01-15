@@ -1,20 +1,17 @@
 import 'source-map-support/register';
 
-import * as fs from 'fs';
-import * as express from 'express';
 import * as cors from 'cors';
+import * as express from 'express';
+import * as fs from 'fs';
 import * as ulid from 'ulid';
 import { Logger } from '../util/log';
-import { PiMapRoute, PiMapRequest, PiMapResponse, PiMapRouteError } from './route';
+import { MapDifficultyRoute } from './act';
+import { D2_PATH, PI_MAP_COMMAND } from './config';
 import { HealthRoute } from './health';
 import { MapRoute } from './map';
-import { PI_MAP_COMMAND, D2_PATH } from './config';
 import { MapImageRoute } from './map.image';
-import { D2MapProcess, MapProcess } from './map.process';
-import { resolve } from 'url';
-import { MapGenerator } from './map.generator';
-import { MapDifficultyRoute } from './act';
-
+import { MapProcess } from './map.process';
+import { PiMapRequest, PiMapResponse, PiMapRoute, PiMapRouteError } from './route';
 
 if (!fs.existsSync(PI_MAP_COMMAND)) {
     Logger.fatal(`Cannot find ${PI_MAP_COMMAND}`);
@@ -66,7 +63,6 @@ class D2MapServer {
 
     async init() {
         await MapProcess.init(Logger)
-        await MapGenerator.init(Logger);
         await new Promise(resolve => {
             this.server.listen(this.port, () => {
                 Logger.info({ port: this.port }, 'Server started...')
@@ -82,8 +78,8 @@ class D2MapServer {
 export const MapServer = new D2MapServer();
 
 MapServer.bind(new HealthRoute());
+MapServer.bind(new MapDifficultyRoute());
 MapServer.bind(new MapRoute());
 MapServer.bind(new MapImageRoute());
-MapServer.bind(new MapDifficultyRoute());
 MapServer.init()
     .catch(e => Logger.fatal({ error: e }, 'Uncaucght Exception'))

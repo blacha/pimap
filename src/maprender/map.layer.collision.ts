@@ -16,8 +16,9 @@ export class MapLayerCollision {
 
     render(ctx: CanvasRenderingContext2D, extent: MapExtents): D2MapObject[] {
         const objects = [];
-        // console.time('RenderAllMaps'); // tslint:disable-line
         for (const map of Object.values(this.base.maps)) {
+            const startTime = Date.now();
+
             const act = AreaUtil.getAct(map.id);
             if (act !== this.base.act) {
                 continue;
@@ -27,13 +28,10 @@ export class MapLayerCollision {
                 continue;
             }
 
-            console.log(map.name, map.offset.x, map.offset.y);
-            console.time('Render:' + map.name); // tslint:disable-line
             this.renderMap(map, ctx, extent, objects);
-            console.timeEnd('Render:' + map.name); // tslint:disable-line
+            this.base.log.info({ mapName: map.name, duration: Date.now() - startTime, mapId: map.id }, 'RenderMap');
 
         }
-        // console.timeEnd('RenderAllMaps'); // tslint:disable-line
         return objects;
     }
 
