@@ -41,7 +41,7 @@ export class MapImageRoute implements PiMapRoute {
 
     async process(req: PiMapRequest, res: PiMapResponse) {
         const { levelCode, seed, difficulty } = MapRoute.validateParams(req);
-        const mapId = D2MapGenerator.mapId(seed, difficulty, levelCode);
+        const mapId = MapGenerator.mapId(seed, difficulty, levelCode);
 
         const maps = await MapGenerator.getMaps(seed, difficulty, req.log);
 
@@ -59,7 +59,6 @@ export class MapImageRoute implements PiMapRoute {
 
         req.log.info({ mapId, map: map.name, mapName: AreaLevel[map.id], ...map.size, extent: renderer.extent }, 'CreatingPng');
         const canvas = createCanvas(map.size.width, map.size.height + MAP_INFO_SIZE)
-        // const canvas = createCanvas(renderer.extent.size.width, renderer.extent.size.height);
         const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 
 
@@ -69,7 +68,6 @@ export class MapImageRoute implements PiMapRoute {
 
         res.setHeader('Content-Type', 'image/png');
         canvas.pngStream().pipe(res);
-        // return { id: req.id, levelCode, seed, difficulty: D2Difficulty[difficulty], map };
         return null;
     }
 

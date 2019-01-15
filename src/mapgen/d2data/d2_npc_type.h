@@ -741,7 +741,7 @@ enum NpcCode
     BurningSoul3 = 733,
 
     Invalid,
-    NotApplicable = 0xFFFF
+    NpcNotApplicable = 0xFFFF
 };
 
 static bool npc_is_useless(int code)

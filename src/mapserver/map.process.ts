@@ -135,20 +135,13 @@ export class D2MapProcess {
     }
 
     async setDifficulty(difficulty: GameDifficulty, log: Log): Promise<D2MapResponse> {
-        const diffCommand = GameDifficulty[difficulty]
-        // log.info({ difficulty, diffCommand }, 'SetDiff')
         const response = await this.setCommand(this.COMMANDS.DIFFICULTY, GameDifficulty[difficulty], log)
-        // log.info(response, 'SetDiff:Response')
-
         this.difficulty = response.difficulty;
         return response;
     }
 
     async setSeed(seed: number, log: Log): Promise<D2MapResponse> {
-        // log.info({ seed }, 'SetSeed');
         const response = await this.setCommand(this.COMMANDS.SEED, seed, log)
-        // log.info(response, 'SetSeed:Response');
-
         this.seed = response.seed;
         return response;
     }

@@ -218,11 +218,6 @@ char *get_object_type(int code)
         return NULL;
     }
 
-    if (object_is_chest(code))
-    {
-        return "object";
-    }
-
     return "object";
 }
 

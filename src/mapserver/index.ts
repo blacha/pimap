@@ -13,6 +13,7 @@ import { MapImageRoute } from './map.image';
 import { D2MapProcess, MapProcess } from './map.process';
 import { resolve } from 'url';
 import { MapGenerator } from './map.generator';
+import { MapDifficultyRoute } from './act';
 
 
 if (!fs.existsSync(PI_MAP_COMMAND)) {
@@ -83,5 +84,6 @@ export const MapServer = new D2MapServer();
 MapServer.bind(new HealthRoute());
 MapServer.bind(new MapRoute());
 MapServer.bind(new MapImageRoute());
+MapServer.bind(new MapDifficultyRoute());
 MapServer.init()
     .catch(e => Logger.fatal({ error: e }, 'Uncaucght Exception'))

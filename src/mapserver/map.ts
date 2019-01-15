@@ -3,7 +3,7 @@ import { MapGenerator } from "./map.generator";
 import { PiMapRequest, PiMapRoute, PiMapRouteError } from "./route";
 
 const isInLevelRange = (levelCode: number) => levelCode > 0 && levelCode < 150;
-const isInSeedRange = (seed: number) => seed > 0 && seed < 0xffffffff
+export const isInSeedRange = (seed: number) => seed > 0 && seed < 0xffffffff
 
 export class MapRoute implements PiMapRoute {
     url = '/map/:seed/:difficulty/:levelCode.json';

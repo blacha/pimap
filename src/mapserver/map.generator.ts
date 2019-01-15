@@ -28,7 +28,7 @@ export class D2MapGenerator {
         log.info({ mapCount: Object.keys(this.maps).length }, 'LoadedCache')
     }
 
-    static mapId(seed: number, difficulty: GameDifficulty, levelCode?: number) {
+    mapId(seed: number, difficulty: GameDifficulty, levelCode?: number) {
         if (levelCode != null) {
             return `${toHexString(seed, 8)}_${difficulty}_${levelCode}`;
         }
@@ -36,7 +36,7 @@ export class D2MapGenerator {
     }
 
     async hasMap(seed: number, difficulty: GameDifficulty) {
-        const mapId = D2MapGenerator.mapId(seed, difficulty);
+        const mapId = this.mapId(seed, difficulty);
         return this.maps[mapId] != null;
     }
 
@@ -51,13 +51,13 @@ export class D2MapGenerator {
             }
         };
 
-        const mapId = D2MapGenerator.mapId(seed, difficulty);
+        const mapId = this.mapId(seed, difficulty);
         return this.maps[mapId];
 
     }
 
     async generateMap(seed: number, difficulty: GameDifficulty, log: Log) {
-        const mapId = D2MapGenerator.mapId(seed, difficulty);
+        const mapId = this.mapId(seed, difficulty);
         const seedResponse = await MapProcess.setSeed(seed, log);
         if (seedResponse.seed !== seed) {
             log.error({ mapId, response: seedResponse, seed, difficulty }, 'Invalid seed');
