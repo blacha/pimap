@@ -1,14 +1,14 @@
-import { loadBinFiles } from "../binfiles";
+import { writeFileSync } from "fs";
+import { loadMpqData } from "../binfiles";
 import { BinFiles } from "../binfiles/bin.files";
 import { Lang } from "../binfiles/lang";
-import { writeFileSync } from "fs";
 import { Logger } from "../util/log";
 
 const BASE_PATH = `/home/blacha/workspace/podrune/mpq/pod`;
 const OUTPUT_FILE = './src/generated/item.name.ts';
 
 async function runMe() {
-    await loadBinFiles(BASE_PATH);
+    await loadMpqData(BASE_PATH);
 
     const BASE_ITEMS = {};
 

@@ -4,16 +4,11 @@ import { Logger } from "../util/log";
 import { BinFiles } from "./bin.files";
 import { Lang } from "./lang";
 
-// const BIN_FILES = `/home/blacha/workspace/podrune/mpq/pod/data/global/excel`;
-// const BASE_PATH = `/home/blacha/workspace/podrune/mpq/pod`;
-
 
 const LANG_FILES = ['string.txt', 'expansionsring.txt', 'patchstring.txt']
 
-export async function loadBinFiles(basePath: string) {
-    const BIN_PATH = `${basePath}/data/global/excel`;
+export async function loadLangFiles(basePath: string) {
     const LANG_PATH = `${basePath}/data/local/LNG/ENG`
-    // return;
     for (const file of LANG_FILES) {
         Logger.info({ file }, 'Loading lang');
         const filePath = LANG_PATH + '/' + file;
@@ -23,7 +18,10 @@ export async function loadBinFiles(basePath: string) {
         const data = readFileSync(filePath).toString();
         Lang.loadLangFile(data);
     }
+}
 
+export async function loadBinFiles(basePath: string) {
+    const BIN_PATH = `${basePath}/data/global/excel`;
 
     const binfiles = Object.values(BinFiles).sort((a, b) => a.priority - b.priority)
     for (const binF of binfiles) {
@@ -32,4 +30,9 @@ export async function loadBinFiles(basePath: string) {
         const bitReader = new BitReader(data);
         await binF.read(bitReader);
     }
+}
+
+export async function loadMpqData(basePath: string) {
+    await loadLangFiles(basePath);
+    await loadBinFiles(basePath);
 }
