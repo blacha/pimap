@@ -17,6 +17,7 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "@types/fs-extra": "^5.0.4",
     "bblog": "^2.0.0",
     "bblog-stream-console": "^2.0.0",
     "canvas": "^2.3.0",

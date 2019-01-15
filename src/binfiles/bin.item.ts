@@ -5,6 +5,7 @@ import { BitReader } from "../util/bit/bit.reader";
 import { Logger } from "../util/log";
 import { toHexString } from "../util/to.hex";
 import { Log } from "bblog";
+import { Lang } from "./lang";
 
 export interface ItemRecord {
     name: string;
@@ -67,15 +68,6 @@ export class BinItem implements BinFileReader {
         return this.offset + this.records.length;
     }
 
-    updateOffset(code: string, itemIndex: number) {
-        const index = this.records.findIndex(c => c.code === code);
-        if (index === -1) {
-            return;
-        }
-
-        // this.offset = itemIndex - index;
-        this.log.info({ code, index, itemIndex, offset: this.offset }, 'FoundIndex');
-    }
 
     findItem(itemIndex: number) {
         if (this.offset === -1) {
@@ -105,7 +97,7 @@ export class BinItem implements BinFileReader {
         for (let i = 0; i < recordCount; i++) {
             const item = this.readItem(bits);
             this.records.push(item);
-            // this.log.info({ index: i, offset: toHexString(bits.offset / 8 - RECORD_SIZE, 5), code: item.code }, 'Item');
+            // this.log.info({ index: i, offset: toHexString(bits.offset / 8 - RECORD_SIZE, 5), code: item.code, }, Lang.t(item.code));
         }
 
     }

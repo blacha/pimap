@@ -3,10 +3,7 @@ import { BitReader } from "../util/bit/bit.reader";
 import { Logger } from "../util/log";
 import { BinFiles } from "./bin.files";
 import { BinItem } from "./bin.item";
-
-enum ItemType {
-    Misc = 0
-}
+import { Lang } from "./lang";
 
 
 export interface CubeMainRecordInput {
@@ -47,7 +44,7 @@ interface CubeMainRecord {
     param: number;
     valueId: number;
     inputCount: number;
-    verison: number;
+    version: number;
     inputs: CubeMainRecordInput[];
     outputs: CubeMainRecordOutput[];
 }
@@ -56,7 +53,7 @@ const INPUT_COUNT = 7;
 const OUTPUT_COUNT = 3;
 const MOD_COUNT = 5;
 
-export class CubeMain implements BinFileReader {
+export class BinCubeMain implements BinFileReader {
     // requrires: BinFileType[] = [];
     fileName = BinFileType.CubeMain;
     priority = 10;
@@ -66,53 +63,17 @@ export class CubeMain implements BinFileReader {
 
         const recordCount = bits.int32le();
         Logger.info({ recordCount, bin: this.fileName }, 'Reading')
-
-        this.readAndDump(bits)
-        this.readAndDump(bits)
-        this.readAndDump(bits)
-        this.readAndDump(bits)
-        this.readAndDump(bits)
-        this.readAndDump(bits)
-        // const firstRecord = this.readRecord(bits);
-        // if (firstRecord.inputCount != 2) {
-        //     Logger.fatal('Input count should be two');
-        //     return;
-        // }
-        // firstRecord.inputs.forEach(c => console.log(c.item, c.itemType))
-
-        // const firstItemId = firstRecord.inputs[0].item;
-        // const firstItemCode = 'msf';
-        // BinFiles.Weapon.updateOffset(firstItemCode, firstItemId);
-        // const firstItem = BinFiles.Weapon.findItem(firstItemId);
-        // console.log(firstItem);
-
-        // const secondItemId = firstRecord.inputs[1].item;
-        // const secondItemCode = 'vip'
-        // BinFiles.Misc.updateOffset(secondItemCode, secondItemId);
-        // const secondItem = BinFiles.Misc.findItem(secondItemId);
-        // console.log(secondItem);
-
-        // const indexOfCode = BinFiles.Misc.records.findIndex(c => c.code === secondItemCode);
-        // console.log(indexOfCode)
+        for (let i = 0; i < recordCount; i++) {
+            const record = this.readRecord(bits);
+            this.records.push(record);
+        }
 
     }
 
-    readAndDump(bits: BitReader) {
-        const record = this.readRecord(bits);
-        const inputs = record.inputs.map(c => {
-            const item = BinItem.findItem(c.item)
-            return {
-                item: item && item.code,
-                id: c.item
-            }
-        })
-        console.log(inputs);
-    }
-
-    readRecord(bits: BitReader) {
+    readRecord(bits: BitReader): CubeMainRecord {
         return {
-            enabled: bits.byte(),
-            ladder: bits.byte(),
+            enabled: bits.byte() as any,
+            ladder: bits.byte() as any,
             minDiff: bits.byte(),
             classId: bits.byte(),
             op: bits.int32le(),

@@ -33,7 +33,7 @@ export class MapCache {
     async hasMap(seed: number, difficulty: GameDifficulty, log: Log): Promise<boolean> {
         const dataLocation = await this.getLocation(seed, difficulty);
 
-        return await fse.exists(dataLocation);
+        return await fse.pathExists(dataLocation);
     }
 
     async getLocation(seed: number, difficulty: GameDifficulty): Promise<string> {
@@ -46,7 +46,7 @@ export class MapCache {
     async getMap(seed: number, difficulty: GameDifficulty, log: Log): Promise<D2MapStorageObject> {
         const dataLocation = await this.getLocation(seed, difficulty);
 
-        const exists = await fse.exists(dataLocation);
+        const exists = await fse.pathExists(dataLocation);
         if (!exists) {
             return null;
         }
