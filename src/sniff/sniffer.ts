@@ -9,22 +9,23 @@ import { BitConverter } from '../util/bit/bit.converter';
 import { Logger } from '../util/log';
 import { toHexString } from '../util/to.hex';
 import { SessionState } from './state/session';
+import * as pcap from 'pcap';
 
 let skipped = 0;
 const TRACE = {
     // 0x1: true, 0x0: true, 0x2: true
 };
-declare var pcap: any;
-export class Sniffer {
+export class D2PacketSniffer {
 
     trace: boolean = false;
     buffer: number[];
     bufferCount: number = 0;
     localIp: string;
+    networkAdapter: string;
 
-    constructor(localIp: string) {
+    constructor(localIp: string, networkAdapter: string) {
         this.localIp = localIp;
-        global['pcap'] = require('pcap');
+        this.networkAdapter = networkAdapter
     }
 
     resetBuffer() {
@@ -138,8 +139,8 @@ export class Sniffer {
         }
     }
 
-    listen(eth: string, net: string) {
-        const pcapSession = new pcap.Session(eth, {
+    listen(net?: string) {
+        const pcapSession = new pcap.Session(this.networkAdapter, {
             filter: `port 4000`,
             timeout: 150
         });
@@ -177,7 +178,6 @@ export class Sniffer {
             var packet = pcap.decode.packet(rawPacket);
             // tcpTracker.track_packet(packet);
             // const data = packet.payload.payload.payload.data;
-
 
             const ipv4 = packet.payload.payload;
             const isLocal = ipv4.saddr.addr.join('.') === this.localIp;

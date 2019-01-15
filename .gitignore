@@ -10,3 +10,4 @@ node_modules
 *.txt
 build/
 d2cache/
+.env

@@ -33,7 +33,7 @@ export class XpState {
         }
     }
 
-    toJSON() {
+    toJson() {
         return {
             start: this.start,
             current: this.current,

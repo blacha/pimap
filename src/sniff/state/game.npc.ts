@@ -50,7 +50,7 @@ export class NPCState {
         this.npcs = {};
     }
 
-    toJSON(): NpcJson[] {
+    toJson(): NpcJson[] {
         const maxAge = 5 * 60 * 1000;
         const now = Date.now();
         const values = Object.entries(this.npcs);

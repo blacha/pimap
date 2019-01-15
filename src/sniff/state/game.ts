@@ -118,7 +118,7 @@ export class GameState {
                 x: this.player.x,
                 y: this.player.y,
                 level: this.player.level,
-                xp: this.playerXp.toJSON(),
+                xp: this.playerXp.toJson(),
                 mercId: this.player.mercId
             },
             map: {
@@ -130,14 +130,12 @@ export class GameState {
             },
             merc: {
                 uid: 1,
-                xp: this.mercXp.toJSON()
+                xp: this.mercXp.toJson()
             },
-            // maps: this.maps,
-            object: this.object.toJSON(),
-            npc: this.npc.toJSON(),
-            item: this.item.toJSON(),
+            object: this.object.toJson(),
+            npc: this.npc.toJson(),
+            item: this.item.toJson(),
             kill: this.kills[1]
-
         };
     }
 }
@@ -175,7 +173,7 @@ class ItemState {
         console.log(item.uid, item);
     }
 
-    toJSON() {
+    toJson() {
         return filterByTime(this.items, 5 * 60 * 1000).sort((a, b) => b._t - a._t);
     }
 }
@@ -190,7 +188,7 @@ class ObjectState {
         delete this.objects[uid];
     }
 
-    toJSON() {
+    toJson() {
         return filterByTime(this.objects, 5 * 60 * 1000);
     }
 
