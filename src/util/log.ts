@@ -5,7 +5,7 @@ import { hostname } from 'os';
 export const Logger = Log.createLogger({
     name: 'PiMap',
     hostname: hostname(),
-    stream: new ConsoleLogStream(Log.TRACE),
+    streams: [], // new ConsoleLogStream(Log.TRACE),
     keys: {
         // $i: Id.generate()
     }

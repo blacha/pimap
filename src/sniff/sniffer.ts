@@ -9,7 +9,7 @@ import { BitConverter } from '../util/bit/bit.converter';
 import { Logger } from '../util/log';
 import { toHexString } from '../util/to.hex';
 import { SessionState } from './state/session';
-import * as pcap from 'pcap';
+import * as pcap from 'pcap2';
 
 let skipped = 0;
 const TRACE = {
@@ -129,6 +129,9 @@ export class D2PacketSniffer {
             if (level >= 20) {
                 log.info({ ...packet.toJSON(), level }, packetName);
             }
+            const pkt = packet.toJSON()
+            delete pkt.time;
+            console.log(JSON.stringify(pkt));
         }
         if (dirty) {
             SessionState.dirty();
