@@ -1,6 +1,7 @@
 import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
+import { BitReader } from '../../util/bit/bit.reader';
 
 export class GSPacketNPCStop extends GSPacket {
     life: number;
@@ -10,13 +11,13 @@ export class GSPacketNPCStop extends GSPacket {
 
     static id = GameServerPacket.NpcStop;
 
-    constructor(data: number[]) {
-        super(GSPacketNPCStop.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.uid = BitConverter.ToUInt32(data, 1);
-        this.x = BitConverter.ToUInt16(data, 5);
-        this.y = BitConverter.ToUInt16(data, 7);
-        this.life = data[9];
+        this.uid = bits.uint32();
+        this.x = bits.uint16();
+        this.y = bits.uint16();
+        this.life = bits.byte();
     }
 
     track() {

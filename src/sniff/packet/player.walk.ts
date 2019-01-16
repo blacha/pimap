@@ -4,6 +4,7 @@ import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
+import { BitReader } from '../../util/bit/bit.reader';
 
 export enum WalkVerifyFlags {
     None = 0,
@@ -19,16 +20,18 @@ export class GSPacketWalkVerify extends GSPacket {
     static id = GameServerPacket.WalkVerify;
 
 
-    constructor(data: number[]) {
-        super(GSPacketWalkVerify.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.x = BitConverter.ToUInt16(data, 3);
+        bits.skip(16);
+
+        this.x = bits.int16le();
         if ((this.x & 0x8000) === 0x8000) {
             this.x ^= 0x8000;
         }
         this.x = this.x * 2;
 
-        this.y = BitConverter.ToUInt16(data, 5);
+        this.y = bits.int16le();
         if ((this.y & 0x8000) === 0x8000) {
             this.y ^= 0x8000;
         }

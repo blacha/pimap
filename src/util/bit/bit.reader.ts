@@ -46,11 +46,18 @@ export class BitReader {
         return bits;
     }
 
+    skip(count: number = 1) {
+        this.offset += count;
+    }
+    skipByte(count: number = 1) {
+        this.skip(8 * count);
+    }
+
     // byte(): number { return this.readBits(8) }
     int16le(): number { return this.bits(16) }
     int32le(): number { return this.bits(32) }
-    uInt32Le(): number { return this.bits(32); }
-    uInt16Le(): number { return this.bits(16); }
+    uint32(): number { return this.bits(32); }
+    uint16(): number { return this.bits(16); }
     // int32(): number { return this.readBits(32) }
     // int16(): number { return this.readBits(16) }
 

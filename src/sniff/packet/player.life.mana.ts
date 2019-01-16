@@ -1,6 +1,7 @@
 import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
+import { BitReader } from '../../util/bit/bit.reader';
 
 
 export enum LifeManaFlags {
@@ -16,11 +17,11 @@ export class GSPacketPlayerLifeManaChange extends GSPacket {
     mana: number;
     flags: LifeManaFlags = 0;
 
-    constructor(data: number[]) {
-        super(GSPacketPlayerLifeManaChange.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.life = BitConverter.ToUInt16(data, 1) & 0x7FFF;
-        this.mana = (2 * BitConverter.ToUInt16(data, 3)) & 0x7FFF;
+        this.life = bits.uint16() & 0x7FFF;
+        this.mana = (2 * bits.uint16()) & 0x7FFF;
 
     }
     track() {

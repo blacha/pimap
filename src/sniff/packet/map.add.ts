@@ -4,6 +4,7 @@ import { AreaLevel } from '../../core/area';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
+import { BitReader } from '../../util/bit/bit.reader';
 
 
 export class GSPacketMapAdd extends GSPacket {
@@ -14,11 +15,11 @@ export class GSPacketMapAdd extends GSPacket {
 
     townId: AreaLevel;
 
-    constructor(data: number[]) {
-        super(GSPacketMapAdd.id);
-        this.x = BitConverter.ToUInt16(data, 1);
-        this.y = BitConverter.ToUInt16(data, 3);
-        this.townId = <AreaLevel>data[5];
+    constructor(bits: BitReader) {
+        super(bits);
+        this.x = bits.uint16();
+        this.y = bits.uint16();
+        this.townId = <AreaLevel>bits.byte();
     }
 
     track() {

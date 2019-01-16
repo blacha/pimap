@@ -3,6 +3,7 @@ import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
+import { BitReader } from '../../util/bit/bit.reader';
 
 export class GSPacketMercAssignment extends GSPacket {
     mercId: number;
@@ -11,10 +12,11 @@ export class GSPacketMercAssignment extends GSPacket {
     static id = GameServerPacket.MercAssignment;
 
 
-    constructor(data: number[]) {
-        super(GSPacketMercAssignment.id);
-        this.uid = BitConverter.ToUInt32(data, 4);
-        this.mercId = BitConverter.ToUInt16(data, 8);
+    constructor(bits: BitReader) {
+        super(bits);
+        bits.skipByte(3);
+        this.uid = bits.uint32();
+        this.mercId = bits.uint16();
     }
 
     track() {

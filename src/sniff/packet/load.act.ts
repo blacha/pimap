@@ -12,12 +12,13 @@ export class GSPacketLoadAct extends GSPacket {
     mapId: number;
     townArea: AreaLevel;
 
-    constructor(data: number[]) {
-        super(GSPacketLoadAct.id);
-        const br = new BitReader(data, 8);
+    constructor(br: BitReader) {
+        super(br);
+        br.skipByte(7);
+        // const br = new BitReader(data, 8);
         this.act = <ActType>br.byte();
-        this.mapId = br.uInt32Le(); //BitConverter.ToUInt32(data, 2);
-        this.townArea = <AreaLevel>br.uInt16Le(); //.ToUInt16(data, 6);
+        this.mapId = br.uint32();
+        this.townArea = <AreaLevel>br.uint16();
     }
 
     track() {
@@ -27,7 +28,6 @@ export class GSPacketLoadAct extends GSPacket {
 
         SessionState.current.npc.empty();
         SessionState.current.object.empty();
-        // Logger.warn({ ... this.toJSON() }, 'LoadAct');
         return Log.WARN;
     }
 

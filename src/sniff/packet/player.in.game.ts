@@ -3,6 +3,7 @@ import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
 import { SessionState } from '../state/session';
 import { BitConverter } from '../../util/bit/bit.converter';
+import { BitReader } from '../../util/bit/bit.reader';
 
 
 export class GSPacketPlayerInGame extends GSPacket {
@@ -11,11 +12,13 @@ export class GSPacketPlayerInGame extends GSPacket {
     static id = GameServerPacket.PlayerInGame;
 
 
-    constructor(data: number[]) {
-        super(GSPacketPlayerInGame.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.uid = BitConverter.ToUInt32(data, 3);
-        this.level = BitConverter.ToUInt16(data, 24);
+        bits.skipByte(1);
+        this.uid = bits.uint32() // (data, 3);
+        // TODO
+        this.level = bits.uint16() // (data, 24);
     }
 
     track() {

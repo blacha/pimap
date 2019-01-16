@@ -1,5 +1,6 @@
 import { Log } from 'bblog';
 import { GameServerPacket } from '../gs.packet';
+import { BitReader } from '../../util/bit/bit.reader';
 
 export type GSPacketMaker = (bytes: number[]) => GSPacket;
 
@@ -7,8 +8,8 @@ export class GSPacket {
     id: GameServerPacket;
     time: Date;
 
-    constructor(id: GameServerPacket) {
-        this.id = id;
+    constructor(bits: BitReader) {
+        this.id = bits.byte();
         this.time = new Date();
     }
 

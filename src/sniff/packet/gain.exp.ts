@@ -8,8 +8,8 @@ import { SessionState } from '../state/session';
 export class GSPacketExpGain extends GSPacket {
     exp: number;
 
-    constructor(id: GameServerPacket) {
-        super(id);
+    constructor(bits: BitReader) {
+        super(bits);
     }
 
     track() {
@@ -28,9 +28,9 @@ export class GSPacketExpGain extends GSPacket {
 export class GSPacketByteToExperience extends GSPacketExpGain {
     static id = GameServerPacket.ByteToExperience;
 
-    constructor(data: number[]) {
-        super(GSPacketByteToExperience.id);
-        this.exp = data[1];
+    constructor(bits: BitReader) {
+        super(bits);
+        this.exp = bits.byte();
     }
 }
 
@@ -38,9 +38,9 @@ export class GSPacketByteToExperience extends GSPacketExpGain {
 export class GSPacketWordToExperience extends GSPacketExpGain {
     static id = GameServerPacket.WordToExperience;
 
-    constructor(data: number[]) {
-        super(GSPacketWordToExperience.id);
-        this.exp = BitConverter.ToUInt16(data, 1);
+    constructor(bits: BitReader) {
+        super(bits);
+        this.exp = bits.uint16();
     }
 }
 
@@ -50,10 +50,9 @@ export class GSPacketDWordToExperience extends GSPacketExpGain {
     static id = GameServerPacket.DWordToExperience;
 
     expUpdate: number;
-    constructor(data: number[]) {
-        super(GSPacketDWordToExperience.id);
-        const br = new BitReader(data, 8);
-        this.expUpdate = br.bits(32);
+    constructor(bits: BitReader) {
+        super(bits);
+        this.expUpdate = bits.uint32();
     }
 
     track() {
@@ -68,9 +67,6 @@ export class GSPacketDWordToExperience extends GSPacketExpGain {
 export class GSPacketMercExpGain extends GSPacket {
     exp: number;
 
-    constructor(id: GameServerPacket) {
-        super(id);
-    }
 
     track() {
         SessionState.current.mercXp.track(this.exp);
@@ -90,9 +86,9 @@ export class GSPacketMercExpGain extends GSPacket {
 export class GSPacketMercByteToExperience extends GSPacketExpGain {
     static id = GameServerPacket.MercByteToExperience;
 
-    constructor(data: number[]) {
-        super(GSPacketMercByteToExperience.id);
-        this.exp = data[1];
+    constructor(bits: BitReader) {
+        super(bits);
+        this.exp = bits.byte();
     }
 }
 
@@ -100,8 +96,8 @@ export class GSPacketMercByteToExperience extends GSPacketExpGain {
 export class GSPacketMercWordToExperience extends GSPacketExpGain {
     static id = GameServerPacket.MercWordToExperience;
 
-    constructor(data: number[]) {
-        super(GSPacketMercWordToExperience.id);
-        this.exp = BitConverter.ToUInt16(data, 1);
+    constructor(bits: BitReader) {
+        super(bits);
+        this.exp = bits.uint16();
     }
 }

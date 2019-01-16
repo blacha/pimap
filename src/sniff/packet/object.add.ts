@@ -3,6 +3,7 @@ import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
+import { BitReader } from '../../util/bit/bit.reader';
 
 
 export class GSPacketAssignGameObject extends GSPacket {
@@ -15,15 +16,15 @@ export class GSPacketAssignGameObject extends GSPacket {
     static id = GameServerPacket.GameObjectAssign;
 
 
-    constructor(data: number[]) {
-        super(GSPacketAssignGameObject.id);
-
-        this.uid = BitConverter.ToUInt32(data, 2);
-        this.obj = <GameObject>BitConverter.ToUInt16(data, 6);
-        this.x = BitConverter.ToUInt16(data, 8);
-        this.y = BitConverter.ToUInt16(data, 10);
-        this.mode = <GameObjectMode>data[12];
-        this.type = <GameObjectInteractType>data[13];
+    constructor(bits: BitReader) {
+        super(bits);
+        bits.skipByte();
+        this.uid = bits.uint32() // (data, 2);
+        this.obj = <GameObject>bits.uint16() //(data, 6);
+        this.x = bits.uint16()//(data, 8);
+        this.y = bits.uint16()//(data, 10);
+        this.mode = <GameObjectMode>bits.byte();
+        this.type = <GameObjectInteractType>bits.byte();
     }
 
     track() {
@@ -80,11 +81,12 @@ export class GSPacketSetGameObjectMode extends GSPacket {
     static id = GameServerPacket.SetGameObjectMode;
 
 
-    constructor(data: number[]) {
-        super(GSPacketSetGameObjectMode.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.uid = BitConverter.ToUInt32(data, 2);
-        this.mode = <GameObjectMode>data[8];
+        this.uid = bits.uint32() // (data, 2);
+        bits.skipByte(3);
+        this.mode = <GameObjectMode>bits.byte();
 
     }
 
@@ -92,7 +94,7 @@ export class GSPacketSetGameObjectMode extends GSPacket {
         const name = GameObject[this.mode];
         const obj = SessionState.current.object.get(this.uid);
 
-        console.log('SetMode', this.uid, GameObjectMode[this.mode], obj);
+        // console.log('SetMode', this.uid, GameObjectMode[this.mode], obj);
 
         if (this.mode === GameObjectMode.Opened || this.mode === GameObjectMode.Operating) {
             SessionState.current.object.remove(this.uid);
@@ -121,11 +123,13 @@ export class GSPacketGameObjectModeChange extends GSPacket {
     static id = GameServerPacket.GameObjectModeChange;
 
 
-    constructor(data: number[]) {
-        super(GSPacketGameObjectModeChange.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.uid = BitConverter.ToUInt32(data, 2);
-        this.mode = <GameObjectMode>data[8];
+        bits.skipByte();
+        this.uid = bits.uint32(); //(data, 2);
+        bits.skipByte(2);
+        this.mode = <GameObjectMode>bits.byte();
 
     }
 

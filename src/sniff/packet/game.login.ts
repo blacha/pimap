@@ -4,16 +4,18 @@ import { Log } from 'bblog';
 import { Logger } from '../../util/log';
 import { GameDifficulty } from '../../core/difficulty';
 import { SessionState } from '../state/session';
+import { BitReader } from '../../util/bit/bit.reader';
 
 export class GSPacketGameLogonReceipt extends GSPacket {
     hardcore: boolean;
     difficulty: GameDifficulty;
     static id = GameServerPacket.GameLogonReceipt;
 
-    constructor(data: number[]) {
-        super(GSPacketGameLogonReceipt.id);
-        this.difficulty = <GameDifficulty>data[1];
-        this.hardcore = (data[3] & 8) === 8 ? true : false;
+    constructor(bits: BitReader) {
+        super(bits);
+        this.difficulty = <GameDifficulty>bits.byte();
+        bits.skip(8);
+        this.hardcore = (bits.byte() & 8) === 8 ? true : false;
 
     }
 

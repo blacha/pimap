@@ -2,6 +2,7 @@ import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
+import { BitReader } from '../../util/bit/bit.reader';
 
 
 export class GSPacketPlayerKillCount extends GSPacket {
@@ -9,11 +10,11 @@ export class GSPacketPlayerKillCount extends GSPacket {
 
     uid: number;
     count: number;
-    constructor(data: number[]) {
-        super(GSPacketPlayerKillCount.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.uid = BitConverter.ToUInt32(data, 1);
-        this.count = BitConverter.ToUInt16(data, 5);
+        this.uid = bits.uint32();
+        this.count = bits.uint16();
     }
 
     track() {

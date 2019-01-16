@@ -170,7 +170,7 @@ class ItemState {
         this.items[item.uid] = item;
         item._t = Date.now();
 
-        console.log(item.uid, item);
+        // console.log(item.uid, item);
     }
 
     toJson() {

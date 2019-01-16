@@ -23,66 +23,67 @@ export class GSPacketItemWorldAction extends GSPacket {
     static id = GameServerPacket.ItemWorldAction;
 
 
-    constructor(data: number[]) {
-        super(GSPacketItemWorldAction.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.action = <ItemActionType>data[1];
-        this.category = <ItemCategory>data[3];
-        this.uid = BitConverter.ToUInt32(data, 4);
+        // this.action = <ItemActionType>bits.byte();
+        // bits.skipByte();
+        // this.category = <ItemCategory>bits.byte();
+        // this.uid = bits.uint32();
 
-        let pOffset = data[0] === 0x9d ? 13 : 8;
+        // let pOffset = data[0] === 0x9d ? 13 : 8;
 
-        this.flags = <ItemFlag>BitConverter.ToUInt32(data, pOffset);
+        // this.flags = <ItemFlag>bits.uint32()(data, pOffset);
 
-        this.version = data[pOffset += 4];
+        // this.version = data[pOffset += 4];
 
-        pOffset++;
+        // pOffset++;
 
-        if (!GSPacketItemWorldAction.isOnGround(this.action)) {
-            return;
-        }
+        // if (!GSPacketItemWorldAction.isOnGround(this.action)) {
+        //     return;
+        // }
 
-        this.x = Math.floor((BitConverter.ToUInt16(data, pOffset) + 131072) / 32);
-        this.y = Math.floor((BitConverter.ToUInt16(data, pOffset + 2) + 131072) / 32);
-        pOffset += 4;
+        // this.x = Math.floor((bits.uint16()(data, pOffset) + 131072) / 32);
+        // this.y = Math.floor((bits.uint16()(data, pOffset + 2) + 131072) / 32);
+        // pOffset += 4;
 
-        const bitReader = new BitReader(data, pOffset * 8 + 1);
+        // const bitReader = new BitReader(data, pOffset * 8 + 1);
 
-        bitReader.bits(4); // container
+        // bitReader.bits(4); // container
 
-        const itemCode = this.code = bitReader.string(3);
-        // console.log('CODE Dropped', this.code);
+        // const itemCode = this.code = bitReader.string(3);
+        // // console.log('CODE Dropped', this.code);
 
-        // TODO everything is broken
-        const itemName = BASE_ITEMS[itemCode];
-        if (itemName == null) {
-            return;
-        }
+        // // TODO everything is broken
+        // const itemName = BASE_ITEMS[itemCode];
+        // if (itemName == null) {
+        //     return;
+        // }
 
-        bitReader.bits(4);
+        // bitReader.bits(4);
 
-        if (itemCode === 'gld') {
-            return;
-        }
-
-
-        bitReader.bits(4);
-
-        if ((this.flags & ItemFlag.Socketed) === ItemFlag.Socketed) {
-            this.sockets = bitReader.bits(3);
-        }
-        bitReader.bits(3);
+        // if (itemCode === 'gld') {
+        //     return;
+        // }
 
 
-        this.level = bitReader.bits(7);
-        this.quality = <ItemQuality>bitReader.bits(4);
+        // bitReader.bits(4);
 
-        if (bitReader.bits(1)) {
-            bitReader.bits(3);
-        }
-        if (bitReader.bits(1)) {
-            bitReader.bits(11);
-        }
+        // if ((this.flags & ItemFlag.Socketed) === ItemFlag.Socketed) {
+        //     this.sockets = bitReader.bits(3);
+        // }
+        // bitReader.bits(3);
+
+
+        // this.level = bitReader.bits(7);
+        // this.quality = <ItemQuality>bitReader.bits(4);
+
+        // if (bitReader.bits(1)) {
+        //     bitReader.bits(3);
+        // }
+        // if (bitReader.bits(1)) {
+        //     bitReader.bits(11);
+        // }
 
     }
 

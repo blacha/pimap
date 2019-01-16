@@ -4,6 +4,7 @@ import { GSPacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { UnitType } from '../../core/unit';
 import { SessionState } from '../state/session';
+import { BitReader } from '../../util/bit/bit.reader';
 
 export class GSPacketReportKill extends GSPacket {
     type: UnitType;
@@ -11,12 +12,11 @@ export class GSPacketReportKill extends GSPacket {
     static id = GameServerPacket.ReportKill;
 
 
-    constructor(data: number[]) {
-        super(GSPacketReportKill.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.type = <UnitType>data[1];
-        this.uid = BitConverter.ToUInt32(data, 2);
-
+        this.type = <UnitType>bits.byte();
+        this.uid = bits.uint32();
     }
 
     track() {

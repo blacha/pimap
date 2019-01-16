@@ -2,6 +2,7 @@ import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
+import { BitReader } from '../../util/bit/bit.reader';
 
 
 export class GSPacketNPCUpdate extends GSPacket {
@@ -11,13 +12,12 @@ export class GSPacketNPCUpdate extends GSPacket {
     life: number;
     static id = GameServerPacket.NpcUpdate;
 
-
-    constructor(data: number[]) {
-        super(GSPacketNPCUpdate.id);
-        this.uid = BitConverter.ToUInt32(data, 1);
-        this.x = BitConverter.ToUInt16(data, 6);
-        this.y = BitConverter.ToUInt16(data, 8);
-        const state = data[5];
+    constructor(bits: BitReader) {
+        super(bits);
+        this.uid = bits.uint32();
+        const state = bits.byte();
+        this.x = bits.uint16();
+        this.y = bits.uint16();
         if (state === 0x09 || state === 0x08) {
             this.life = 0;
         }

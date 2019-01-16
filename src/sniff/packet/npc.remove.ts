@@ -2,6 +2,7 @@ import { UnitType } from '../../core/unit';
 import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
+import { BitReader } from '../../util/bit/bit.reader';
 
 
 export class GSPacketRemoveGroundUnit extends GSPacket {
@@ -9,11 +10,10 @@ export class GSPacketRemoveGroundUnit extends GSPacket {
     uid: number;
     static id = GameServerPacket.RemoveGroundUnit;
 
-
-    constructor(data: number[]) {
-        super(GSPacketRemoveGroundUnit.id);
-        this.type = <UnitType>data[1];
-        this.uid = BitConverter.ToUInt32(data, 2);
+    constructor(bits: BitReader) {
+        super(bits);
+        this.type = <UnitType>bits.byte();
+        this.uid = bits.uint32();
 
     }
 

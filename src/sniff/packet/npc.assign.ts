@@ -39,19 +39,20 @@ export class GSPacketNPCAssign extends GSPacket {
     static id = GameServerPacket.NPCAssign;
 
 
-    constructor(data: number[]) {
-        super(GSPacketNPCAssign.id);
+    constructor(br: BitReader) {
+        super(br);
 
-        const br = new BitReader(data, 8);
-        this.uid = br.uInt32Le();
-        this.code = br.uInt16Le();
-        this.x = br.uInt16Le();
-        this.y = br.uInt16Le();
+        br.skipByte(7);
+
+        this.uid = br.uint32();
+        this.code = br.uint16();
+        this.x = br.uint16();
+        this.y = br.uint16();
         this.life = br.byte();
 
         br.byte(); // size
 
-        if (data.length < 0x10) {
+        if (br.buffer.length < 0x10) {
             this.valid = false;
             return;
         }

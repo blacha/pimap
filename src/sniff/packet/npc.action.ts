@@ -1,6 +1,7 @@
 import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
+import { BitReader } from '../../util/bit/bit.reader';
 
 export class GSPacketNPCAction extends GSPacket {
     y: number;
@@ -9,12 +10,13 @@ export class GSPacketNPCAction extends GSPacket {
 
     static id = GameServerPacket.NpcAction;
 
-    constructor(data: number[]) {
-        super(GSPacketNPCAction.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.uid = BitConverter.ToUInt32(data, 1);
-        this.x = BitConverter.ToUInt16(data, 12);
-        this.y = BitConverter.ToUInt16(data, 14);
+        this.uid = bits.uint32();
+        bits.skipByte(10);
+        this.x = bits.uint16();
+        this.y = bits.uint16();
     }
 
     track() {

@@ -1,8 +1,8 @@
 import { UnitType } from '../../core/unit';
+import { BitReader } from '../../util/bit/bit.reader';
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
-import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
+import { GSPacket } from './game.server';
 
 export enum NPCMoveFlags {
     None = 0,
@@ -19,13 +19,13 @@ export class GSPacketNPCMove extends GSPacket {
     static id = GameServerPacket.NpcMove;
 
 
-    constructor(data: number[]) {
-        super(GSPacketNPCMove.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.uid = BitConverter.ToUInt32(data, 1);
-        this.x = BitConverter.ToUInt16(data, 6);
-        this.y = BitConverter.ToUInt16(data, 8);
-
+        this.uid = bits.uint32();
+        bits.skipByte();
+        this.x = bits.uint16();
+        this.y = bits.uint16();
     }
 
     track() {
@@ -51,10 +51,8 @@ export class GSPacketNPCMoveToTarget extends GSPacket {
     static id = GameServerPacket.NpcMoveToTarget;
 
 
-    constructor(data: number[]) {
-        super(GSPacketNPCMoveToTarget.id);
-
-
+    constructor(bits: BitReader) {
+        super(bits);
     }
 
     track() {
@@ -80,15 +78,18 @@ export class GSPacketNPCAttack extends GSPacket {
     static id = GameServerPacket.NpcAttack;
 
 
-    constructor(data: number[]) {
-        super(GSPacketNPCAttack.id);
+    constructor(bits: BitReader) {
+        super(bits);
 
-        this.uid = BitConverter.ToUInt32(data, 1);
-        // this.AttackType = BitConverter.ToUInt16(data, 5);
-        // this.TargetUID = BitConverter.ToUInt32(data, 7);
+        this.uid = bits.uint32();
+        bits.uint16() // attackType
+        bits.uint32() // targetUid
+        bits.byte() // targetType
+        // this.AttackType = bits.uint16()(data, 5);
+        // this.TargetUID = bits.uint32()(data, 7);
         // this.TargetType = (UnitType) data[11];
-        this.x = BitConverter.ToUInt16(data, 12);
-        this.y = BitConverter.ToUInt16(data, 14);
+        this.x = bits.uint16();
+        this.y = bits.uint16();
     }
 
     track() {

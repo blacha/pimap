@@ -1,6 +1,7 @@
 import { GameServerPacket } from './gs.packet';
 import { GSPacket, GSPacketMaker } from './packet/game.server';
 import { PACKETS } from './packet';
+import { BitReader } from '../util/bit/bit.reader';
 
 export class GSPacketBuilder {
     static packetMap: { [key: string]: GSPacketMaker } = {};
@@ -22,6 +23,6 @@ export class GSPacketBuilder {
 
 
 for (const PacketType of PACKETS) {
-    GSPacketBuilder.register(PacketType.id, bytes => new PacketType(bytes));
+    GSPacketBuilder.register(PacketType.id, bytes => new PacketType(new BitReader(bytes)));
 }
 

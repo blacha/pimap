@@ -4,6 +4,7 @@ import { GameServerPacket } from '../gs.packet';
 import { GSPacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
+import { BitReader } from '../../util/bit/bit.reader';
 
 
 export class GSPacketAssignWarp extends GSPacket {
@@ -14,16 +15,14 @@ export class GSPacketAssignWarp extends GSPacket {
     uid: number;
     static id = GameServerPacket.AssignWarp;
 
+    constructor(bits: BitReader) {
+        super(bits);
 
-    constructor(data: number[]) {
-        super(GSPacketAssignWarp.id);
-
-        this.uid = BitConverter.ToUInt32(data, 2);
-        this.x = BitConverter.ToUInt16(data, 7);
-        this.y = BitConverter.ToUInt16(data, 9);
-        this.type = <UnitType>data[1];
-        this.warp = <WarpType>data[6];
-
+        this.type = <UnitType>bits.byte();
+        this.uid = bits.uint32()
+        this.warp = <WarpType>bits.byte();
+        this.x = bits.uint16();
+        this.y = bits.uint16();
     }
 
     track() {

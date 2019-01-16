@@ -10,6 +10,7 @@ import { Logger } from '../util/log';
 import { toHexString } from '../util/to.hex';
 import { SessionState } from './state/session';
 import * as pcap from 'pcap2';
+import { BitReader } from '../util/bit/bit.reader';
 
 let skipped = 0;
 const TRACE = {
@@ -169,8 +170,10 @@ export class D2PacketSniffer {
             const packetId = data[0];
             // Walking / Running
             if (packetId === 0x01 || packetId === 0x02 || packetId === 0x03) {
-                const x = BitConverter.ToUInt16(data, 1);
-                const y = BitConverter.ToUInt16(data, 3);
+                const bits = new BitReader(data);
+                bits.byte()
+                const x = bits.uint16();
+                const y = bits.uint16();
 
                 SessionState.current.moveMaybe(x, y);
                 SessionState.dirty();
