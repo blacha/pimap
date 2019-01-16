@@ -43,10 +43,10 @@ export class GSPacketNPCAssign extends GSPacket {
         super(GSPacketNPCAssign.id);
 
         const br = new BitReader(data, 8);
-        this.uid = br.int32();
-        this.code = br.int16();
-        this.x = br.int16();
-        this.y = br.int16();
+        this.uid = br.uInt32Le();
+        this.code = br.uInt16Le();
+        this.x = br.uInt16Le();
+        this.y = br.uInt16Le();
         this.life = br.byte();
 
         br.byte(); // size
@@ -62,7 +62,7 @@ export class GSPacketNPCAssign extends GSPacket {
             this.valid = false;
             return;
         }
-        if (br.bits(1)) {
+        if (br.bit()) {
             const informationLength = 16;
             if (entries.length !== 16) {
                 this.valid = false;
@@ -81,14 +81,14 @@ export class GSPacketNPCAssign extends GSPacket {
         }
 
 
-        const flags = br.bits(1);
+        const flags = br.bit();
         if (flags) {
             this.flags = {
-                champion: br.bits(1) === 1,
-                unique: br.bits(1) === 1,
-                superUnique: br.bits(1) === 1,
-                minion: br.bits(1) === 1,
-                ghostly: br.bits(1) === 1
+                champion: br.bit() === 1,
+                unique: br.bit() === 1,
+                superUnique: br.bit() === 1,
+                minion: br.bit() === 1,
+                ghostly: br.bit() === 1
             };
 
             for (const [key, value] of Object.entries(this.flags)) {

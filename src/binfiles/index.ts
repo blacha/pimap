@@ -33,6 +33,8 @@ export async function loadBinFiles(basePath: string) {
 }
 
 export async function loadMpqData(basePath: string) {
+    return;
     await loadLangFiles(basePath);
     await loadBinFiles(basePath);
 }
+

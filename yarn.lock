@@ -138,6 +138,11 @@ bblog@^2.0.0:
   resolved "https://registry.yarnpkg.com/bblog/-/bblog-2.0.0.tgz#2930a95ad85d97c0493e1f0aa825f4297dbe795d"
   integrity sha1-KTCpWthdl8BJPh8KqCX0KX2+eV0=
 
+bitwise@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/bitwise/-/bitwise-2.0.1.tgz#1200e86c4ce94a8f41d9dc8ed24f918cf857525f"
+  integrity sha512-YkqT47PpvOZaFOqWWhbQeZ9Q5fFi/BWyCZB4dK4qpatpv51TUNskY19JlPI1k3ZCj3aR+RTDrI2WCValLgyztA==
+
 body-parser@1.18.3:
   version "1.18.3"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.18.3.tgz#5b292198ffdd553b3a0f20ded0592b956955c8b4"
@@ -592,6 +597,11 @@ minizlib@^1.1.1:
   dependencies:
     minipass "^2.2.1"
 
+mithril@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/mithril/-/mithril-1.1.6.tgz#bd2cc0de3d3c86076a6a7a30367a601a1bd108f3"
+  integrity sha512-fWcUrQTCqu8M916rj1MFGlHaPh65rznPu6U/N2U9g81H89klDCIptSK5bnkNkC+jyi3sJIXjyGhSQjUnR8jzZA==
+
 mkdirp@^0.5.0, mkdirp@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
@@ -727,13 +737,13 @@ path-to-regexp@0.1.7:
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
   integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
 
-pcap@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/pcap/-/pcap-2.1.0.tgz#4504072591dcf06289e3b93bd5e55ffb9a22f25b"
-  integrity sha512-immYRefC8nWvfH0HbmB/O+8xcd5TsN+VzOusFY0BNpQtZXlKwZo/2AiZHAukcC41vcgVI7dUrBxQCsQc71NaOw==
+pcap2@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/pcap2/-/pcap2-3.0.4.tgz#d98ddf9e9c81f91aebf75fd44639861ff67ce5b3"
+  integrity sha1-2Y3fnpyB+Rrr91/URjmGH/Z85bM=
   dependencies:
     nan "^2.0.9"
-    socketwatcher "git+https://github.com/bytzdev/node-socketwatcher.git"
+    socketwatcher "^0.3.0"
 
 process-nextick-args@~2.0.0:
   version "2.0.0"
@@ -867,7 +877,7 @@ signal-exit@^3.0.0:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
 
-"socketwatcher@git+https://github.com/bytzdev/node-socketwatcher.git":
+socketwatcher@^0.3.0:
   version "0.3.0"
   resolved "git+https://github.com/bytzdev/node-socketwatcher.git#d252d3f8c45f565a0a48ebd155d4f9e4666798d9"
   dependencies:

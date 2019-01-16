@@ -10,28 +10,28 @@ const OUTPUT_FILE = './src/generated/item.name.ts';
 async function runMe() {
     await loadMpqData(BASE_PATH);
 
-    const BASE_ITEMS = {};
+    // const BASE_ITEMS = {};
 
-    BinFiles.Weapon.records.forEach(c => BASE_ITEMS[c.code] = Lang.t(c.code));
-    BinFiles.Armor.records.forEach(c => BASE_ITEMS[c.code] = Lang.t(c.code));
-    BinFiles.Misc.records.forEach(c => BASE_ITEMS[c.code] = Lang.t(c.code));
+    // BinFiles.Weapon.records.forEach(c => BASE_ITEMS[c.code] = Lang.t(c.code));
+    // BinFiles.Armor.records.forEach(c => BASE_ITEMS[c.code] = Lang.t(c.code));
+    // BinFiles.Misc.records.forEach(c => BASE_ITEMS[c.code] = Lang.t(c.code));
 
-    console.log(BASE_ITEMS);
+    // console.log(BASE_ITEMS);
 
-    // writeFileSync('./allItems.dat', JSON.stringify(BASE_ITEMS, null, 2));
+    // // writeFileSync('./allItems.dat', JSON.stringify(BASE_ITEMS, null, 2));
 
-    let fileData = `export const BASE_ITEMS: { [key: string]: string } = {};`
-    for (const key of Object.keys(BASE_ITEMS)) {
-        const value = BASE_ITEMS[key];
-        if (value.indexOf('}') > -1) {
-            continue;
-        }
-        fileData += `\nBASE_ITEMS['${key}'] = '${value.replace('\'', '\\\'')}';`
-    }
+    // let fileData = `export const BASE_ITEMS: { [key: string]: string } = {};`
+    // for (const key of Object.keys(BASE_ITEMS)) {
+    //     const value = BASE_ITEMS[key];
+    //     if (value.indexOf('}') > -1) {
+    //         continue;
+    //     }
+    //     fileData += `\nBASE_ITEMS['${key}'] = '${value.replace('\'', '\\\'')}';`
+    // }
 
-    fileData += '\n';
+    // fileData += '\n';
 
-    writeFileSync(OUTPUT_FILE, fileData);
+    // writeFileSync(OUTPUT_FILE, fileData);
 
 }
 

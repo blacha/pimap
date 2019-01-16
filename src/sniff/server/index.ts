@@ -6,6 +6,7 @@ import { SessionState } from '../state/session';
 import { Logger } from '../../util/log';
 import { ulid } from 'ulid';
 import { MessageType } from '../../core/game.json';
+import { PiMapRequest } from '../../mapserver/route';
 
 export class SniffingWebServer {
     app = express();
@@ -15,9 +16,20 @@ export class SniffingWebServer {
 
     start() {
         Logger.info('Starting server');
-        this.wss = new Server({ port: 40510 });
-        this.app.get('/', serveStatic('./dist/'));
 
+        this.wss = new Server({ port: 40510 });
+        this.app.use((req: PiMapRequest, res, next) => {
+            const id = req.id = ulid();
+            req.log = Logger.child({ id })
+            next();
+        });
+
+        this.app.get('/', serveStatic('dist/'));
+        this.app.get('/assets/', serveStatic('assets/'));
+
+        this.app.use((req: PiMapRequest, res, next) => {
+            req.log.info({ url: req.url, status: res.statusCode }, 'Request');
+        })
         this.app.listen(1337, () => Logger.info('Server started'));
 
         this.wss.on('connection', client => {

@@ -7,7 +7,8 @@ export enum BinFileType {
     Misc = 'Misc.bin',
     Armor = 'Armor.bin',
     Weapon = 'Weapons.bin',
-    MonStat = 'MonStats.bin'
+    MonStat = 'MonStats.bin',
+    Experience = 'Experience.bin'
 }
 
 export interface BinFileReader {

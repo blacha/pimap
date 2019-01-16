@@ -19,7 +19,6 @@ if (snifferNetworkAdapter == null) {
     process.exit(1);
 }
 
-
 const server = new SniffingWebServer();
 server.start();
 

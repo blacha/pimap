@@ -11,7 +11,7 @@ Logger.info({ fileName }, 'Reading..')
 const data = readFileSync(fileName);
 
 const bitReader = new BitReader(data);
-const recordCount = bitReader.readBitsLittleEndian(32);
+const recordCount = bitReader.bits(32);
 
 console.log(recordCount);
 
@@ -28,7 +28,7 @@ function readRuneWord() {
     offset = offset + 288;
     const toRead = offset * 8 - bitReader.offset
 
-    bitReader.readBits(toRead);
+    bitReader.bits(toRead);
     return rw
 }
 
