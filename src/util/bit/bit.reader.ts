@@ -54,8 +54,8 @@ export class BitReader {
     }
 
     // byte(): number { return this.readBits(8) }
-    int16le(): number { return this.bits(16) }
-    int32le(): number { return this.bits(32) }
+    // int16le(): number { return this.bits(16) }
+    // int32le(): number { return this.bits(32) }
     uint32(): number { return this.bits(32); }
     uint16(): number { return this.bits(16); }
     // int32(): number { return this.readBits(32) }

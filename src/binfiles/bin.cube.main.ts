@@ -61,7 +61,7 @@ export class BinCubeMain implements BinFileReader {
     records: CubeMainRecord[] = [];
     read(bits: BitReader) {
 
-        const recordCount = bits.int32le();
+        const recordCount = bits.uint32();
         Logger.info({ recordCount, bin: this.fileName }, 'Reading')
         for (let i = 0; i < recordCount; i++) {
             const record = this.readRecord(bits);
@@ -76,11 +76,11 @@ export class BinCubeMain implements BinFileReader {
             ladder: bits.byte() as any,
             minDiff: bits.byte(),
             classId: bits.byte(),
-            op: bits.int32le(),
-            param: bits.int32le(),
-            valueId: bits.int32le(),
-            inputCount: bits.int16le(),
-            version: bits.int16le(),
+            op: bits.uint32(),
+            param: bits.uint32(),
+            valueId: bits.uint32(),
+            inputCount: bits.uint16(),
+            version: bits.uint16(),
 
             inputs: this.readInputs(bits),
             outputs: this.readOutputs(bits) //this.readOutputs(bits)
@@ -93,8 +93,8 @@ export class BinCubeMain implements BinFileReader {
             const intputItem = {
                 inputFlags: bits.byte(),
                 itemType: bits.byte(),
-                item: bits.int16le(),
-                itemId: bits.int16le(),
+                item: bits.uint16(),
+                itemId: bits.uint16(),
                 quality: bits.byte(),
                 quantity: bits.byte()
             }
@@ -112,15 +112,15 @@ export class BinCubeMain implements BinFileReader {
             const intputItem = {
                 itemFlags: bits.byte(),
                 itemType: bits.byte(),
-                item: bits.int16le(),
-                itemId: bits.int16le(),
-                param: bits.int16le(),
+                item: bits.uint16(),
+                itemId: bits.uint16(),
+                param: bits.uint16(),
                 type: bits.byte(),
                 lvl: bits.byte(),
                 pLvl: bits.byte(),
                 iLvl: bits.byte(),
-                prefixId: [bits.int16le(), bits.int16le(), bits.int16le()],
-                suffixId: [bits.int16le(), bits.int16le(), bits.int16le()],
+                prefixId: [bits.uint16(), bits.uint16(), bits.uint16()],
+                suffixId: [bits.uint16(), bits.uint16(), bits.uint16()],
                 mods: this.readOutputMods(bits)
             }
             if (intputItem.item === 65535 || intputItem.item === 0) {
@@ -135,11 +135,11 @@ export class BinCubeMain implements BinFileReader {
         const outputs = [];
         for (let i = 0; i < MOD_COUNT; i++) {
             const intputItem = {
-                mod: bits.int32le(),
-                param: bits.int16le(),
-                min: bits.int16le(),
-                max: bits.int16le(),
-                chance: bits.int16le(),
+                mod: bits.uint32(),
+                param: bits.uint16(),
+                min: bits.uint16(),
+                max: bits.uint16(),
+                chance: bits.uint16(),
             }
             if (intputItem.mod === 0) {
                 continue;

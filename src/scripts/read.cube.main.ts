@@ -22,8 +22,8 @@ function readInputs(count: number) {
         const intputItem = {
             inputFlags: bitReader.byte(),
             itemType: bitReader.byte(),
-            item: bitReader.int16le(),
-            itemId: bitReader.int16le(),
+            item: bitReader.uint16(),
+            itemId: bitReader.uint16(),
             quality: bitReader.byte(),
             quantity: bitReader.byte()
         }
@@ -40,15 +40,15 @@ function readOutputs(count: number) {
         const intputItem = {
             itemFlags: bitReader.byte(),
             itemType: bitReader.byte(),
-            item: bitReader.int16le(),
-            itemId: bitReader.int16le(),
-            param: bitReader.int16le(),
+            item: bitReader.uint16(),
+            itemId: bitReader.uint16(),
+            param: bitReader.uint16(),
             type: bitReader.byte(),
             lvl: bitReader.byte(),
             pLvl: bitReader.byte(),
             iLvl: bitReader.byte(),
-            prefixId: [bitReader.int16le(), bitReader.int16le(), bitReader.int16le()],
-            suffixId: [bitReader.int16le(), bitReader.int16le(), bitReader.int16le()],
+            prefixId: [bitReader.uint16(), bitReader.uint16(), bitReader.uint16()],
+            suffixId: [bitReader.uint16(), bitReader.uint16(), bitReader.uint16()],
             mods: readOutputMod(5)
         }
         if (intputItem.item === 65535 || intputItem.item === 0) {
@@ -62,11 +62,11 @@ function readOutputMod(count: number) {
     const outputs = [];
     for (let i = 0; i < count; i++) {
         const intputItem = {
-            mod: bitReader.int32le(),
-            param: bitReader.int16le(),
-            min: bitReader.int16le(),
-            max: bitReader.int16le(),
-            chance: bitReader.int16le(),
+            mod: bitReader.uint32(),
+            param: bitReader.uint16(),
+            min: bitReader.uint16(),
+            max: bitReader.uint16(),
+            chance: bitReader.uint16(),
         }
         if (intputItem.mod === 0) {
             continue;
@@ -82,11 +82,11 @@ function readRecord() {
         ladder: bitReader.byte(),
         minDiff: bitReader.byte(),
         classId: bitReader.byte(),
-        op: bitReader.int32le(),
-        param: bitReader.int32le(),
-        valueId: bitReader.int32le(),
-        inputCount: bitReader.int16le(),
-        version: bitReader.int16le(),
+        op: bitReader.uint32(),
+        param: bitReader.uint32(),
+        valueId: bitReader.uint32(),
+        inputCount: bitReader.uint16(),
+        version: bitReader.uint16(),
 
         inputs: readInputs(INPUT_COUNT),
         outputs: readOutputs(OUTPUT_COUNT)

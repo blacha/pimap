@@ -89,7 +89,7 @@ export class BinItem implements BinFileReader {
         this.log = Logger.child({ fileName: this.fileName });
 
         const length = bits.buffer.length;
-        const recordCount = bits.int32le();
+        const recordCount = bits.uint32();
         const perRecord = (length - 4) / recordCount;
 
         this.log.info({ recordCount, bin: this.fileName, perRecord }, 'Reading')

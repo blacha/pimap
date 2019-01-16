@@ -13,6 +13,7 @@ import * as pcap from 'pcap2';
 import { BitReader } from '../util/bit/bit.reader';
 
 let skipped = 0;
+const SKIPPED = {}
 const TRACE = {
     // 0x1: true, 0x0: true, 0x2: true
 };
@@ -130,6 +131,10 @@ export class D2PacketSniffer {
             if (level >= 20) {
                 log.info({ ...packet.toJSON(), level }, packetName);
             }
+            // if (SKIPPED[packet.id]) {
+            //     continue;
+            // }
+            SKIPPED[packet.id] = true;
             const pkt = packet.toJSON()
             delete pkt.time;
             console.log(JSON.stringify(pkt));

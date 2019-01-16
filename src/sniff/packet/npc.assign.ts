@@ -42,8 +42,6 @@ export class GSPacketNPCAssign extends GSPacket {
     constructor(br: BitReader) {
         super(br);
 
-        br.skipByte(7);
-
         this.uid = br.uint32();
         this.code = br.uint16();
         this.x = br.uint16();
@@ -100,7 +98,7 @@ export class GSPacketNPCAssign extends GSPacket {
         }
 
         if (this.flags && this.flags.superUnique) {
-            const superUniqueId = br.int16le();
+            const superUniqueId = br.uint16();
             this.superUniqueName = NpcSuperUnique[superUniqueId];
             // console.warn('SUPERUNIQUE', this, NPCCode[this.code], superUniqueId, this.superUniqueName);
         }

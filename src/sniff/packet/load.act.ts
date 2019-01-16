@@ -14,8 +14,6 @@ export class GSPacketLoadAct extends GSPacket {
 
     constructor(br: BitReader) {
         super(br);
-        br.skipByte(7);
-        // const br = new BitReader(data, 8);
         this.act = <ActType>br.byte();
         this.mapId = br.uint32();
         this.townArea = <AreaLevel>br.uint16();

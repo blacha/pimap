@@ -6,6 +6,7 @@ import { BitConverter } from '../../util/bit/bit.converter';
 import { BitReader } from '../../util/bit/bit.reader';
 import { SessionState } from '../state/session';
 import { BASE_ITEMS } from '../../generated/item.name';
+import { toHexString } from '../../util/to.hex';
 
 export class GSPacketItemWorldAction extends GSPacket {
     quality: ItemQuality;
@@ -26,64 +27,55 @@ export class GSPacketItemWorldAction extends GSPacket {
     constructor(bits: BitReader) {
         super(bits);
 
-        // this.action = <ItemActionType>bits.byte();
-        // bits.skipByte();
-        // this.category = <ItemCategory>bits.byte();
-        // this.uid = bits.uint32();
-
-        // let pOffset = data[0] === 0x9d ? 13 : 8;
-
-        // this.flags = <ItemFlag>bits.uint32()(data, pOffset);
-
-        // this.version = data[pOffset += 4];
-
-        // pOffset++;
-
-        // if (!GSPacketItemWorldAction.isOnGround(this.action)) {
-        //     return;
-        // }
-
-        // this.x = Math.floor((bits.uint16()(data, pOffset) + 131072) / 32);
-        // this.y = Math.floor((bits.uint16()(data, pOffset + 2) + 131072) / 32);
-        // pOffset += 4;
-
-        // const bitReader = new BitReader(data, pOffset * 8 + 1);
-
-        // bitReader.bits(4); // container
-
-        // const itemCode = this.code = bitReader.string(3);
-        // // console.log('CODE Dropped', this.code);
-
-        // // TODO everything is broken
-        // const itemName = BASE_ITEMS[itemCode];
-        // if (itemName == null) {
-        //     return;
-        // }
-
-        // bitReader.bits(4);
-
-        // if (itemCode === 'gld') {
-        //     return;
-        // }
+        this.action = <ItemActionType>bits.byte();
+        bits.skipByte();
+        this.category = <ItemCategory>bits.byte();
+        this.uid = bits.uint32();
+        this.flags = <ItemFlag>bits.uint32()
+        this.version = bits.byte();
 
 
-        // bitReader.bits(4);
+        if (!GSPacketItemWorldAction.isOnGround(this.action)) {
+            return;
+        }
 
-        // if ((this.flags & ItemFlag.Socketed) === ItemFlag.Socketed) {
-        //     this.sockets = bitReader.bits(3);
-        // }
-        // bitReader.bits(3);
+        this.x = Math.floor((bits.uint16() + 131072) / 32);
+        this.y = Math.floor((bits.uint16() + 131072) / 32);
+
+        bits.skip();
+        bits.bits(4); // container
+
+        const itemCode = this.code = bits.string(3);
+
+        // TODO everything is broken
+        const itemName = BASE_ITEMS[itemCode];
+        if (itemName == null) {
+            return;
+        }
+
+        bits.bits(4);
+
+        if (itemCode === 'gld') {
+            return;
+        }
+
+        bits.bits(4);
+
+        if ((this.flags & ItemFlag.Socketed) === ItemFlag.Socketed) {
+            this.sockets = bits.bits(3);
+        }
+        bits.bits(3);
 
 
-        // this.level = bitReader.bits(7);
-        // this.quality = <ItemQuality>bitReader.bits(4);
+        this.level = bits.bits(7);
+        this.quality = <ItemQuality>bits.bits(4);
 
-        // if (bitReader.bits(1)) {
-        //     bitReader.bits(3);
-        // }
-        // if (bitReader.bits(1)) {
-        //     bitReader.bits(11);
-        // }
+        if (bits.bits(1)) {
+            bits.bits(3);
+        }
+        if (bits.bits(1)) {
+            bits.bits(11);
+        }
 
     }
 
@@ -156,7 +148,7 @@ export class GSPacketItemWorldAction extends GSPacket {
 
         return {
             ...super.toJSON(),
-            flags: this.flags,
+            // flags: this.flags,
             uid: this.uid,
             category: ItemCategory[this.category],
             action: ItemActionType[this.action],

@@ -25,13 +25,13 @@ export class GSPacketWalkVerify extends GSPacket {
 
         bits.skip(16);
 
-        this.x = bits.int16le();
+        this.x = bits.uint16();
         if ((this.x & 0x8000) === 0x8000) {
             this.x ^= 0x8000;
         }
         this.x = this.x * 2;
 
-        this.y = bits.int16le();
+        this.y = bits.uint16();
         if ((this.y & 0x8000) === 0x8000) {
             this.y ^= 0x8000;
         }

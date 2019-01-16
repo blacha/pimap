@@ -14,7 +14,7 @@ export class GSPacketNPCAction extends GSPacket {
         super(bits);
 
         this.uid = bits.uint32();
-        bits.skipByte(10);
+        bits.skipByte(7);
         this.x = bits.uint16();
         this.y = bits.uint16();
     }
