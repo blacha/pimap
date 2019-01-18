@@ -131,13 +131,6 @@ export class D2PacketSniffer {
             if (level >= 20) {
                 log.info({ ...packet.toJSON(), level }, packetName);
             }
-            // if (SKIPPED[packet.id]) {
-            //     continue;
-            // }
-            SKIPPED[packet.id] = true;
-            const pkt = packet.toJSON()
-            delete pkt.time;
-            console.log(JSON.stringify(pkt));
         }
         if (dirty) {
             SessionState.dirty();

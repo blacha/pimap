@@ -3,12 +3,12 @@ import { BinCubeMain } from "./bin.cube.main";
 import { BinItem } from "./bin.item";
 
 export enum BinFileType {
-    CubeMain = 'CubeMain.bin',
-    Misc = 'Misc.bin',
-    Armor = 'Armor.bin',
-    Weapon = 'Weapons.bin',
-    MonStat = 'MonStats.bin',
-    Experience = 'Experience.bin'
+    CubeMain = 'cubemain.bin',
+    Misc = 'misc.bin',
+    Armor = 'armor.bin',
+    Weapon = 'weapons.bin',
+    MonStat = 'monstats.bin',
+    Experience = 'experience.bin'
 }
 
 export interface BinFileReader {

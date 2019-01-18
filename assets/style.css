@@ -1,0 +1,218 @@
+* {
+    font-family: 'Roboto Condensed';
+}
+
+body {
+    display: flex;
+}
+
+#main {
+    margin: 4px;
+}
+
+.PlayerStats {
+    display: flex;
+    width: 400px;
+    justify-content: space-between
+}
+
+.Map {
+    margin-top: 50px;
+    margin-left: 50px;
+    width: 300px;
+    height: 300px;
+    position: relative;
+    transform: rotate(45deg);
+    border: 1px solid grey;
+    background-color: rgba(0, 0, 0, 0.01);
+    overflow: hidden;
+}
+
+.Monster,
+.Player,
+.Object {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    border: 2px solid rgba(0, 0, 0, 0.30);
+    background-color: rgba(0, 0, 0, 0.05)
+}
+
+.Player {
+    color: #52c41a;
+    background-color: #f6ffed;
+    border-color: #b7eb8f;
+}
+
+.PlayerXp-Gain {
+    color: #52c41a;
+    text-align: center;
+}
+
+.Monster-Guard,
+.Monster-1.Monster-Unkown {
+    width: 5px;
+    height: 5px;
+    color: #52c41a;
+    background-color: #f6ffed;
+    border-color: #b7eb8f;
+}
+
+.Monster-Flag-Minion {
+    color: #2f54eb;
+    background: #f0f5ff;
+    border-color: #adc6ff;
+}
+
+.Monster-Flag-Champion,
+.Monster-Flag-Unique {
+    color: #fa541c;
+    background: #fff2e8;
+    border-color: #ffbb96;
+    z-index: 25;
+}
+
+.Monster-Flag-SuperUnique.Monster-Flag-SuperUnique {
+    border-color: #d314ec;
+    background: #c788cf8e;
+    border-radius: 5px;
+    z-index: 50;
+}
+
+.Monster-Hydra1,
+.Monster-Hydra2,
+.Monster-Hydra3 {
+    color: #fa541c;
+    background: #fff2e8;
+    border-color: #ffbb96;
+    width: 5px;
+    height: 5px;
+}
+
+.Object {
+    border-radius: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+}
+
+.Object-Waypoint,
+.Object-Warp {
+    color: #eb2f96;
+    background: #fff0f6;
+    border-color: #ffadd2;
+}
+
+.Object-Shrine {
+    color: #eb2f96;
+    background: #fff0f6;
+    border-color: #9b4dca;
+}
+
+.Object-Stone {
+    color: #eb2f96;
+    background: #fff0f6;
+    border-color: #9b4dca;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+}
+
+.Object-Chest {
+    color: transparent;
+    background: #fff0f6;
+    border-color: #4dcaaf;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+}
+
+.Object-Act3SewerDown.Object-Act3SewerDown {
+    color: #403ae8;
+    background: #cdcffb;
+    border-color: #4747e4;
+}
+
+/* .Object {
+    transform: rotate(-44deg);
+} */
+
+.MonsterList-Monster {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px;
+}
+
+.MonsterList {
+    position: absolute;
+    top: 2px;
+    left: 1200px;
+    width: 300px;
+}
+
+.MonsterList .Monster-Flag-SuperUnique.Monster-Flag-SuperUnique {
+    border-radius: 0;
+}
+
+.ItemList {}
+
+.Item {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px;
+}
+
+.Item-Set {
+    color: #52c41a;
+    background-color: #f6ffed;
+    border-color: #b7eb8f;
+}
+
+.Item-Unique {
+    color: #fa541c;
+    background: #fff2e8;
+    border-color: #ffbb96;
+}
+
+line {
+    stroke: 'black';
+    stroke-width: '1px';
+}
+
+.Item-r20,
+.Item-r21,
+.Item-r22,
+.Item-r23,
+.Item-r24,
+.Item-r25,
+.Item-r26,
+.Item-r27,
+.Item-r28,
+.Item-r29,
+.Item-r30,
+.Item-r31 {
+    color: #eb2f96;
+    background: #fff0f6;
+    border-color: #ffadd2;
+}
+
+.map {
+    position: relative;
+    width: 750px;
+    height: 750px;
+}
+
+#map-layer {
+    width: 750px;
+    height: 750px;
+    background-color: black;
+}
+
+#base-layer {
+    display: none;
+    width: 0;
+    height: 0;
+    background-color: black;
+}

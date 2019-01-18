@@ -24,11 +24,19 @@ export class SniffingWebServer {
             next();
         });
 
-        this.app.get('/', serveStatic('dist/'));
-        this.app.get('/assets/', serveStatic('assets/'));
+        this.app.use("/", serveStatic('dist/'));
+        this.app.use("/assets", serveStatic('dist/assets/'));
+        this.app.use("/js", serveStatic('dist/js/'));
+
+        // this.app.get('/assets/', serveStatic('assets/'));
 
         this.app.use((req: PiMapRequest, res, next) => {
-            req.log.info({ url: req.url, status: res.statusCode }, 'Request');
+            if (res.headersSent) {
+                req.log.info({ url: req.url, status: res.statusCode }, 'Request');
+                return;
+            }
+            res.status(404);
+            res.end();
         })
         this.app.listen(1337, () => Logger.info('Server started'));
 

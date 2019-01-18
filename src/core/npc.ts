@@ -754,6 +754,10 @@ function isUseless(code: NpcCode) {
         case NpcCode.Unk2:
         case NpcCode.Unk3:
 
+        case NpcCode.BarricadeDoor:
+        case NpcCode.BarricadeDoor2:
+        case NpcCode.BarricadeTower:
+        case NpcCode.BaalTaunt:
         case NpcCode.MummyGenerator:
         case NpcCode.GargoyleTrap:
         case NpcCode.Gorgon:			// Unused

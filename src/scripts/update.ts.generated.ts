@@ -4,7 +4,7 @@ import { BinFiles } from "../binfiles/bin.files";
 import { Lang } from "../binfiles/lang";
 import { Logger } from "../util/log";
 
-const BASE_PATH = `/home/blacha/workspace/podrune/mpq/pod`;
+const BASE_PATH = `/home/blacha/workspace/podrune/mpq/pod_jade`;
 const OUTPUT_FILE = './src/generated/item.name.ts';
 
 async function runMe() {

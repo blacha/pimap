@@ -25,7 +25,7 @@ if (!fs.existsSync(D2_PATH)) {
 
 class D2MapServer {
     server = express()
-    port = parseInt(process.env.PORT, 10) || 5000
+    port = parseInt(process.env.PORT, 10) || 8899
 
     constructor() {
         this.server.use(cors())

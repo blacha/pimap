@@ -5,6 +5,7 @@ import { MapLayerObject } from "./map.layer.object";
 import { SpriteSheet } from "./sprite";
 import { ActType } from "../core/act";
 import { Log } from "bblog";
+import { Logger } from "../util/log";
 
 export interface MapExtents {
     min: Point;
@@ -17,7 +18,6 @@ export class MapRenderer {
     size = { width: 500, height: 500 };
     act: ActType = null;
 
-    _extent: MapExtents;
     maps: { [key: string]: D2Map };
 
     layerCollision: MapLayerCollision;
@@ -39,6 +39,10 @@ export class MapRenderer {
 
     render(ctx: CanvasRenderingContext2D) {
         const extent = this.extent;
+        Logger.info({ extent, act: this.act }, 'Render..');
+
+        ctx.clearRect(0, 0, this.size.width, this.size.height);
+
         const objects = this.layerCollision.render(ctx, extent);
         this.layerObject.render(ctx, extent, objects)
     }
@@ -82,6 +86,13 @@ export class MapRenderer {
             return false;
         }
         return true;
+    }
+    /** Convert to a drawX/drawY then check bounds */
+    inBoundsAbs(x: number, y: number) {
+        const extent = this.extent;
+        const drawX = x - extent.min.x;
+        const drawY = y - extent.min.y;
+        return this.inBounds(drawX, drawY)
     }
 
     get extent(): MapExtents {

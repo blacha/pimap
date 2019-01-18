@@ -1,10 +1,7 @@
 // http://localhost:5000/act/2/683484276/1
-import { D2Map, D2MapObject } from '../core/map';
-import { GameObject } from '../core/object';
-import { GameObjectClass, GameObjectClasses } from '../core/object.type';
-import { toHexString } from '../util/to.hex';
-import { MapExtents, MapRenderer } from './map.render';
 import { AreaUtil } from '../core/area';
+import { D2Map, D2MapObject } from '../core/map';
+import { MapExtents, MapRenderer } from './map.render';
 
 
 export class MapLayerCollision {
@@ -23,6 +20,7 @@ export class MapLayerCollision {
             if (act !== this.base.act) {
                 continue;
             }
+
 
             if (!this.base.isMapInBounds(map, extent)) {
                 continue;

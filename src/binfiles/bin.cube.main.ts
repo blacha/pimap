@@ -66,6 +66,9 @@ export class BinCubeMain implements BinFileReader {
         for (let i = 0; i < recordCount; i++) {
             const record = this.readRecord(bits);
             this.records.push(record);
+            // if (this.records.length > 400) {
+            //     console.log(record.inputs.map(c => Lang.t(BinItem.findItem(c.item)))))
+            // }
         }
 
     }
