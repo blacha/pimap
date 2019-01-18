@@ -9,14 +9,21 @@
     "build:mapgen": "./build.mapgen.sh",
     "build:mapserver": "tsc --watch --pretty",
     "build:watch": "tsc --watch --pretty",
-    "start:watch": "nodemon build/mapserver/index.js"
+    "start:mapserver": "node build/mapserver/index.js",
+    "start:sniffer": "node build/sniffer.js"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",
     "@types/node": "^10.12.18",
+    "clean-webpack-plugin": "^1.0.0",
+    "copy-webpack-plugin": "^4.6.0",
+    "html-webpack-plugin": "^3.2.0",
     "jsondiffpatch": "^0.3.11",
     "pcap2": "^3.0.4",
+    "time-ago": "^0.2.1",
     "typescript": "^3.2.2",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1",
     "ws": "^6.1.2"
   },
   "dependencies": {

@@ -11,3 +11,5 @@ node_modules
 build/
 d2cache/
 .env
+dist
+packet
