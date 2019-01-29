@@ -2,11 +2,11 @@ import { Log } from 'bblog';
 import { ActType } from '../../core/act';
 import { AreaLevel } from '../../core/area';
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { BitReader } from '../../util/bit/bit.reader';
 import { SessionState } from '../state/session';
 
-export class GSPacketLoadAct extends GSPacket {
+export class GSPacketLoadAct extends GamePacket {
     static id = GameServerPacket.LoadAct;
     act: ActType;
     mapId: number;

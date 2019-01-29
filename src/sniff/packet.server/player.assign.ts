@@ -1,11 +1,10 @@
 import { Log } from 'bblog';
-import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
-import { BitConverter } from '../../util/bit/bit.converter';
-import { SessionState } from '../state/session';
 import { BitReader } from '../../util/bit/bit.reader';
+import { GameServerPacket } from '../gs.packet';
+import { SessionState } from '../state/session';
+import { GamePacket } from './game.server';
 
-export class GSPacketPlayerAssign extends GSPacket {
+export class GSPacketPlayerAssign extends GamePacket {
     name: string;
     type: number;
     uid: number;
@@ -30,14 +29,13 @@ export class GSPacketPlayerAssign extends GSPacket {
         return Log.DEBUG;
     }
 
-
     toJSON() {
         return {
             ...super.toJSON(),
             uid: this.uid,
             x: this.x,
             y: this.y,
-            name: this.name
+            playerName: this.name
         };
     }
 }

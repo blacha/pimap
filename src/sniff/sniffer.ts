@@ -4,7 +4,7 @@ import { GSPacketBuilder } from './gs.packet.decoder';
 import { Huffman } from './huffman';
 import { IGNORE } from './packet.ignore';
 import { GSPacketSize } from './packet.size';
-import { GSPacket } from './packet/game.server';
+import { GamePacket } from './packet.server/game.server';
 import { BitConverter } from '../util/bit/bit.converter';
 import { Logger } from '../util/log';
 import { toHexString } from '../util/to.hex';
@@ -81,7 +81,7 @@ export class D2PacketSniffer {
         }
         let packetData = Huffman.decompress(compressedData);
 
-        const packetsMade: GSPacket[] = [];
+        const packetsMade: GamePacket[] = [];
         let packetsInside = 0;
         while (packetData.length > 0) {
             let $si = packetsInside === 0 ? undefined : packetsInside;

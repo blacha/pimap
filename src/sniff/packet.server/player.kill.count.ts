@@ -1,11 +1,11 @@
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
 import { BitReader } from '../../util/bit/bit.reader';
 
 
-export class GSPacketPlayerKillCount extends GSPacket {
+export class GSPacketPlayerKillCount extends GamePacket {
     static id = GameServerPacket.PlayerKillCount;
 
     uid: number;

@@ -1,6 +1,6 @@
 import { GameServerPacket } from './gs.packet';
-import { GSPacket, GSPacketMaker } from './packet/game.server';
-import { PACKETS } from './packet';
+import { GamePacket, GSPacketMaker } from './packet.server/game.server';
+import { GAME_SERVER_PACKETS } from './packet.server';
 import { BitReader } from '../util/bit/bit.reader';
 
 export class GSPacketBuilder {
@@ -11,7 +11,7 @@ export class GSPacketBuilder {
         this.packetMap[packetId] = constructor;
     }
 
-    static packet(packetId: GameServerPacket, bytes: number[]): null | GSPacket {
+    static packet(packetId: GameServerPacket, bytes: number[]): null | GamePacket {
         const packetMaker = this.packetMap[packetId];
         if (packetMaker == null) {
             return null;
@@ -22,7 +22,7 @@ export class GSPacketBuilder {
 }
 
 
-for (const PacketType of PACKETS) {
+for (const PacketType of GAME_SERVER_PACKETS) {
     GSPacketBuilder.register(PacketType.id, bytes => new PacketType(new BitReader(bytes)));
 }
 

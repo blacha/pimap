@@ -1,11 +1,10 @@
 import { UnitType } from '../../core/unit';
-import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
-import { BitConverter } from '../../util/bit/bit.converter';
 import { BitReader } from '../../util/bit/bit.reader';
+import { GameServerPacket } from '../gs.packet';
+import { GamePacket } from './game.server';
 
 
-export class GSPacketAddUnit extends GSPacket {
+export class GSPacketAddUnit extends GamePacket {
     type: UnitType;
     uid: number;
 
@@ -15,11 +14,9 @@ export class GSPacketAddUnit extends GSPacket {
         super(bits);
         this.type = bits.byte();
         this.uid = bits.uint32()
-        // console.log('NPCAdd', this.uid, UnitType[this.type], data.slice(3));
     }
 
     track() {
-        // SessionState.current.npc.report(this.uid, this.type);
         return 10;
     }
 

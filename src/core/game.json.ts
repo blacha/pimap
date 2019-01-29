@@ -5,6 +5,7 @@ import { ItemCategory, ItemQuality } from './item';
 import { NpcCode } from './npc';
 
 export interface NpcJson {
+    /** Last time this unit was updated */
     _t: number;
     // type: UnitType;
     uid: number;
@@ -42,7 +43,6 @@ export interface GameStateJson {
     kill: {
         count: number;
     };
-    // maps: MapJSON[];
     map: {
         act: ActType;
         town: AreaLevel;

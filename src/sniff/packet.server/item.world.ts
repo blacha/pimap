@@ -1,14 +1,14 @@
 import { Log } from 'bblog';
 import { ItemActionType, ItemCategory, ItemFlag, ItemQuality } from '../../core/item';
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { BitReader } from '../../util/bit/bit.reader';
 import { SessionState } from '../state/session';
 import { BASE_ITEMS } from '../../generated/item.name';
 import { toHexString } from '../../util/to.hex';
 
-export class GSPacketItemWorldAction extends GSPacket {
+export class GSPacketItemWorldAction extends GamePacket {
     quality: ItemQuality;
     sockets: number;
     level: number;

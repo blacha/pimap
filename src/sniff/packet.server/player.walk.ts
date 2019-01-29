@@ -1,7 +1,7 @@
 import { Log } from 'bblog';
 
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
 import { BitReader } from '../../util/bit/bit.reader';
@@ -13,7 +13,7 @@ export enum WalkVerifyFlags {
     Y0x8000 = 4
 }
 
-export class GSPacketWalkVerify extends GSPacket {
+export class GSPacketWalkVerify extends GamePacket {
 
     x: number;
     y: number;

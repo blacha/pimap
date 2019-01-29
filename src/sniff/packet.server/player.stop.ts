@@ -1,18 +1,18 @@
 import { Log } from 'bblog';
 import { UnitType } from '../../core/unit';
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
 import { BitReader } from '../../util/bit/bit.reader';
 
-export class GSPacketPlayerReassign extends GSPacket {
+export class GSPacketPlayerStop extends GamePacket {
     type: UnitType;
     life: number;
     uid: number;
     x: number;
     y: number;
-    static id = GameServerPacket.PlayerReassign;
+    static id = GameServerPacket.PlayerStop;
 
 
     constructor(bits: BitReader) {
@@ -20,15 +20,18 @@ export class GSPacketPlayerReassign extends GSPacket {
 
         this.type = <UnitType>bits.byte();
         this.uid = bits.uint32();
+        bits.skipByte();
         this.x = bits.uint16();
         this.y = bits.uint16();
-        // this.life = data[12];
+        bits.skipByte();
+        this.life = bits.byte();
     }
 
     track() {
         SessionState.current.move(this.uid, this.x, this.y);
-        return Log.INFO;
+        return Log.DEBUG;
     }
+
 
     toJSON() {
         return {

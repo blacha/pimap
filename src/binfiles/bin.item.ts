@@ -1,11 +1,7 @@
-import { BinFileReader, BinFileType } from "./bin.reader";
-
-import { BitReader } from "../util/bit/bit.reader";
-
-import { Logger } from "../util/log";
-import { toHexString } from "../util/to.hex";
 import { Log } from "bblog";
-import { Lang } from "./lang";
+import { BitReader } from "../util/bit/bit.reader";
+import { Logger } from "../util/log";
+import { BinFileReader, BinFileType } from "./bin.reader";
 
 export interface ItemRecord {
     name: string;

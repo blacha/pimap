@@ -1,11 +1,11 @@
 import { Log } from 'bblog';
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { BitReader } from '../../util/bit/bit.reader';
 import { SessionState } from '../state/session';
 
-export class GSPacketExpGain extends GSPacket {
+export class GSPacketExpGain extends GamePacket {
     exp: number;
 
     constructor(bits: BitReader) {
@@ -64,7 +64,7 @@ export class GSPacketDWordToExperience extends GSPacketExpGain {
 
 
 
-export class GSPacketMercExpGain extends GSPacket {
+export class GSPacketMercExpGain extends GamePacket {
     exp: number;
 
 

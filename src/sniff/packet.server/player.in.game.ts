@@ -2,10 +2,10 @@ import { Log } from 'bblog';
 import { BitReader } from '../../util/bit/bit.reader';
 import { GameServerPacket } from '../gs.packet';
 import { SessionState } from '../state/session';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 
 
-export class GSPacketPlayerInGame extends GSPacket {
+export class GSPacketPlayerInGame extends GamePacket {
     level: number;
     uid: number;
     static id = GameServerPacket.PlayerInGame;

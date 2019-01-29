@@ -2,7 +2,7 @@ import { UnitType } from '../../core/unit';
 import { BitReader } from '../../util/bit/bit.reader';
 import { GameServerPacket } from '../gs.packet';
 import { SessionState } from '../state/session';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 
 export enum NPCMoveFlags {
     None = 0,
@@ -11,7 +11,7 @@ export enum NPCMoveFlags {
     Y0x8000 = 4
 }
 
-export class GSPacketNPCMove extends GSPacket {
+export class GSPacketNPCMove extends GamePacket {
     type: UnitType;
     uid: number;
     x: number;
@@ -43,7 +43,7 @@ export class GSPacketNPCMove extends GSPacket {
     }
 }
 
-export class GSPacketNPCMoveToTarget extends GSPacket {
+export class GSPacketNPCMoveToTarget extends GamePacket {
     type: UnitType;
     uid: number;
     x: number;
@@ -71,7 +71,7 @@ export class GSPacketNPCMoveToTarget extends GSPacket {
 
 
 
-export class GSPacketNPCAttack extends GSPacket {
+export class GSPacketNPCAttack extends GamePacket {
     uid: number;
     x: number;
     y: number;

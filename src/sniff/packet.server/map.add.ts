@@ -3,11 +3,11 @@ import { ActType } from '../../core/act';
 import { AreaLevel } from '../../core/area';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { BitReader } from '../../util/bit/bit.reader';
 
 
-export class GSPacketMapAdd extends GSPacket {
+export class GSPacketMapAdd extends GamePacket {
     static id = GameServerPacket.MapAdd;
     act: ActType;
     x: number;

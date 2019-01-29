@@ -1,5 +1,5 @@
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { BitReader } from '../../util/bit/bit.reader';
 
@@ -10,7 +10,7 @@ export enum LifeManaFlags {
     Mana0x8000 = 2,
     Mana0x4000 = 4
 }
-export class GSPacketPlayerLifeManaChange extends GSPacket {
+export class GSPacketPlayerLifeManaChange extends GamePacket {
     static id = GameServerPacket.PlayerLifeManaChange;
 
     life: number;
@@ -24,6 +24,7 @@ export class GSPacketPlayerLifeManaChange extends GSPacket {
         this.mana = (2 * bits.uint16()) & 0x7FFF;
 
     }
+
     track() {
         return 0;
     }

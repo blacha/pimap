@@ -27,7 +27,7 @@ import { GSPacketWalkVerify } from './player.walk';
 import { GSPacketReportKill } from './report.kill';
 import { Logger } from '../../util/log';
 
-export const PACKETS = [
+export const GAME_SERVER_PACKETS = [
     GSPacketAddUnit,
     GSPacketAssignGameObject,
     GSPacketAssignWarp,
@@ -64,7 +64,7 @@ export const PACKETS = [
 ];
 
 
-PACKETS.forEach(p => {
+GAME_SERVER_PACKETS.forEach(p => {
     if (IGNORE[p.id]) {
         Logger.fatal({ packetId: '0x' + p.id.toString(16) }, 'PacketIdIgnored');
         process.exit();

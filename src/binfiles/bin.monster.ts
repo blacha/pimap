@@ -22,17 +22,6 @@ export class BinMonster implements BinFileReader {
 
     records: MonsterRecord[] = [];
 
-    // /** Item offset as D2 seems to merge all these ids together */
-    // get offset() {
-    //     if (this.parent == null) {
-    //         return 0;
-    //     }
-    //     return this.parent.offsetMax;
-    // };
-
-    // get offsetMax() {
-    //     return this.offset + this.records.length;
-    // }
 
     // TODO
     read(bits: BitReader) {

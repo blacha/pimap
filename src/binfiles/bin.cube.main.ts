@@ -28,6 +28,7 @@ export interface CubeMainRecordOutput {
     suffixId: [number, number, number];
     mods: CubeMainRecordOutputMod[]
 }
+
 export interface CubeMainRecordOutputMod {
     mod: number;
     param: number;
@@ -35,6 +36,7 @@ export interface CubeMainRecordOutputMod {
     max: number;
     chance: number;
 }
+
 interface CubeMainRecord {
     enabled: boolean;
     ladder: boolean;

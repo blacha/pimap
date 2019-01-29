@@ -1,6 +1,6 @@
 import { Log } from 'bblog';
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { UnitType } from '../../core/unit';
 import { BitReader } from '../../util/bit/bit.reader';
 import { NpcSuperUnique } from '../../core/super.unique';
@@ -17,7 +17,7 @@ function BitScanReverse(mask) {
     return { index, mask };
 }
 
-export class GSPacketNPCAssign extends GSPacket {
+export class GSPacketNPCAssign extends GamePacket {
     superUniqueName: string;
     flags: {
         champion: boolean,

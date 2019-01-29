@@ -1,12 +1,12 @@
 import { GameObject, GameObjectInteractType, GameObjectMode } from '../../core/object';
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
 import { BitReader } from '../../util/bit/bit.reader';
 
 
-export class GSPacketAssignGameObject extends GSPacket {
+export class GSPacketAssignGameObject extends GamePacket {
     mode: GameObjectMode;
     type: GameObjectInteractType;
     obj: GameObject;
@@ -74,7 +74,7 @@ export class GSPacketAssignGameObject extends GSPacket {
 
 
 
-export class GSPacketSetGameObjectMode extends GSPacket {
+export class GSPacketSetGameObjectMode extends GamePacket {
     mode: GameObjectMode;
 
     uid: number;
@@ -116,7 +116,7 @@ export class GSPacketSetGameObjectMode extends GSPacket {
 }
 
 
-export class GSPacketGameObjectModeChange extends GSPacket {
+export class GSPacketGameObjectModeChange extends GamePacket {
     mode: GameObjectMode;
 
     uid: number;

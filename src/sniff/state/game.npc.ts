@@ -16,7 +16,6 @@ export class NPCState {
     }
 
     move(uid: number, x: number, y: number) {
-
         let npc = this.npcs[uid];
         if (npc == null) {
             // Logger.error({ uid }, 'Missing npc');
@@ -32,7 +31,6 @@ export class NPCState {
             };
         }
 
-        // console.log('move', npc.name, npc.code);
         npc.x = x;
         npc.y = y;
         npc._t = Date.now();

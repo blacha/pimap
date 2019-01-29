@@ -1,12 +1,12 @@
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { Log } from 'bblog';
 import { Logger } from '../../util/log';
 import { GameDifficulty } from '../../core/difficulty';
 import { SessionState } from '../state/session';
 import { BitReader } from '../../util/bit/bit.reader';
 
-export class GSPacketGameLogonReceipt extends GSPacket {
+export class GSPacketGameLogonReceipt extends GamePacket {
     hardcore: boolean;
     difficulty: GameDifficulty;
     static id = GameServerPacket.GameLogonReceipt;

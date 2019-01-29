@@ -26,6 +26,7 @@ export class XpState {
             this.current = xp;
             return;
         }
+
         this.current = xp;
         const diff = this.current - this.start;
         if (diff / this.start > 100) {

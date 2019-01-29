@@ -1,35 +1,37 @@
-
+import { Log } from 'bblog';
 import { GameServerPacket } from '../gs.packet';
-import { GSPacket } from './game.server';
+import { GamePacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
-import { UnitType } from '../../core/unit';
 import { SessionState } from '../state/session';
 import { BitReader } from '../../util/bit/bit.reader';
 
-export class GSPacketReportKill extends GSPacket {
-    type: UnitType;
+export class GSPacketMercAssignment extends GamePacket {
+    mercId: number;
     uid: number;
-    static id = GameServerPacket.ReportKill;
+
+    static id = GameServerPacket.MercAssignment;
 
 
     constructor(bits: BitReader) {
         super(bits);
-
-        this.type = <UnitType>bits.byte();
+        bits.skipByte(3);
         this.uid = bits.uint32();
+        this.mercId = bits.uint16();
     }
 
     track() {
-        SessionState.current.npc.remove(this.uid);
-        return 10;
+        if (SessionState.current.isMe(this.uid)) {
+            SessionState.current.player.mercId = this.mercId;
+        }
+        return Log.WARN;
     }
+
     toJSON() {
         return {
             ...super.toJSON(),
             uid: this.uid,
-            type: UnitType[this.type]
+            mercId: this.mercId
         };
     }
 }
-
 
