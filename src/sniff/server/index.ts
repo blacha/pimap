@@ -8,6 +8,7 @@ import { ulid } from 'ulid';
 import { MessageType } from '../../core/game.json';
 import { PiMapRequest } from '../../mapserver/route';
 
+/** Sniffing server that just dumps current state to any websocket that connects */
 export class SniffingWebServer {
     app = express();
     wss;
