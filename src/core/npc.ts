@@ -1017,7 +1017,16 @@ function isDoll(code: NpcCode) {
             return false;
     }
 }
-
+function isArcher(code: NpcCode) {
+    switch (code) {
+        case NpcCode.DarkArcher:
+        case NpcCode.DarkArcher2:
+        case NpcCode.DarkArcher3:
+            return true;
+        default:
+            return false;
+    }
+}
 function isSoul(code: NpcCode) {
     switch (code) {
         case NpcCode.BlackSoul:
@@ -1051,6 +1060,7 @@ export const NpcUtil = {
     isUseless,
     isImportantNpc,
 
+    isArcher,
     isDoll,
     isSoul
 };

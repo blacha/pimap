@@ -200,22 +200,18 @@ export class MapLayerObject {
             if (NpcUtil.isTownFolk(npc.code)) {
                 continue;
             }
-            const npcRet = this.drawPacketNpc(ctx, npc, extent)
+            const npcRet = this.drawNpc(ctx, npc, extent)
             if (npcRet != null) {
                 lastDraw.push(npcRet);
             }
         }
 
         for (const npc of lastDraw) {
-            if (npc.flags.unique) {
-                Sprites.MonsterUnique.draw(ctx, this.sheet, npc.x - extent.min.x, npc.y - extent.min.y);
-            } else {
-                Sprites.MonsterBoss.draw(ctx, this.sheet, npc.x - extent.min.x, npc.y - extent.min.y);
-            }
+            this.drawNpc(ctx, npc, extent, true);
         }
     }
 
-    drawPacketNpc(ctx: CanvasRenderingContext2D, npc: NpcJson, extent: MapExtents): NpcJson | null {
+    drawNpc(ctx: CanvasRenderingContext2D, npc: NpcJson, extent: MapExtents, lastDraw = false): NpcJson | null {
         const drawX = npc.x - extent.min.x;
         const drawY = npc.y - extent.min.y;
 
@@ -223,22 +219,46 @@ export class MapLayerObject {
         // Sprites.Merc.draw(ctx, this.sheet, drawX, drawY, 12);
         // } else
         if (npc.name === 'Hydra') {
-            Sprites.PlayerHydra.draw(ctx, this.sheet, drawX, drawY, 12);
-        } else if (NpcUtil.isDoll(npc.code)) {
-            Sprites.MonsterEvil.draw(ctx, this.sheet, drawX, drawY, 24);
-        } else if (NpcUtil.isSoul(npc.code)) {
-            Sprites.MonsterLightning.draw(ctx, this.sheet, drawX, drawY, 24);
-        } else if (npc.flags == null || Object.keys(npc.flags).length === 0) {
-            Sprites.MonsterNormal.draw(ctx, this.sheet, drawX, drawY, 16);
-        } else if (npc.flags.champion) {
-            Sprites.MonsterChampion.draw(ctx, this.sheet, drawX, drawY, 16);
-        } else if (npc.flags.minion) {
-            Sprites.MonsterMinion.draw(ctx, this.sheet, drawX, drawY, 16);
-        } else if (npc.flags.superUnique || npc.flags.unique) {
-            return npc;
-        } else {
-            Sprites.Unkown.draw(ctx, this.sheet, drawX, drawY);
+            return Sprites.PlayerHydra.draw(ctx, this.sheet, drawX, drawY, 12);
         }
+
+        if (npc.flags != null && npc.flags.champion) {
+            return Sprites.MonsterChampion.draw(ctx, this.sheet, drawX, drawY, 16);
+        }
+
+        if (NpcUtil.isDoll(npc.code)) {
+            return Sprites.MonsterEvil.draw(ctx, this.sheet, drawX, drawY, 16);
+        }
+        if (NpcUtil.isSoul(npc.code)) {
+            return Sprites.MonsterLightning.draw(ctx, this.sheet, drawX, drawY, 16);
+        }
+
+        if (NpcUtil.isArcher(npc.code)) {
+            return Sprites.MonsterArcher.draw(ctx, this.sheet, drawX, drawY, 16);
+        }
+
+        if (npc.flags == null || Object.keys(npc.flags).length === 0) {
+            return Sprites.MonsterNormal.draw(ctx, this.sheet, drawX, drawY, 16);
+        }
+
+        if (npc.flags.minion) {
+            return Sprites.MonsterMinion.draw(ctx, this.sheet, drawX, drawY, 16);
+        }
+
+        if (npc.flags.unique && lastDraw) {
+            return Sprites.MonsterUnique.draw(ctx, this.sheet, npc.x - extent.min.x, npc.y - extent.min.y, 16);
+        }
+        if (npc.flags.superUnique && lastDraw) {
+            return Sprites.MonsterBoss.draw(ctx, this.sheet, npc.x - extent.min.x, npc.y - extent.min.y);
+        }
+        if (npc.flags.superUnique || npc.flags.unique) {
+            return npc;
+        }
+
+
+
+        Sprites.Unkown.draw(ctx, this.sheet, drawX, drawY);
+
         // Sprites.MonsterNormal.draw(ctx,this.sheet, this.sheet, drawX, drawY);
     }
 

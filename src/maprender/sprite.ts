@@ -23,7 +23,7 @@ export class Sprite {
         this.y = y;
     }
 
-    draw(ctx: CanvasRenderingContext2D, sheet: SpriteSheet, x: number, y: number, drawSize?: number) {
+    draw(ctx: CanvasRenderingContext2D, sheet: SpriteSheet, x: number, y: number, drawSize?: number): null {
         const baseSize = sheet.size;
         const sourceX = this.x * baseSize;
         const sourceY = this.y * baseSize;
@@ -42,6 +42,7 @@ export class Sprite {
         // ctx.lineWidth = 2;
         // ctx.strokeStyle = 'black';
         // ctx.stroke();
+        return null;
     }
 }
 
@@ -62,6 +63,8 @@ export const Sprites = {
     MonsterEvil: new Sprite('Skull', 0, 4),
     MonsterLightning: new Sprite('Bolt', 1, 4),
     MonsterBoss: new Sprite('Boss', 0, 1),
+
+    MonsterArcher: new Sprite('BlueCircle', 1, 1),
 
     MonsterNormal: new Sprite('GreyCircle', 13, 0),
     MonsterMinion: new Sprite('YelloCircle', 3, 0),
