@@ -8,11 +8,11 @@ import { BitReader } from '../../util/bit/bit.reader';
 
 export class GSPacketPlayerReassign extends GamePacket {
     type: UnitType;
-    life: number;
     uid: number;
     x: number;
     y: number;
     static id = GameServerPacket.PlayerReassign;
+    isUpdate: boolean;
 
 
     constructor(bits: BitReader) {
@@ -22,7 +22,9 @@ export class GSPacketPlayerReassign extends GamePacket {
         this.uid = bits.uint32();
         this.x = bits.uint16();
         this.y = bits.uint16();
-        // this.life = data[12];
+
+        this.isUpdate = bits.bit() === 1;
+        bits.skip(7);
     }
 
     track() {
@@ -33,7 +35,6 @@ export class GSPacketPlayerReassign extends GamePacket {
     toJSON() {
         return {
             ...super.toJSON(),
-            life: this.life,
             type: UnitType[this.type],
             uid: this.uid,
             x: this.x,

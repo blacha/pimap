@@ -12,6 +12,10 @@ export class BitReader {
         this.buffer = bytes;
     }
 
+    get remainingBits() {
+        return this.buffer.length * 8 - this.offset;
+    }
+
     getBitValue(byte: number, offset: number, length: number): number {
         return ((byte & (((1 << (offset + length)) - 1) & ~((1 << offset) - 1))) >> offset);
     }

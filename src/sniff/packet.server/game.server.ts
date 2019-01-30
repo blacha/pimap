@@ -6,17 +6,19 @@ export type GSPacketMaker = (bytes: number[]) => GamePacket;
 
 export class GamePacket {
     id: GameServerPacket;
-    time: Date;
+    time: number;
+    bits: BitReader;
 
     constructor(bits: BitReader) {
+        this.bits = bits;
         this.id = bits.byte();
-        this.time = new Date();
+        this.time = Date.now();
     }
 
     toJSON() {
         return {
             id: GameServerPacket[this.id],
-            time: this.time.toISOString()
+            time: this.time
         };
     }
 

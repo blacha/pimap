@@ -18,10 +18,12 @@ export class GSPacketNPCUpdate extends GamePacket {
         const state = bits.byte();
         this.x = bits.uint16();
         this.y = bits.uint16();
+        this.life = bits.byte();
         if (state === 0x09 || state === 0x08) {
             this.life = 0;
         }
 
+        bits.skip(8) // Unknown
     }
 
     track() {

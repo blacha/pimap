@@ -22,7 +22,7 @@ export class GSPacketWalkVerify extends GamePacket {
 
     constructor(bits: BitReader) {
         super(bits);
-
+        // Skip stamina
         bits.skip(16);
 
         this.x = bits.uint16();
@@ -36,12 +36,13 @@ export class GSPacketWalkVerify extends GamePacket {
             this.y ^= 0x8000;
         }
         this.y = this.y * 2;
-
+        // Skip state
+        bits.skip(16);
     }
 
     track() {
         SessionState.current.move(SessionState.current.player.uid, this.x, this.y);
-        return Log.DEBUG;
+        return 0;
     }
 
     toJSON() {

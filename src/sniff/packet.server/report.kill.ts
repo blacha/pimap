@@ -10,6 +10,7 @@ export class GSPacketReportKill extends GamePacket {
     type: UnitType;
     uid: number;
     static id = GameServerPacket.ReportKill;
+    count: number;
 
 
     constructor(bits: BitReader) {
@@ -17,9 +18,13 @@ export class GSPacketReportKill extends GamePacket {
 
         this.type = <UnitType>bits.byte();
         this.uid = bits.uint32();
+        this.count = bits.uint16(); // Unknown?
     }
 
     track() {
+        if (SessionState.current.player.uid === this.uid) {
+            return 40;
+        }
         SessionState.current.npc.remove(this.uid);
         return 10;
     }
@@ -27,7 +32,8 @@ export class GSPacketReportKill extends GamePacket {
         return {
             ...super.toJSON(),
             uid: this.uid,
-            type: UnitType[this.type]
+            type: UnitType[this.type],
+            count: this.count,
         };
     }
 }

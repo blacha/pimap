@@ -2,6 +2,7 @@ import { GameServerPacket } from '../gs.packet';
 import { GamePacket } from './game.server';
 import { BitConverter } from '../../util/bit/bit.converter';
 import { BitReader } from '../../util/bit/bit.reader';
+import { SessionState } from '../state/session';
 
 
 export enum LifeManaFlags {
@@ -16,16 +17,30 @@ export class GSPacketPlayerLifeManaChange extends GamePacket {
     life: number;
     mana: number;
     flags: LifeManaFlags = 0;
+    x: number;
+    y: number;
+    stamina: number;
 
     constructor(bits: BitReader) {
         super(bits);
 
-        this.life = bits.uint16() & 0x7FFF;
-        this.mana = (2 * bits.uint16()) & 0x7FFF;
+        // Why are these 15 bit numbers?
+        this.life = bits.bits(15);
+        this.mana = bits.bits(15);
+        this.stamina = bits.bits(15);
 
+        this.x = bits.bits(15);
+        bits.skip(1); // Unknown
+        this.y = bits.bits(15);
+
+        bits.skip(20);
     }
 
     track() {
+        if (this.x > 0 && this.y > 0) {
+            SessionState.current.move(SessionState.current.player.uid, this.x, this.y);
+            return 10;
+        }
         return 0;
     }
 
@@ -33,7 +48,9 @@ export class GSPacketPlayerLifeManaChange extends GamePacket {
         return {
             ...super.toJSON(),
             life: this.life,
-            mana: this.mana
+            mana: this.mana,
+            x: this.x,
+            y: this.y
         };
     }
 }

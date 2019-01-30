@@ -108,6 +108,8 @@ export class GSPacketNPCAssign extends GamePacket {
     }
 
     track() {
+        // FIXME
+        this.bits.skip(this.bits.remainingBits);
         // if (this.valid === false) {
         //     Logger.error({ uid: this.uid, ...this.toJSON() }, 'Invalid');
         //     return 0;

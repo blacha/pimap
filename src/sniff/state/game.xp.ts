@@ -9,7 +9,7 @@ export class XpState {
     }
 
     track(exp: number) {
-        Logger.info({ exp }, 'XpGain');
+        // Logger.info({ exp }, 'XpGain');
         if (this.start == null) {
             this.start = exp;
             this.current = exp;
@@ -19,7 +19,7 @@ export class XpState {
     }
 
     set(xp: number) {
-        Logger.info({ exp: xp }, 'XpSet');
+        // Logger.info({ exp: xp }, 'XpSet');
 
         if (this.start == null || this.start < 500) {
             this.start = xp;

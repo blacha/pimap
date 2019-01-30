@@ -127,10 +127,14 @@ export class D2PacketSniffer {
             if (level > 0) {
                 dirty = true;
             }
-
-            if (level >= 20) {
-                log.info({ ...packet.toJSON(), level }, packetName);
+            if (packet.bits.remainingBits > 0 || packet.bits.remainingBits < 0) {
+                // log.warn({ packetId: toHexString(packet.id, 2), bits: packet.bits.remainingBits, packetName }, 'Bit missmatch flow')
+                console.log(toHexString(packet.id, 2), packetName, packet.bits.remainingBits)
             }
+
+            // if (level >= 20) {
+            //     log.info({ ...packet.toJSON(), level }, packetName);
+            // }
         }
         if (dirty) {
             SessionState.dirty();

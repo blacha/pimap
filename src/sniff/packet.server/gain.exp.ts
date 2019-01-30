@@ -1,9 +1,9 @@
 import { Log } from 'bblog';
-import { GameServerPacket } from '../gs.packet';
-import { GamePacket } from './game.server';
-import { BitConverter } from '../../util/bit/bit.converter';
 import { BitReader } from '../../util/bit/bit.reader';
+import { GameServerPacket } from '../gs.packet';
 import { SessionState } from '../state/session';
+import { GamePacket } from './game.server';
+import { toHexString } from '../../util/to.hex';
 
 export class GSPacketExpGain extends GamePacket {
     exp: number;
@@ -14,7 +14,7 @@ export class GSPacketExpGain extends GamePacket {
 
     track() {
         SessionState.current.playerXp.track(this.exp);
-        return Log.TRACE;
+        return 0;
     }
 
     toJSON() {
@@ -60,40 +60,56 @@ export class GSPacketDWordToExperience extends GSPacketExpGain {
         return Log.INFO;
     }
 
+    toJSON() {
+        return {
+            ...super.toJSON(),
+            expUpdate: this.expUpdate
+        }
+    }
+
 }
 
 
 
 export class GSPacketMercExpGain extends GamePacket {
     exp: number;
+    uid: number;
+    unkn: number;
 
+    constructor(bits: BitReader) {
+        super(bits);
+        this.unkn = bits.byte();
+        this.uid = bits.uint32();
 
+    }
     track() {
         SessionState.current.mercXp.track(this.exp);
-        return true;
+        return 0;
     }
 
 
     toJSON() {
         return {
             ...super.toJSON(),
-            experience: this.exp
+            experience: this.exp,
+            uid: this.uid,
+            unkn: this.unkn
         };
     }
 }
 
 
-export class GSPacketMercByteToExperience extends GSPacketExpGain {
+export class GSPacketMercByteToExperience extends GSPacketMercExpGain {
     static id = GameServerPacket.MercByteToExperience;
-
     constructor(bits: BitReader) {
         super(bits);
         this.exp = bits.byte();
     }
+
 }
 
 
-export class GSPacketMercWordToExperience extends GSPacketExpGain {
+export class GSPacketMercWordToExperience extends GSPacketMercExpGain {
     static id = GameServerPacket.MercWordToExperience;
 
     constructor(bits: BitReader) {

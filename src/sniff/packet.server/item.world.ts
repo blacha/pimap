@@ -87,6 +87,8 @@ export class GSPacketItemWorldAction extends GamePacket {
 
 
     trackCode(): number {
+        // FIXME
+        this.bits.skip(this.bits.remainingBits);
         if (this.code == null) {
             return 0;
         }
@@ -140,7 +142,7 @@ export class GSPacketItemWorldAction extends GamePacket {
                 level: this.level
             });
         }
-        return code;
+        return 0;
 
     }
 

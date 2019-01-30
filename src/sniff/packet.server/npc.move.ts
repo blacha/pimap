@@ -3,6 +3,7 @@ import { BitReader } from '../../util/bit/bit.reader';
 import { GameServerPacket } from '../gs.packet';
 import { SessionState } from '../state/session';
 import { GamePacket } from './game.server';
+import { Log } from 'bblog';
 
 export enum NPCMoveFlags {
     None = 0,
@@ -17,20 +18,27 @@ export class GSPacketNPCMove extends GamePacket {
     x: number;
     y: number;
     static id = GameServerPacket.NpcMove;
+    moveType: number; // 0x01 = walk 0x17 = run
 
 
     constructor(bits: BitReader) {
         super(bits);
 
         this.uid = bits.uint32();
-        bits.skipByte();
+        this.moveType = bits.byte();
         this.x = bits.uint16();
         this.y = bits.uint16();
+
+        bits.skip(16) // Unk1
+        bits.skip(8) // Unk1
+        bits.skip(16) // Unk1
+        bits.skip(8) // Unk1
+
     }
 
     track() {
         SessionState.current.npc.move(this.uid, this.x, this.y);
-        return 10;
+        return Log.TRACE;
     }
 
     toJSON() {
@@ -56,6 +64,8 @@ export class GSPacketNPCMoveToTarget extends GamePacket {
     }
 
     track() {
+        // FIXME
+        this.bits.skip(this.bits.remainingBits);
         return 10;
     }
 

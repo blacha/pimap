@@ -14,7 +14,7 @@ import { GSPacketNPCMove, GSPacketNPCMoveToTarget } from './npc.move';
 import { GSPacketRemoveGroundUnit } from './npc.remove';
 import { GSPacketNPCStop } from './npc.stop';
 import { GSPacketNPCUpdate } from './npc.update';
-import { GSPacketAssignGameObject, GSPacketGameObjectModeChange, GSPacketSetGameObjectMode } from './object.add';
+import { GSPacketAssignGameObject, GSPacketSetGameObjectMode } from './object.add';
 import { GSPacketAboutPlayer } from './player.about';
 import { GSPacketPlayerAssign } from './player.assign';
 import { GSPacketPlayerInGame } from './player.in.game';
@@ -26,6 +26,7 @@ import { GSPacketPlayerStop } from './player.stop';
 import { GSPacketWalkVerify } from './player.walk';
 import { GSPacketReportKill } from './report.kill';
 import { Logger } from '../../util/log';
+import { GSPacketGameObjectModeChange } from './object.mode';
 
 export const GAME_SERVER_PACKETS = [
     GSPacketAddUnit,

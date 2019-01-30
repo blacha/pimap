@@ -17,6 +17,7 @@ export class GSPacketLoadAct extends GamePacket {
         this.act = <ActType>br.byte();
         this.mapId = br.uint32();
         this.townArea = <AreaLevel>br.uint16();
+        br.skip(32) // Unknown;
     }
 
     track() {

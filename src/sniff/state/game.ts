@@ -80,6 +80,7 @@ export class GameState {
     }
 
     move(uid: number, x: number, y: number) {
+
         if (this.isMe(uid)) {
             this.lastPlayerMove = Date.now();
             this.player.x = x;
