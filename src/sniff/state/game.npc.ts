@@ -1,5 +1,6 @@
 import { NpcUtil } from "../../core/npc";
 import { NpcJson } from "../../core/game.json";
+import { Logger } from "../../util/log";
 
 
 export class NPCState {
@@ -17,8 +18,12 @@ export class NPCState {
 
     move(uid: number, x: number, y: number) {
         let npc = this.npcs[uid];
+        // console.log('uid', npc, uid)
         if (npc == null) {
-            // Logger.error({ uid }, 'Missing npc');
+            Logger.error({ uid }, 'Missing npc');
+            if (uid == null) {
+                console.trace('uid is null')
+            }
             // console.trace('g');
             npc = this.npcs[uid] = {
                 _t: Date.now(),

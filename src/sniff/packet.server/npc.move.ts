@@ -57,15 +57,30 @@ export class GSPacketNPCMoveToTarget extends GamePacket {
     x: number;
     y: number;
     static id = GameServerPacket.NpcMoveToTarget;
+    moveType: number;
+    targetType: UnitType;
+    targetUid: number;
 
 
     constructor(bits: BitReader) {
         super(bits);
+        this.uid = bits.uint32();
+        this.moveType = bits.byte();
+
+        this.x = bits.uint16();
+        this.y = bits.uint16();
+
+        this.targetType = <UnitType>bits.byte();
+        this.targetUid = bits.uint32();
+
+        const a = bits.uint16();
+        bits.skip(8);
+        const b = bits.uint16();
+        bits.skip(8);
     }
 
     track() {
-        // FIXME
-        this.bits.skip(this.bits.remainingBits);
+        SessionState.currentGame.move(this.uid, this.x, this.y);
         return 10;
     }
 
@@ -74,7 +89,10 @@ export class GSPacketNPCMoveToTarget extends GamePacket {
             ...super.toJSON(),
             uid: this.uid,
             x: this.x,
-            y: this.y
+            y: this.y,
+            moveType: this.moveType,
+            targetType: UnitType[this.targetType],
+            targetUid: this.uid
         };
     }
 }

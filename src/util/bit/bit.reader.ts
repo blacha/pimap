@@ -11,6 +11,23 @@ export class BitReader {
         this.offset = offset;
         this.buffer = bytes;
     }
+    /** Convert the buffer into a hex string */
+    toHexString(): string {
+        const output: string[] = [];
+        for (const byte of this.buffer) {
+            output.push(toHexString(byte, 2));
+        }
+        return output.join(', ');
+    }
+    /** Convert the buffer into a hex string */
+    toCharString(): string {
+        const output: string[] = [];
+        for (const byte of this.buffer) {
+            output.push(String.fromCharCode(byte));
+        }
+        return output.join(', ');
+    }
+
 
     get remainingBits() {
         return this.buffer.length * 8 - this.offset;
@@ -20,10 +37,17 @@ export class BitReader {
         return ((byte & (((1 << (offset + length)) - 1) & ~((1 << offset) - 1))) >> offset);
     }
 
+    bool(): boolean {
+        return this.bit() === 1;
+    }
+
     bit() {
         const bytePos = Math.floor(this.offset / 8);
         const bitPos = this.offset % 8;
         const byte = this.buffer[bytePos];
+        if (this.remainingBits < 0) {
+            throw new Error('Overflow ' + this.remainingBits);
+        }
 
         this.offset++;
         return this.getBitValue(byte, bitPos, 1);

@@ -24,7 +24,7 @@ export class GSPacketGameLogonReceipt extends GamePacket {
             SessionState.current.map.difficulty = this.difficulty;
             SessionState.current.map.hardcore = this.hardcore;
         } else {
-            Logger.error('Game already in progress..');
+            Logger.error({ ...this.toJSON() }, 'Game already in progress..');
         }
 
         return Log.WARN;

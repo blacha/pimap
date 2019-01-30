@@ -87,11 +87,17 @@ export enum ItemDestination {
     /// <summary>
     /// The item is going in the specified container
     /// </summary>
-    Container = 0,
-    Equipment = 4,
-    Belt = 8,
-    Cursor = 0x10,
-    Item = 0x18
+    Unspecified = 0,
+    Equipment = 1,
+    Belt = 2,
+    Ground = 3,
+    Cursor = 4,
+    Item = 6,
+    // Container = 0,
+    // Equipment = 4,
+    // Belt = 8,
+    // Cursor = 0x10,
+    // Item = 0x18
 }
 
 //TODO: 2 unknowns left... are there imbue and craft / transmute action types ?

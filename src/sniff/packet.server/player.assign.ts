@@ -15,7 +15,7 @@ export class GSPacketPlayerAssign extends GamePacket {
 
     constructor(bits: BitReader) {
         super(bits);
-
+        console.log(bits.toHexString())
         this.uid = bits.uint32();
         this.type = bits.byte();
         this.name = bits.string(16);

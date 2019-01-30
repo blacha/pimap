@@ -52,7 +52,7 @@ export class GameState {
             this.player.uid = 1;
             Logger.info('Guessing playerId as 1');
         }
-        if (this.player.uid === uid) {
+        if (this.player.uid === uid || uid == null) {
             return true;
         }
         return false;
@@ -85,7 +85,10 @@ export class GameState {
             this.lastPlayerMove = Date.now();
             this.player.x = x;
             this.player.y = y;
+            return;
         }
+
+        this.npc.move(uid, x, y)
     }
 
     moveMaybe(x: number, y: number) {
@@ -170,8 +173,6 @@ class ItemState {
         }
         this.items[item.uid] = item;
         item._t = Date.now();
-
-        // console.log(item.uid, item);
     }
 
     toJson() {

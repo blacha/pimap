@@ -91,8 +91,8 @@ export class GSPacketSetGameObjectMode extends GamePacket {
     }
 
     track() {
-        const name = GameObject[this.mode];
-        const obj = SessionState.current.object.get(this.uid);
+        // const name = GameObject[this.mode];
+        // const obj = SessionState.current.object.get(this.uid);
 
         // console.log('SetMode', this.uid, GameObjectMode[this.mode], obj);
 
@@ -114,49 +114,3 @@ export class GSPacketSetGameObjectMode extends GamePacket {
         };
     }
 }
-
-
-export class GSPacketGameObjectModeChange extends GamePacket {
-    mode: GameObjectMode;
-
-    uid: number;
-    static id = GameServerPacket.GameObjectModeChange;
-
-
-    constructor(bits: BitReader) {
-        super(bits);
-
-        bits.skipByte();
-        this.uid = bits.uint32(); //(data, 2);
-        bits.skipByte(2);
-        this.mode = <GameObjectMode>bits.byte();
-
-    }
-
-    track() {
-        const obj = SessionState.current.object.get(this.uid);
-        if (obj == null) {
-            return 0;
-        }
-        if (obj.type === 'Warp') {
-            return 0;
-        }
-
-        if (this.mode === GameObjectMode.Opened || this.mode === GameObjectMode.Operating) {
-            SessionState.current.object.remove(this.uid);
-            return 10;
-        }
-
-        return 10;
-    }
-
-    toJSON() {
-        return {
-            ...super.toJSON(),
-            uid: this.uid,
-            mode: this.mode,
-            modeName: GameObjectMode[this.mode]
-        };
-    }
-}
-

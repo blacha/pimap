@@ -19,7 +19,7 @@ const TRACE = {
 };
 export class D2PacketSniffer {
 
-    trace: boolean = false;
+    trace: boolean = true;
     buffer: number[];
     bufferCount: number = 0;
     localIp: string;
@@ -129,12 +129,12 @@ export class D2PacketSniffer {
             }
             if (packet.bits.remainingBits > 0 || packet.bits.remainingBits < 0) {
                 // log.warn({ packetId: toHexString(packet.id, 2), bits: packet.bits.remainingBits, packetName }, 'Bit missmatch flow')
-                console.log(toHexString(packet.id, 2), packetName, packet.bits.remainingBits)
+                console.log(toHexString(packet.id, 2), packetName, packet.bits.remainingBits, packet['code'], packet.toJSON()['itemName'])
             }
 
-            // if (level >= 20) {
-            //     log.info({ ...packet.toJSON(), level }, packetName);
-            // }
+            if (level >= 10) {
+                log.info({ ...packet.toJSON(), level }, packetName);
+            }
         }
         if (dirty) {
             SessionState.dirty();

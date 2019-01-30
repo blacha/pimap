@@ -16,11 +16,7 @@ export class GSPacketAddUnit extends GamePacket {
         this.type = bits.byte();
         this.uid = bits.uint32();
 
-        const totalSize = bits.byte() - bits.offset / 8;
-
-        for (let i = 0; i < totalSize; i++) {
-            bits.byte()
-        }
+        bits.bits(bits.remainingBits)
     }
 
     track() {

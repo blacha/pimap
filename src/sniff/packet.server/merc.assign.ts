@@ -17,9 +17,14 @@ export class GSPacketMercAssignment extends GamePacket {
         bits.skipByte(3);
         this.uid = bits.uint32();
         this.mercId = bits.uint16();
+
+        // Ignore
+        bits.bits(this.bits.remainingBits);
+
     }
 
     track() {
+
         if (SessionState.current.isMe(this.uid)) {
             SessionState.current.player.mercId = this.mercId;
         }
