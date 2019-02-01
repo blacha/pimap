@@ -46,7 +46,8 @@ export class BitReader {
         const bitPos = this.offset % 8;
         const byte = this.buffer[bytePos];
         if (this.remainingBits < 0) {
-            throw new Error('Overflow ' + this.remainingBits);
+            console.trace('Overflow: ' + this.remainingBits);
+            // throw new Error('Overflow ' + this.remainingBits);
         }
 
         this.offset++;

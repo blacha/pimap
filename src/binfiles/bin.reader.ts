@@ -8,6 +8,8 @@ export enum BinFileType {
     Armor = 'armor.bin',
     Weapon = 'weapons.bin',
     MonStat = 'monstats.bin',
+    SuperUnique = 'superuniques.bin',
+
     Experience = 'experience.bin'
 }
 

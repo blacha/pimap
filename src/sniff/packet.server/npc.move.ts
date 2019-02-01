@@ -80,7 +80,7 @@ export class GSPacketNPCMoveToTarget extends GamePacket {
     }
 
     track() {
-        SessionState.currentGame.move(this.uid, this.x, this.y);
+        SessionState.current.npc.move(this.uid, this.x, this.y);
         return 10;
     }
 

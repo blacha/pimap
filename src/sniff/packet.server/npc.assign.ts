@@ -54,7 +54,7 @@ export class GSPacketNPCAssign extends GamePacket {
             this.valid = false;
             return;
         }
-        br.bits(4); // ?
+        br.bits(4); // Animation
 
         const entries = NPC_FIELDS[this.code];
         if (entries == null) {
@@ -109,7 +109,7 @@ export class GSPacketNPCAssign extends GamePacket {
 
     track() {
         // FIXME
-        this.bits.skip(this.bits.remainingBits);
+        // this.bits.skip(this.bits.remainingBits);
         // if (this.valid === false) {
         //     Logger.error({ uid: this.uid, ...this.toJSON() }, 'Invalid');
         //     return 0;
