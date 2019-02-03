@@ -6,9 +6,9 @@
   "author": "Blayne Chard <blayne@chard.com>",
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
     "build-docker": "tsc && docker build . -t pimap",
     "build-map-gen": "./build.mapgen.sh",
-    "build-map-server": "tsc",
     "build-watch": "tsc --watch --pretty",
     "start-map-server": "node build/mapserver/index.js",
     "start-sniffer": "node build/sniffer.js"
