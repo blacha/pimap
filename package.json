@@ -6,11 +6,12 @@
   "author": "Blayne Chard <blayne@chard.com>",
   "license": "MIT",
   "scripts": {
-    "build:mapgen": "./build.mapgen.sh",
-    "build:mapserver": "tsc --watch --pretty",
-    "build:watch": "tsc --watch --pretty",
-    "start:mapserver": "node build/mapserver/index.js",
-    "start:sniffer": "node build/sniffer.js"
+    "build-docker": "tsc && docker build . -t pimap",
+    "build-map-gen": "./build.mapgen.sh",
+    "build-map-server": "tsc",
+    "build-watch": "tsc --watch --pretty",
+    "start-map-server": "node build/mapserver/index.js",
+    "start-sniffer": "node build/sniffer.js"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",

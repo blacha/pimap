@@ -10,6 +10,8 @@ A Linux based CLI interface to generate maps for diablo 2.
 Using docker
 
 ```
+yarn
+yarn build-docker
 docker build -t pimap .
 ```
 

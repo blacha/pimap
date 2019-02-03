@@ -2,7 +2,7 @@ import { BinCubeMain } from "./bin.cube.main";
 import { BinItem } from "./bin.item";
 import { BinFileType } from "./bin.reader";
 import { BinMonStat } from "./bin.monster";
-import { BinSuperUnique } from "./bin.monster.super.unique";
+// import { BinSuperUnique } from "./bin.monster.super.unique";
 // import { BinExp } from "./bin.exp";
 
 export const BinFiles = {
@@ -11,7 +11,7 @@ export const BinFiles = {
     Armor: new BinItem(BinFileType.Armor, 1),
     Weapon: new BinItem(BinFileType.Weapon, 0),
     // MonStats: new BinMonStat(),
-    SuperUniques: new BinSuperUnique()
+    // SuperUniques: new BinSuperUnique()
 
     // Exp: new BinExp()
 }
