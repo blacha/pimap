@@ -1,11 +1,11 @@
-image: node:latest
+image: node:8
 
 stages:
   - test
 
-
 test_js:
   stage: test
   script:
+    - apt-get update && apt-get install libpcap-dev -y
     - yarn
     - yarn build
