@@ -39,7 +39,7 @@ export class SniffingWebServer {
             res.status(404);
             res.end();
         })
-        this.app.listen(1337, () => Logger.info('Server started'));
+        this.app.listen(1337, () => Logger.info({ url: 'http://localhost:1337/' }, 'Server started'));
 
         this.wss.on('connection', client => {
             client.id = ulid()

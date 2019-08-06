@@ -21,8 +21,8 @@ docker build -t pimap .
 # Generating maps
 
 ```
-docker run pimap -v /path/to/diablo:/app/game -p 5000:5000
+docker run -v /path/to/diablo:/app/game -p 8899:8899 pimap
 
 # /map/:seed/:difficulty/:levelCode.json
-curl http://localhost:5000/map/0x0000001/Nightmare/1.json
+curl http://localhost:8899/map/0x0000001/Nightmare/1.json
 ```

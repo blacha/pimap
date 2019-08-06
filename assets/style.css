@@ -12,8 +12,10 @@ body {
 
 .PlayerStats {
     display: flex;
-    width: 400px;
-    justify-content: space-between
+    width: 300px;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px;
 }
 
 .Map {
@@ -156,7 +158,9 @@ body {
     border-radius: 0;
 }
 
-.ItemList {}
+.ItemList {
+    width: 400px;
+}
 
 .Item {
     display: flex;
@@ -215,4 +219,21 @@ line {
     width: 0;
     height: 0;
     background-color: black;
+}
+
+
+.PlayerXp-Bar {
+    line-height: 32px;
+    font-weight: bold;
+    font-size: 24px;
+    height: 32px;
+    width: 300px;
+}
+
+.PlayerXp-Bar--background {
+    background: rgba(0, 0, 0, 0.17)
+}
+
+.PlayerXp-Bar--filled {
+    background: rgba(0, 255, 0, 0.466)
 }
