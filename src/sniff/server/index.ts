@@ -77,7 +77,7 @@ export class SniffingWebServer {
             client.lastState = currentState;
             client.lastSend = new Date();
             if (patch != null) {
-                client.send(JSON.stringify({ type: MessageType.STATE, data: client.lastState, patch }));
+                client.send(JSON.stringify({ type: MessageType.STATE, data: client.lastState }));
             }
         }
     }

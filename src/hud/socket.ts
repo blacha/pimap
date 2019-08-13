@@ -1,6 +1,6 @@
 import { MessageType } from "../core/game.json";
 import { State } from "./state.js";
-import * as jsondiffpatch from 'jsondiffpatch';
+// import * as jsondiffpatch from 'jsondiffpatch';
 import { GameDifficulty } from "../core/difficulty.js";
 import { D2MapObj } from "../mapserver/map.generator.js";
 import { Logger } from "../util/log.js";
@@ -19,13 +19,8 @@ export class WS {
             const message = JSON.parse(ev.data);
             if (message.type === MessageType.STATE) {
                 State.update(message.data);
-            } else if (message.type === MessageType.MAPS) {
-                // lastMaps = message.data;
-            } else if (message.type === MessageType.STATE_PATCH) {
-                const newState = jsondiffpatch.patch(State.game, message.data);
-                State.update(newState);
-            } else if (message.type == null) {
-                State.update(message);
+            } else {
+
             }
         };
         ws.onerror = function(e) {

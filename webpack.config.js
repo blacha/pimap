@@ -11,6 +11,11 @@ module.exports = {
         path: Path.join(__dirname, './dist'),
         filename: 'js/[name].js'
     },
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
+    },
     plugins: [
         new CleanWebpackPlugin(['dist'], {
             root: Path.resolve(__dirname, './')
