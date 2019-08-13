@@ -1,6 +1,6 @@
-import { WalkToCoord, RunToCoord } from "./walk";
+import { WalkToCoOrd, RunToCoOrd } from "./walk";
 
 export const CLIENT_PACKETS = [
-    WalkToCoord,
-    RunToCoord
+    WalkToCoOrd,
+    RunToCoOrd
 ]

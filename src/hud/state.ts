@@ -1,10 +1,9 @@
 import * as m from 'mithril';
-import { Point } from '../core/size';
 import { GameStateJson } from '../core/game.json';
 import { MapRenderer } from '../maprender/map.render';
-import { WS } from './socket';
 import { SpriteSheet } from '../maprender/sprite';
 import { Logger } from '../util/log';
+import { WS } from './socket';
 
 export class State {
     static mapSize = {
@@ -18,6 +17,8 @@ export class State {
     static sprites: SpriteSheet;
 
     static game: GameStateJson;
+
+    // static stats: Stats;
 
     static currentAct = null;
 

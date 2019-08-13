@@ -121,7 +121,7 @@ export class MapLayerObject {
             }
             return;
         }
-        console.log('Draw', obj, NpcName[obj.id]);
+        // console.log('Draw', obj, NpcName[obj.id]);
         Sprites.Unkown.draw(ctx, this.sheet, drawX, drawY, 18);
     }
 

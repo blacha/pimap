@@ -11,8 +11,8 @@ export class WalkToUnit extends MoveToPacket {
     static id = ClientPackets.WalkToUnit;
 }
 
-export class WalkToCoord extends MoveToPacket {
-    static id = ClientPackets.WalkToCoord;
+export class WalkToCoOrd extends MoveToPacket {
+    static id = ClientPackets.WalkToCoOrd;
     x: number;
     y: number;
     constructor(bits: BitReader) {
@@ -22,8 +22,8 @@ export class WalkToCoord extends MoveToPacket {
     }
 }
 
-export class RunToCoord extends MoveToPacket {
-    static id = ClientPackets.RunToCoord;
+export class RunToCoOrd extends MoveToPacket {
+    static id = ClientPackets.RunToCoOrd;
     x: number;
     y: number;
     constructor(bits: BitReader) {

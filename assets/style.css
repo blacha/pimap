@@ -4,10 +4,12 @@
 
 body {
     display: flex;
+    flex-direction: column
 }
 
 #main {
     margin: 4px;
+    position: relative;
 }
 
 .PlayerStats {
