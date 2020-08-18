@@ -39,7 +39,7 @@
     "bblog": "^2.0.0",
     "bblog-stream-console": "^2.0.0",
     "bitwise": "^2.0.1",
-    "canvas": "^2.3.0",
+    "canvas": "^2.6.1",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "esbuild": "^0.6.24",

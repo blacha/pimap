@@ -69,7 +69,7 @@ export class MapImageRoute implements PiMapRoute {
     this.drawMapInfo(ctx, map, levelCode, seed);
 
     res.setHeader('Content-Type', 'image/png');
-    canvas.pngStream().pipe(res);
+    canvas.createPNGStream().pipe(res);
     return null;
   }
 }
