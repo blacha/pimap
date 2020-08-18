@@ -4,29 +4,26 @@ import { ItemQuality } from '../../core/item';
 import { timeAgo } from '../util';
 
 function viewLevel(level: number) {
-    if (level > 0) {
-        return ` [L${level}]`;
-    }
-    return '';
+  if (level > 0) return ` [L${level}]`;
+  return '';
 }
+
 export const ItemListView = {
+  view() {
+    const items = State.game.item;
+    const children = [];
+    for (const item of items) {
+      let className = `Item  Item-${item.code}`;
+      if (item.code.startsWith('r') && item.name.includes('Rune')) className += ` Item-Rune`;
+      if (item.quality) className += ` Item-${ItemQuality[item.quality]}`;
 
-    view() {
-        const summary: { [key: string]: number } = {};
-        const items = State.game.item;
-        const children = [];
-        for (const item of items) {
-            const className = `Item Item-${ItemQuality[item.quality]} Item-${item.code}`;
-            const child = m('div', { className }, [
-                m('div', `${item.name} ${viewLevel(item.level)} (${item.x},${item.y})`),
-                m('div', timeAgo(item._t))
-            ]);
-            children.push(child);
-        }
-
-        return m('div', { className: 'ItemList' },
-            children
-        );
+      const child = m('div', { className }, [
+        m('div', `${item.name} ${viewLevel(item.level)} (${item.x},${item.y})`),
+        m('div', timeAgo(item._t)),
+      ]);
+      children.push(child);
     }
-};
 
+    return m('div', { className: 'ItemList' }, children);
+  },
+};

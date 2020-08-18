@@ -1,26 +1,24 @@
-import * as express from "express";
-import { Log } from "bblog";
+import * as express from 'express';
+import { Log } from 'bblog';
 
 export interface PiMapRequest extends express.Request {
-    id: string;
-    log: Log;
+  id: string;
+  log: Log;
 }
 
-export interface PiMapResponse extends express.Response {
-
-}
+export type PiMapResponse = express.Response;
 
 export class PiMapRouteError {
-    status: number;
-    message: string;
+  status: number;
+  message: string;
 
-    constructor(status: number, message: string) {
-        this.status = status;
-        this.message = message;
-    }
+  constructor(status: number, message: string) {
+    this.status = status;
+    this.message = message;
+  }
 }
 
 export interface PiMapRoute {
-    url: string;
-    process(req: PiMapRequest, res?: PiMapResponse): Promise<Object>
+  url: string;
+  process(req: PiMapRequest, res?: PiMapResponse): Promise<unknown>;
 }

@@ -6,37 +6,33 @@ import { SessionState } from '../state/session';
 import { BitReader } from '../../util/bit/bit.reader';
 
 export class GSPacketMercAssignment extends GamePacket {
-    mercId: number;
-    uid: number;
+  mercId: number;
+  uid: number;
 
-    static id = GameServerPacket.MercAssignment;
+  static id = GameServerPacket.MercAssignment;
 
+  constructor(bits: BitReader) {
+    super(bits);
+    bits.skipByte(3);
+    this.uid = bits.uint32();
+    this.mercId = bits.uint16();
 
-    constructor(bits: BitReader) {
-        super(bits);
-        bits.skipByte(3);
-        this.uid = bits.uint32();
-        this.mercId = bits.uint16();
+    // Ignore
+    bits.bits(this.bits.remainingBits);
+  }
 
-        // Ignore
-        bits.bits(this.bits.remainingBits);
-
+  track() {
+    if (SessionState.current.isMe(this.uid)) {
+      SessionState.current.player.mercId = this.mercId;
     }
+    return Log.WARN;
+  }
 
-    track() {
-
-        if (SessionState.current.isMe(this.uid)) {
-            SessionState.current.player.mercId = this.mercId;
-        }
-        return Log.WARN;
-    }
-
-    toJSON() {
-        return {
-            ...super.toJSON(),
-            uid: this.uid,
-            mercId: this.mercId
-        };
-    }
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      uid: this.uid,
+      mercId: this.mercId,
+    };
+  }
 }
-

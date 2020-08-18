@@ -7,51 +7,47 @@ import { SessionState } from '../state/session';
 import { BitReader } from '../../util/bit/bit.reader';
 
 export enum WalkVerifyFlags {
-    None = 0,
-    Stamina0x8000 = 1,
-    X0x8000 = 2,
-    Y0x8000 = 4
+  None = 0,
+  Stamina0x8000 = 1,
+  X0x8000 = 2,
+  Y0x8000 = 4,
 }
 
 export class GSPacketWalkVerify extends GamePacket {
+  x: number;
+  y: number;
+  static id = GameServerPacket.WalkVerify;
 
-    x: number;
-    y: number;
-    static id = GameServerPacket.WalkVerify;
+  constructor(bits: BitReader) {
+    super(bits);
+    // Skip stamina
+    bits.skip(16);
 
-
-    constructor(bits: BitReader) {
-        super(bits);
-        // Skip stamina
-        bits.skip(16);
-
-        this.x = bits.uint16();
-        if ((this.x & 0x8000) === 0x8000) {
-            this.x ^= 0x8000;
-        }
-        this.x = this.x * 2;
-
-        this.y = bits.uint16();
-        if ((this.y & 0x8000) === 0x8000) {
-            this.y ^= 0x8000;
-        }
-        this.y = this.y * 2;
-        // Skip state
-        bits.skip(16);
+    this.x = bits.uint16();
+    if ((this.x & 0x8000) === 0x8000) {
+      this.x ^= 0x8000;
     }
+    this.x = this.x * 2;
 
-    track() {
-        SessionState.current.move(SessionState.current.player.uid, this.x, this.y);
-        return 0;
+    this.y = bits.uint16();
+    if ((this.y & 0x8000) === 0x8000) {
+      this.y ^= 0x8000;
     }
+    this.y = this.y * 2;
+    // Skip state
+    bits.skip(16);
+  }
 
-    toJSON() {
-        return {
-            ...super.toJSON(),
-            x: this.x,
-            y: this.y
-        };
-    }
+  track() {
+    SessionState.current.move(SessionState.current.player.uid, this.x, this.y);
+    return 0;
+  }
+
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      x: this.x,
+      y: this.y,
+    };
+  }
 }
-
-

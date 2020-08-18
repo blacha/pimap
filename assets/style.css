@@ -186,6 +186,29 @@ line {
     stroke: 'black';
     stroke-width: '1px';
 }
+.Item-r01,
+.Item-r02,
+.Item-r03,
+.Item-r04,
+.Item-r05,
+.Item-r06,
+.Item-r07,
+.Item-r08,
+.Item-r09 
+.Item-r10,
+.Item-r11,
+.Item-r12,
+.Item-r13,
+.Item-r14,
+.Item-r15,
+.Item-r16,
+.Item-r17,
+.Item-r18,
+.Item-r19 {
+    color: #eb2f96;
+    background: #f5838d33;
+    border-color: #ffadd2;
+}
 
 .Item-r20,
 .Item-r21,

@@ -4,36 +4,34 @@ import { BitConverter } from '../../util/bit/bit.converter';
 import { BitReader } from '../../util/bit/bit.reader';
 
 export class GSPacketNPCStop extends GamePacket {
-    life: number;
-    y: number;
-    x: number;
-    uid: number;
+  life: number;
+  y: number;
+  x: number;
+  uid: number;
 
-    static id = GameServerPacket.NpcStop;
+  static id = GameServerPacket.NpcStop;
 
-    constructor(bits: BitReader) {
-        super(bits);
+  constructor(bits: BitReader) {
+    super(bits);
 
-        this.uid = bits.uint32();
-        this.x = bits.uint16();
-        this.y = bits.uint16();
-        this.life = bits.byte();
-    }
+    this.uid = bits.uint32();
+    this.x = bits.uint16();
+    this.y = bits.uint16();
+    this.life = bits.byte();
+  }
 
-    track() {
-        // SessionState.current.npc.move(this.uid, this.x, this.y);
-        return 10;
-    }
+  track() {
+    // SessionState.current.npc.move(this.uid, this.x, this.y);
+    return 10;
+  }
 
-    toJSON() {
-        return {
-            ...super.toJSON(),
-            uid: this.uid,
-            x: this.x,
-            y: this.y,
-            life: this.life
-        };
-    }
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      uid: this.uid,
+      x: this.x,
+      y: this.y,
+      life: this.life,
+    };
+  }
 }
-
-

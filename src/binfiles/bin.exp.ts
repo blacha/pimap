@@ -4,8 +4,6 @@
 // import { BitConverter } from "../util/bit/bit.converter";
 // import { EXP_REQ } from "../core/xp";
 
-
-
 // const INPUT_COUNT = 7;
 // const OUTPUT_COUNT = 3;
 // const MOD_COUNT = 5;
@@ -21,7 +19,6 @@
 //         const recordCount = bits.int32le();
 //         Logger.info({ recordCount, bin: this.fileName }, 'Reading')
 //         for (let i = 0; i < recordCount; i++) {
-
 
 //             const expObj = {
 //                 level: i - 1,

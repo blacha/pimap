@@ -1,7 +1,13 @@
 import { IGNORE } from '../packet.ignore';
 import { GSPacketAddUnit } from './add.unit';
 import { GSPacketAssignWarp } from './add.warp';
-import { GSPacketByteToExperience, GSPacketDWordToExperience, GSPacketMercByteToExperience, GSPacketMercWordToExperience, GSPacketWordToExperience } from './gain.exp';
+import {
+  GSPacketByteToExperience,
+  GSPacketDWordToExperience,
+  GSPacketMercByteToExperience,
+  GSPacketMercWordToExperience,
+  GSPacketWordToExperience,
+} from './gain.exp';
 import { GSPacketGameLogonReceipt } from './game.login';
 import { GSPacketGameOver } from './game.over';
 import { GSPacketItemWorldAction } from './item.world';
@@ -28,48 +34,45 @@ import { GSPacketReportKill } from './report.kill';
 import { Logger } from '../../util/log';
 import { GSPacketGameObjectModeChange } from './object.mode';
 
-export const GAME_SERVER_PACKETS = [
-    GSPacketAddUnit,
-    GSPacketAssignGameObject,
-    GSPacketAssignWarp,
-    GSPacketByteToExperience,
-    GSPacketDWordToExperience,
-    GSPacketGameLogonReceipt,
-    GSPacketGameObjectModeChange,
-    GSPacketGameOver,
-    GSPacketItemWorldAction,
-    GSPacketLoadAct,
-    GSPacketMercByteToExperience,
-    GSPacketMercWordToExperience,
-    GSPacketNPCAction,
-    GSPacketNPCAssign,
-    GSPacketNPCMove,
-    GSPacketNPCMoveToTarget,
-    GSPacketNPCStop,
-    GSPacketNPCUpdate,
-    GSPacketPlayerAssign,
-    GSPacketPlayerInGame,
-    GSPacketPlayerKillCount,
-    GSPacketPlayerLifeManaChange,
-    GSPacketPlayerMove,
-    GSPacketPlayerReassign,
-    GSPacketPlayerStop,
-    GSPacketRemoveGroundUnit,
-    GSPacketReportKill,
-    GSPacketSetGameObjectMode,
-    GSPacketWalkVerify,
-    GSPacketWordToExperience,
-    GSPacketMercAssignment,
-    GSPacketAboutPlayer,
-    // GSPacketMapAdd
+export const GameServerPackets = [
+  GSPacketAddUnit,
+  GSPacketAssignGameObject,
+  GSPacketAssignWarp,
+  GSPacketByteToExperience,
+  GSPacketDWordToExperience,
+  GSPacketGameLogonReceipt,
+  GSPacketGameObjectModeChange,
+  GSPacketGameOver,
+  GSPacketItemWorldAction,
+  GSPacketLoadAct,
+  GSPacketMercByteToExperience,
+  GSPacketMercWordToExperience,
+  GSPacketNPCAction,
+  GSPacketNPCAssign,
+  GSPacketNPCMove,
+  GSPacketNPCMoveToTarget,
+  GSPacketNPCStop,
+  GSPacketNPCUpdate,
+  GSPacketPlayerAssign,
+  GSPacketPlayerInGame,
+  GSPacketPlayerKillCount,
+  GSPacketPlayerLifeManaChange,
+  GSPacketPlayerMove,
+  GSPacketPlayerReassign,
+  GSPacketPlayerStop,
+  GSPacketRemoveGroundUnit,
+  GSPacketReportKill,
+  GSPacketSetGameObjectMode,
+  GSPacketWalkVerify,
+  GSPacketWordToExperience,
+  GSPacketMercAssignment,
+  GSPacketAboutPlayer,
+  // GSPacketMapAdd
 ];
 
-
-GAME_SERVER_PACKETS.forEach(p => {
-    if (IGNORE[p.id]) {
-        Logger.fatal({ packetId: '0x' + p.id.toString(16) }, 'PacketIdIgnored');
-        process.exit();
-    }
+GameServerPackets.forEach((p) => {
+  if (IGNORE[p.id]) {
+    Logger.fatal({ packetId: '0x' + p.id.toString(16) }, 'PacketIdIgnored');
+    process.exit();
+  }
 });
-
-

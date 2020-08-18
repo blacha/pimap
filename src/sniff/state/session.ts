@@ -1,41 +1,39 @@
 import { GameState } from './game';
 
 export class SessionStore {
-    cb: Function;
-    games: GameState[] = [];
-    currentGame: GameState = null;
+  cb: () => void;
+  games: GameState[] = [];
+  currentGame: GameState = null;
 
-    lastUpdate: Date = null;
+  lastUpdate: Date = null;
 
-
-    get current(): GameState {
-        if (this.currentGame == null) {
-            this.currentGame = new GameState();
-            this.games.push(this.currentGame);
-        }
-
-        return this.currentGame;
+  get current(): GameState {
+    if (this.currentGame == null) {
+      this.currentGame = new GameState();
+      this.games.push(this.currentGame);
     }
 
-    closeGame() {
-        if (this.currentGame) {
-            // this.currentGame.npc.empty();
-            this.currentGame.close();
-            this.currentGame = null;
-        }
-    }
+    return this.currentGame;
+  }
 
-
-    dirty() {
-        this.lastUpdate = new Date();
-        if (this.cb) {
-            this.cb();
-        }
+  closeGame(): void {
+    if (this.currentGame) {
+      // this.currentGame.npc.empty();
+      this.currentGame.close();
+      this.currentGame = null;
     }
+  }
 
-    onDirty(cb: Function) {
-        this.cb = cb;
+  dirty(): void {
+    this.lastUpdate = new Date();
+    if (this.cb) {
+      this.cb();
     }
+  }
+
+  onDirty(cb: () => void): void {
+    this.cb = cb;
+  }
 }
 
 export const SessionState = new SessionStore();

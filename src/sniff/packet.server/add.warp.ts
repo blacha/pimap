@@ -6,45 +6,49 @@ import { BitConverter } from '../../util/bit/bit.converter';
 import { SessionState } from '../state/session';
 import { BitReader } from '../../util/bit/bit.reader';
 
-
 export class GSPacketAssignWarp extends GamePacket {
-    type: UnitType;
-    warp: WarpType;
-    x: number;
-    y: number;
-    uid: number;
-    static id = GameServerPacket.AssignWarp;
+  type: UnitType;
+  warp: WarpType;
+  x: number;
+  y: number;
+  uid: number;
+  static id = GameServerPacket.AssignWarp;
 
-    constructor(bits: BitReader) {
-        super(bits);
+  constructor(bits: BitReader) {
+    super(bits);
 
-        this.type = <UnitType>bits.byte();
-        this.uid = bits.uint32()
-        this.warp = <WarpType>bits.byte();
-        this.x = bits.uint16();
-        this.y = bits.uint16();
+    this.type = <UnitType>bits.byte();
+    this.uid = bits.uint32();
+    this.warp = <WarpType>bits.byte();
+    this.x = bits.uint16();
+    this.y = bits.uint16();
+  }
+
+  track() {
+    const name = WarpType[this.warp];
+    if (name == null) {
+      return false;
     }
 
-    track() {
-        const name = WarpType[this.warp];
-        if (name == null) {
-            return false;
-        }
+    SessionState.current.object.set(this.uid, {
+      _t: Date.now(),
+      uid: this.uid,
+      type: 'Warp',
+      x: this.x,
+      y: this.y,
+      name,
+    });
+    return 10;
+  }
 
-        SessionState.current.object.set(this.uid, { _t: Date.now(), uid: this.uid, type: 'Warp', x: this.x, y: this.y, name });
-        return 10;
-    }
-
-    toJSON() {
-        return {
-            ...super.toJSON(),
-            uid: this.uid,
-            type: this.type,
-            name: WarpType[this.warp],
-            x: this.x,
-            y: this.y
-        };
-    }
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      uid: this.uid,
+      type: this.type,
+      name: WarpType[this.warp],
+      x: this.x,
+      y: this.y,
+    };
+  }
 }
-
-

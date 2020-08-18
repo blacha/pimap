@@ -4,32 +4,29 @@ import { GameServerPacket } from '../gs.packet';
 import { GamePacket } from './game.server';
 import { toHexString } from '../../util/to.hex';
 
-
 export class GSPacketAddUnit extends GamePacket {
-    type: UnitType;
-    uid: number;
+  type: UnitType;
+  uid: number;
 
-    static id = GameServerPacket.AddUnit;
+  static id = GameServerPacket.AddUnit;
 
-    constructor(bits: BitReader) {
-        super(bits);
-        this.type = bits.byte();
-        this.uid = bits.uint32();
+  constructor(bits: BitReader) {
+    super(bits);
+    this.type = bits.byte();
+    this.uid = bits.uint32();
 
-        bits.bits(bits.remainingBits)
-    }
+    bits.bits(bits.remainingBits);
+  }
 
-    track() {
-        return 10;
-    }
+  track() {
+    return 10;
+  }
 
-    toJSON() {
-        return {
-            ...super.toJSON(),
-            uid: this.uid,
-            type: UnitType[this.type]
-        };
-    }
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      uid: this.uid,
+      type: UnitType[this.type],
+    };
+  }
 }
-
-

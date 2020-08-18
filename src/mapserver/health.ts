@@ -1,10 +1,8 @@
-import { PiMapRoute, PiMapRequest } from "./route";
+import { PiMapRoute, PiMapRequest } from './route';
 
 export class HealthRoute implements PiMapRoute {
-    url = '/healthz';
-    async process(req: PiMapRequest) {
-        return { message: 'ok' };
-    }
-
-
+  url = '/healthz';
+  async process(req: PiMapRequest) {
+    return { message: 'ok' };
+  }
 }

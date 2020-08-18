@@ -1,44 +1,39 @@
-import { Logger } from "../../util/log";
-
 export class XpState {
-    start: number;
-    current: number;
+  start: number;
+  current: number;
 
-    get diff(): number {
-        return this.current - this.start;
+  get diff(): number {
+    return this.current - this.start;
+  }
+
+  track(exp: number): void {
+    if (this.start == null) {
+      this.start = exp;
+      this.current = exp;
+    } else {
+      this.current = this.current + exp;
+    }
+  }
+
+  set(xp: number): void {
+    if (this.start == null || this.start < 500) {
+      this.start = xp;
+      this.current = xp;
+      return;
     }
 
-    track(exp: number) {
-        // Logger.info({ exp }, 'XpGain');
-        if (this.start == null) {
-            this.start = exp;
-            this.current = exp;
-        } else {
-            this.current = this.current + exp;
-        }
+    this.current = xp;
+    const diff = this.current - this.start;
+    if (diff / this.start > 100) {
+      this.start = xp;
     }
+  }
 
-    set(xp: number) {
-        // Logger.info({ exp: xp }, 'XpSet');
-
-        if (this.start == null || this.start < 500) {
-            this.start = xp;
-            this.current = xp;
-            return;
-        }
-
-        this.current = xp;
-        const diff = this.current - this.start;
-        if (diff / this.start > 100) {
-            this.start = xp;
-        }
-    }
-
-    toJson() {
-        return {
-            start: this.start,
-            current: this.current,
-            diff: this.diff
-        };
-    }
+  toJson() {
+    return {
+      start: this.start,
+      current: this.current,
+      diff: this.diff,
+    };
+  }
 }
