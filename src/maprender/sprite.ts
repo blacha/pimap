@@ -46,7 +46,7 @@ export const Sprites = {
   Cross: new Sprite('Cross', 2, 2),
   Player: new Sprite('Player', 0, 2),
   PlayerHydra: new Sprite('Hydra', 1, 0),
-  Item: new Sprite('Hydra', 4, 0),
+  Item: new Sprite('Hydra', 2, 2),
 
   Merc: new Sprite('Merc', 0, 2),
 

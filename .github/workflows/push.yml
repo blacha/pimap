@@ -8,13 +8,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js 12.x
+      - name: Use Node.js 10.x
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 10.x
 
       - name: Install pcap
-        run: apt-get update && apt-get install libpcap-dev -y
+        run: sudo apt-get update && sudo apt-get install libpcap-dev  -y 
 
       - name: Install
         run: yarn install
@@ -24,6 +24,3 @@ jobs:
 
       - name: Build
         run: yarn run build
-
-      - name: Test
-        run: yarn run test

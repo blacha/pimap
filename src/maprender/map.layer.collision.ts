@@ -16,13 +16,9 @@ export class MapLayerCollision {
       const startTime = Date.now();
 
       const act = AreaUtil.getAct(map.id);
-      if (act !== this.base.act) {
-        continue;
-      }
+      if (act !== this.base.act) continue;
 
-      if (!this.base.isMapInBounds(map, extent)) {
-        continue;
-      }
+      if (!this.base.isMapInBounds(map, extent)) continue;
 
       this.renderMap(map, ctx, extent, objects);
       this.base.log.info({ mapName: map.name, duration: Date.now() - startTime, mapId: map.id }, 'RenderMap');
@@ -38,13 +34,9 @@ export class MapLayerCollision {
     for (let yOffset = 0; yOffset < map.length; yOffset++) {
       const line = map[yOffset];
       let fill = false;
-      if (line.length === 0) {
-        continue;
-      }
+      if (line.length === 0) continue;
 
-      if (mapInfo.offset.y + yOffset < extent.min.y) {
-        continue;
-      }
+      if (mapInfo.offset.y + yOffset < extent.min.y) continue;
 
       let x = mapInfo.offset.x - extent.min.x;
       const y = mapInfo.offset.y - extent.min.y + yOffset;
