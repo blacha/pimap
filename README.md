@@ -24,5 +24,12 @@ docker build -t pimap .
 docker run -d -v /path/to/d2/game:/app/game -p 8899:8899 pimap
 
 # /map/:seed/:difficulty/:levelCode.json
-curl http://localhost:8899/map/0x0000001/Nightmare/1.json
+curl http://localhost:8899/map/1122416/Hell/141.json
 ```
+
+## PNG export
+```
+# /map/:seed/:difficulty/:levelCode.json
+wget http://localhost:8899/map/1122416/Hell/141.png
+```
+![](./public/example_map.png)
