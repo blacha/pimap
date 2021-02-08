@@ -1435,10 +1435,10 @@ es-to-primitive@^1.2.0:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-esbuild@^0.6.24:
-  version "0.6.24"
-  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.6.24.tgz#aa191fc8a2100689c83afd5e52db3fddb0c522f5"
-  integrity sha512-usGuyo+DpQmrTguh/IOK8DBAvQ4CU7xdDtr7h/2iEK/BwBdrkpxut/uYzYaRh6ljMSSZWVJdaQgu2aOgz7m6ag==
+esbuild@^0.8.43:
+  version "0.8.43"
+  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.8.43.tgz#19d79f8c6d1cc6dadd50942057a5aff906a1ecf2"
+  integrity sha512-ZVE2CpootS4jtnfV0bbtJdgRsHEXcMP0P7ZXGfTmNzzhBr2e5ag7Vp3ry0jmw8zduJz4iHzxg4m5jtPxWERz1w==
 
 escape-html@~1.0.3:
   version "1.0.3"
