@@ -11,16 +11,13 @@ import { Logger } from '../util/log';
 
 export const HtmlView = {
   view() {
-    if (State.game == null) {
-      return m('div', 'Loading...');
-    }
-
+    if (!State.isGameActive) return m('div', 'Loading...');
     return [PlayerView.view(), ItemListView.view(), MonsterListView.view()];
   },
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-  Logger.info('---Loading...');
+  (window as any).State = State;
   State.setCanvas(document.getElementById('map-layer') as HTMLCanvasElement);
 
   // Load the sprite sheet

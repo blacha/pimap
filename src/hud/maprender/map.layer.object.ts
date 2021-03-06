@@ -79,7 +79,7 @@ export class MapLayerObject {
       ctx.lineWidth = 1;
       ctx.strokeStyle = 'rgba(0,0,0,0.87)';
       ctx.fillStyle = 'rgba(255,255,255,0.87)';
-      ctx.font = '18px Impact';
+      ctx.font = '18px "Iosevka Term"';
       ctx.textBaseline = 'middle';
       ctx.textAlign = 'center';
     }
@@ -231,8 +231,6 @@ export class MapLayerObject {
       return Sprites.MonsterNormal.draw(ctx, this.sheet, drawX, drawY, 16);
     }
 
-    console.log('Flags', npc);
-
     if (npc.flags.isMinion) {
       return Sprites.MonsterMinion.draw(ctx, this.sheet, drawX, drawY, 16);
     }
@@ -244,7 +242,6 @@ export class MapLayerObject {
       return Sprites.MonsterBoss.draw(ctx, this.sheet, npc.x - extent.min.x, npc.y - extent.min.y);
     }
     if (npc.flags.isSuperUnique || npc.flags.isUnique) {
-      console.log('Unique', npc);
       return npc;
     }
 

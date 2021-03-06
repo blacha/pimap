@@ -1,4 +1,5 @@
 import { Difficulty } from '@diablo2/data';
+import { diff } from 'jsondiffpatch';
 import { MessageType } from '../core/game.json';
 import { D2MapObj } from '../core/map.js';
 import { Logger } from '../util/log.js';
@@ -31,8 +32,8 @@ export class WS {
   }
 
   static async loadMaps(seed: number, difficulty: Difficulty): Promise<D2MapObj> {
-    if (seed == null) return null;
-    if (difficulty == null) return null;
+    if (seed == null || seed == -1) return null;
+    if (difficulty == null || difficulty == -1 || Difficulty[difficulty] == null) return null;
     const mapUrl = `${MAP_SERVER}/v1/map/${seed}/${Difficulty[difficulty]}.json`;
     Logger.info({ mapUrl }, 'GetMaps');
 

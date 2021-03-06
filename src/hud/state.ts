@@ -26,6 +26,10 @@ export class State {
     return this.map != null;
   }
 
+  static get isGameActive(): boolean {
+    return this.game != null && this.game.map.id !== -1;
+  }
+
   static setCanvas(c: HTMLCanvasElement): void {
     this.canvas = c;
     c.width = this.mapSize.width;

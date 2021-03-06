@@ -1,4 +1,3 @@
-import { Diablo2MpqLoader } from '@diablo2/bintools';
 import { Diablo2PacketSniffer, findLocalIps, PacketLine } from '@diablo2/sniffer';
 import * as dotenv from 'dotenv';
 import { createReadStream, existsSync } from 'fs';
@@ -8,7 +7,7 @@ import { Logger } from './util/log';
 
 dotenv.config();
 
-const replayPackets = false;
+const ReplayPackets = true;
 function usage(err?: string): void {
   if (err) console.log(`Error ${err} \n`);
   console.log('Usage: sniffer :network [--dump]\n');
@@ -41,15 +40,16 @@ async function main(): Promise<void> {
     Logger.error({ gamePath }, 'Path does not exist');
     return usage('Cannot find game path, set $DIABLO2_PATH');
   }
-  await Diablo2MpqLoader.load(process.env['DIABLO2_PATH'], Logger);
 
   const sniffer = new Diablo2PacketSniffer(networkAdapter, gamePath);
+  await sniffer.init(Logger);
+
   sniffer.isWriteDump = isWriteDump > 0;
 
   const srv = new SniffingWebServer(sniffer);
   srv.start();
 
-  if (replayPackets) {
+  if (ReplayPackets) {
     // Track items being dropped onto the ground
     const reader = readline.createInterface({
       input: createReadStream(
