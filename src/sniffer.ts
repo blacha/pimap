@@ -8,7 +8,7 @@ import { Logger } from './util/log';
 
 dotenv.config();
 
-const replayPackets = true;
+const replayPackets = false;
 function usage(err?: string): void {
   if (err) console.log(`Error ${err} \n`);
   console.log('Usage: sniffer :network [--dump]\n');
@@ -46,6 +46,9 @@ async function main(): Promise<void> {
   const sniffer = new Diablo2PacketSniffer(networkAdapter, gamePath);
   sniffer.isWriteDump = isWriteDump > 0;
 
+  const srv = new SniffingWebServer(sniffer);
+  srv.start();
+
   if (replayPackets) {
     // Track items being dropped onto the ground
     const reader = readline.createInterface({
@@ -54,8 +57,6 @@ async function main(): Promise<void> {
       ),
       crlfDelay: Infinity,
     });
-    const srv = new SniffingWebServer(sniffer);
-    srv.start();
 
     const session = sniffer.client.startSession(Logger);
     sniffer.events.emit('session', session);
