@@ -1,7 +1,7 @@
-import * as m from 'mithril';
-import { GameStateJson } from '../core/game.json';
-import { MapRenderer } from '../maprender/map.render';
-import { SpriteSheet } from '../maprender/sprite';
+import m from 'mithril';
+import type { GameStateJson } from '@diablo2/core';
+import { MapRenderer } from './maprender/map.render';
+import { SpriteSheet } from './maprender/sprite';
 import { Logger } from '../util/log';
 import { WS } from './socket';
 
@@ -53,6 +53,7 @@ export class State {
   static update(game: GameStateJson): void {
     const lastGame = this.game;
     this.game = game;
+    // console.log('State', { game });
 
     if (this.game == null) {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

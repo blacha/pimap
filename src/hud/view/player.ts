@@ -1,4 +1,4 @@
-import * as m from 'mithril';
+import m from 'mithril';
 import { ActType } from '../../core/act';
 import { GameDifficulty } from '../../core/difficulty';
 import { XpUtil } from '../../core/xp';
@@ -34,7 +34,7 @@ export const PlayerView = {
     const xpPercent = (xpIntoLevel / xpToNextLevel) * 100;
 
     const xpGain = player.xp.current - player.xp.start;
-    const startTime = new Date(State.game.startTime);
+    const startTime = new Date(State.game.createdAt);
 
     const seconds = Math.floor((Date.now() - startTime.getTime()) / 1000);
     const xpPerSecond = xpGain / seconds;

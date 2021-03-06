@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import * as jsondiffpatch from 'jsondiffpatch';
 import serveStatic = require('serve-static');
 import { Server } from 'ws';
@@ -7,6 +7,8 @@ import { Logger } from '../../util/log';
 import { ulid } from 'ulid';
 import { MessageType } from '../../core/game.json';
 import { PiMapRequest } from '../../mapserver/route';
+import { Diablo2PacketSniffer } from '@diablo2/sniffer';
+import { Diablo2GameSession } from '@diablo2/core';
 
 /** Sniffing server that just dumps current state to any websocket that connects */
 export class SniffingWebServer {
@@ -14,6 +16,18 @@ export class SniffingWebServer {
   wss;
   lastSend = Date.now();
   sendTrigger = null;
+  sniffer: Diablo2PacketSniffer;
+  currentGame?: Diablo2GameSession;
+
+  constructor(sniffer: Diablo2PacketSniffer) {
+    this.sniffer = sniffer;
+
+    this.sniffer.onNewGame((game) => {
+      console.log('NewGame---');
+      this.currentGame = game;
+      this.currentGame.state.onChange = () => this.updateState();
+    });
+  }
 
   start(): void {
     Logger.info('Starting server');
@@ -44,7 +58,7 @@ export class SniffingWebServer {
     this.wss.on('connection', (client) => {
       client.id = ulid();
       Logger.info({ client: client.id }, 'Client Connected');
-      client.lastState = JSON.parse(JSON.stringify(SessionState.currentGame));
+      client.lastState = JSON.parse(JSON.stringify(this.currentGame?.state ?? {}));
       client.lastSend = new Date();
       client.on('close', () => Logger.info({ client: client.id }, 'Client Close'));
       client.on('error', (error) => Logger.info({ error, client: client.id }, 'Client Error'));
@@ -57,7 +71,7 @@ export class SniffingWebServer {
   }
 
   updateState(): void {
-    const currentState = JSON.parse(JSON.stringify(SessionState.currentGame));
+    const currentState = JSON.parse(JSON.stringify(this.currentGame?.state ?? {}));
     if (Date.now() - this.lastSend < 5) {
       if (this.sendTrigger == null) {
         this.sendTrigger = setTimeout(() => this.updateState(), 5);

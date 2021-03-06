@@ -1,9 +1,8 @@
+import { Difficulty } from '@diablo2/data';
 import { MessageType } from '../core/game.json';
-import { State } from './state.js';
-// import * as jsondiffpatch from 'jsondiffpatch';
-import { GameDifficulty } from '../core/difficulty.js';
-import { D2MapObj } from '../mapserver/map.generator.js';
+import { D2MapObj } from '../core/map.js';
 import { Logger } from '../util/log.js';
+import { State } from './state.js';
 
 const MAP_SERVER = 'http://localhost:8899';
 export class WS {
@@ -27,24 +26,22 @@ export class WS {
     };
     ws.onclose = function () {
       WS.closed = true;
-      setTimeout(function () {
-        WS.start(websocketServerLocation);
-      }, 5000);
+      setTimeout(() => WS.start(websocketServerLocation), 5000);
     };
   }
 
-  static async loadMaps(seed: number, difficulty: GameDifficulty): Promise<D2MapObj> {
-    if (seed == null) {
-      return null;
-    }
-    if (difficulty == null) {
-      return null;
-    }
-    const mapUrl = `${MAP_SERVER}/map/${seed}/${GameDifficulty[difficulty]}.json`;
+  static async loadMaps(seed: number, difficulty: Difficulty): Promise<D2MapObj> {
+    if (seed == null) return null;
+    if (difficulty == null) return null;
+    const mapUrl = `${MAP_SERVER}/v1/map/${seed}/${Difficulty[difficulty]}.json`;
     Logger.info({ mapUrl }, 'GetMaps');
 
-    const res = await fetch(mapUrl);
-    const mapRes = await res.json();
-    return mapRes['maps'];
+    try {
+      const res = await fetch(mapUrl);
+      const mapRes = await res.json();
+      return mapRes['maps'];
+    } catch (e) {
+      return null;
+    }
   }
 }

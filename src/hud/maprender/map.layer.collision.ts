@@ -1,6 +1,6 @@
 // http://localhost:5000/act/2/683484276/1
-import { AreaUtil } from '../core/area';
-import { D2Map, D2MapObject } from '../core/map';
+import { AreaUtil } from '../../core/area';
+import { D2Map, D2MapObject } from '../../core/map';
 import { MapExtents, MapRenderer } from './map.render';
 
 export class MapLayerCollision {

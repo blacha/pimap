@@ -1,11 +1,12 @@
 import { MapLayerCollision } from './map.layer.collision';
-import { D2Map } from '../core/map';
-import { Point, Size } from '../core/size';
+import { D2Map } from '../../core/map';
+import { Point, Size } from '../../core/size';
 import { MapLayerObject } from './map.layer.object';
 import { SpriteSheet } from './sprite';
-import { ActType } from '../core/act';
+import { ActType } from '../../core/act';
 import { Log } from 'bblog';
-import { Logger } from '../util/log';
+import { Logger } from '../../util/log';
+import { Act } from '@diablo2/data';
 
 export interface MapExtents {
   min: Point;
@@ -16,7 +17,7 @@ export interface MapExtents {
 export class MapRenderer {
   center = { x: 0, y: 0 };
   size = { width: 500, height: 500 };
-  act: ActType = null;
+  act: Act = null;
 
   maps: { [key: string]: D2Map };
 

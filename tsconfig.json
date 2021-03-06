@@ -5,7 +5,8 @@
         "outDir": "build/",
         "sourceMap": true,
         "allowJs": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "esModuleInterop": true
     },
     "include": [
         "src",

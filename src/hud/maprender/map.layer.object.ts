@@ -1,13 +1,13 @@
-import { AreaLevel } from '../core/area';
-import { D2MapObject, D2Map } from '../core/map';
+import { AreaLevel } from '../../core/area';
+import { D2MapObject, D2Map } from '../../core/map';
 import { MapExtents, MapRenderer } from './map.render';
-import { GameObjectClasses, GameObjectClass } from '../core/object.type';
-import { GameObject } from '../core/object';
+import { GameObjectClasses, GameObjectClass } from '../../core/object.type';
+import { GameObject } from '../../core/object';
 import { Sprites, SpriteSheet } from './sprite';
-import { NpcCode, NpcUtil } from '../core/npc';
-import { NpcJson, ItemJson } from '../core/game.json';
-import { NpcName } from '../core/npc.name';
-import { Point } from '../core/size';
+import { NpcCode, NpcUtil } from '../../core/npc';
+import { NpcJson, ItemJson } from '@diablo2/core';
+import { NpcName } from '../../core/npc.name';
+import { Point } from '../../core/size';
 
 export class MapLayerObject {
   /** should we render the words for exits */
@@ -212,7 +212,7 @@ export class MapLayerObject {
       return Sprites.PlayerHydra.draw(ctx, this.sheet, drawX, drawY, 12);
     }
 
-    if (npc.flags != null && npc.flags.champion) {
+    if (npc.flags != null && npc.flags.isChampion) {
       return Sprites.MonsterChampion.draw(ctx, this.sheet, drawX, drawY, 16);
     }
 
@@ -231,17 +231,20 @@ export class MapLayerObject {
       return Sprites.MonsterNormal.draw(ctx, this.sheet, drawX, drawY, 16);
     }
 
-    if (npc.flags.minion) {
+    console.log('Flags', npc);
+
+    if (npc.flags.isMinion) {
       return Sprites.MonsterMinion.draw(ctx, this.sheet, drawX, drawY, 16);
     }
 
-    if (npc.flags.unique && lastDraw) {
+    if (npc.flags.isUnique && lastDraw) {
       return Sprites.MonsterUnique.draw(ctx, this.sheet, npc.x - extent.min.x, npc.y - extent.min.y, 16);
     }
-    if (npc.flags.superUnique && lastDraw) {
+    if (npc.flags.isSuperUnique && lastDraw) {
       return Sprites.MonsterBoss.draw(ctx, this.sheet, npc.x - extent.min.x, npc.y - extent.min.y);
     }
-    if (npc.flags.superUnique || npc.flags.unique) {
+    if (npc.flags.isSuperUnique || npc.flags.isUnique) {
+      console.log('Unique', npc);
       return npc;
     }
 

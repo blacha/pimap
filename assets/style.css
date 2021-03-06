@@ -9,7 +9,6 @@ body {
 
 #main {
     margin: 4px;
-    position: relative;
 }
 
 .PlayerStats {
@@ -63,14 +62,14 @@ body {
     border-color: #b7eb8f;
 }
 
-.Monster-Flag-Minion {
+.Monster-Flag-IsMinion {
     color: #2f54eb;
     background: #f0f5ff;
     border-color: #adc6ff;
 }
 
-.Monster-Flag-Champion,
-.Monster-Flag-Unique {
+.Monster-Flag-IsChampion,
+.Monster-Flag-IsUnique {
     color: #fa541c;
     background: #fff2e8;
     border-color: #ffbb96;
@@ -152,11 +151,11 @@ body {
 .MonsterList {
     position: absolute;
     top: 2px;
-    left: 1200px;
+    left: 800px;
     width: 300px;
 }
 
-.MonsterList .Monster-Flag-SuperUnique.Monster-Flag-SuperUnique {
+.MonsterList .Monster-Flag-IsSuperUnique.Monster-Flag-IsSuperUnique {
     border-radius: 0;
 }
 

@@ -1,5 +1,5 @@
 import * as ta from 'time-ago';
-import * as parseMs from 'parse-ms';
+import parseMs from 'parse-ms';
 
 export const capFirstLetter = (str) => str.charAt(0).toUpperCase() + str.substr(1);
 export function nFormatter(num: number, digits: number) {

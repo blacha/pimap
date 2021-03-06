@@ -34,12 +34,17 @@
     "webpack-cli": "^3.2.1",
     "ws": "^7.3.1"
   },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
   "dependencies": {
+    "@diablo2/core": "^0.4.0",
+    "@diablo2/sniffer": "^0.4.0",
     "@types/fs-extra": "^5.0.4",
+    "@types/pino": "^6.3.6",
     "bblog": "^2.0.0",
     "bblog-stream-console": "^2.0.0",
     "bitwise": "^2.0.1",
-    "canvas": "^2.6.1",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "esbuild": "^0.6.24",

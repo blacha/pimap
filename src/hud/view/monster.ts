@@ -1,4 +1,4 @@
-import * as m from 'mithril';
+import m from 'mithril';
 import { NpcJson } from '../../core/game.json';
 import { State } from '../state.js';
 import { NpcCode, NpcUtil } from '../../core/npc.js';
@@ -29,7 +29,7 @@ export const MonsterListView = {
         continue;
       }
 
-      if (npc.flags.superUnique) {
+      if (npc.flags.isSuperUnique) {
         summary[npc.uniqueName + ':superUnique'] = summary[npc.uniqueName + ':superUnique'] || summaryObj;
         summary[npc.uniqueName + ':superUnique'].count++;
         continue;

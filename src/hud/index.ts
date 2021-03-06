@@ -1,12 +1,12 @@
 // //tslint: disable-no-console
 
-import * as m from 'mithril';
+import m from 'mithril';
 import { State } from './state';
 import { ItemListView } from './view/item';
 import { MonsterListView } from './view/monster';
 import { PlayerView } from './view/player';
 import { WS } from './socket';
-import { SpriteSheet } from '../maprender/sprite';
+import { SpriteSheet } from './maprender/sprite';
 import { Logger } from '../util/log';
 
 export const HtmlView = {
@@ -14,12 +14,13 @@ export const HtmlView = {
     if (State.game == null) {
       return m('div', 'Loading...');
     }
+
     return [PlayerView.view(), ItemListView.view(), MonsterListView.view()];
   },
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-  Logger.info('Loading...');
+  Logger.info('---Loading...');
   State.setCanvas(document.getElementById('map-layer') as HTMLCanvasElement);
 
   // Load the sprite sheet
