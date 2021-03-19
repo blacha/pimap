@@ -1,18 +1,20 @@
 import m from 'mithril';
-import { NpcJson } from '../../core/game.json';
+// import { NpcJson } from '../../core/game.json';
 import { State } from '../state.js';
 import { NpcCode, NpcUtil } from '../../core/npc.js';
 import { capFirstLetter } from '../util.js';
-import { KillJson } from '@diablo2/core/build/state/json';
+import { KillJson, NpcJson } from '@diablo2/core';
 
 export const MonsterListView = {
   viewMonster(monster: NpcJson) {
-    return m('div', { key: monster.uid }, monster.name);
+    return m('div', { key: monster.id }, monster.name);
   },
 
   view() {
     const units = State.game.units;
-    const summary: { [key: string]: { count: number; code: NpcCode } } = {};
+    const summary: Map<string, { count: number; npc: NpcJson }> = new Map();
+
+    const uniques: NpcJson[] = [];
 
     for (const unit of units) {
       if (unit.type == 'player') continue;
@@ -20,42 +22,50 @@ export const MonsterListView = {
       if (NpcUtil.isTownFolk(unit.code)) continue;
       if (State.map && !State.map.inBoundsAbs(unit.x, unit.y)) continue;
 
-      const summaryObj = {
-        count: 0,
-        code: unit.code,
-      };
-
-      if (unit.flags == null) {
-        summary[unit.name] = summary[unit.name] || summaryObj;
-        summary[unit.name].count++;
+      const flagKeys = Object.keys(unit.flags);
+      if (unit.flags == null || flagKeys.length == 0) {
+        const current = summary.get(unit.name) ?? { count: 0, npc: unit };
+        summary.set(unit.name, current);
+        current.count++;
         continue;
       }
 
-      if (unit.flags.isSuperUnique) {
-        summary[unit.uniqueName + ':superUnique'] = summary[unit.uniqueName + ':superUnique'] || summaryObj;
-        summary[unit.uniqueName + ':superUnique'].count++;
+      if (unit.flags.isSuperUnique || unit.flags.isUnique) {
+        uniques.push(unit);
         continue;
       }
 
       for (const key of Object.keys(unit.flags)) {
         const subName = `${unit.name}:${key}`;
-        summary[subName] = summary[subName] || summaryObj;
-        summary[subName].count++;
+        const current = summary.get(subName) ?? { count: 0, npc: unit };
+        summary.set(subName, current);
+
+        current.count++;
       }
     }
-    const children = [];
-    const entries = Object.entries(summary).sort((a, b) => b[1].count - a[1].count);
+
+    const children = [m('div', { className: 'MonsterList-Title' }, 'Nearby Monsters')];
+    for (const mon of uniques) {
+      const child = m('div', { className: `MonsterList-Monster  Monster-Flag-SuperUnique Monster-${mon.id}` }, [
+        m('div', { className: 'MonsterList-MonsterName' }, mon.name),
+        m(
+          'div',
+          { className: 'MonsterList-MonsterCount' },
+          mon.enchants?.map((c) =>
+            m('div', { className: `MonsterList-Enchant MonsterList-Enchant-${c.name}` }, c.name),
+          ),
+        ),
+      ]);
+      children.push(child);
+    }
+    const entries = [...summary.entries()].sort((a, b) => b[1].count - a[1].count);
     for (const [key, value] of entries) {
       let extraClasses = key.split(':')[1] || '';
       if (extraClasses !== '') {
         extraClasses = 'Monster-Flag-' + capFirstLetter(extraClasses);
       }
-
-      if (NpcUtil.isTownFolk(value.code)) {
-        extraClasses += ' Monster-TownsFolk';
-      }
-
-      if (NpcUtil.isUseless(value.code)) continue;
+      if (NpcUtil.isUseless(value.npc.code)) continue;
+      if (NpcUtil.isTownFolk(value.npc.code)) extraClasses += ' Monster-TownsFolk';
 
       const child = m('div', { className: 'MonsterList-Monster ' + extraClasses + ` Monster-${key}` }, [
         m('div', { className: 'MonsterList-MonsterName' }, key),
