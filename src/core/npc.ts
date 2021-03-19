@@ -996,10 +996,6 @@ function isResurrecter(code: NpcCode) {
 
 function isDoll(code: NpcCode) {
   switch (code) {
-    case NpcCode.SoulKiller:
-    case NpcCode.SoulKiller2:
-    case NpcCode.SoulKiller3:
-    case NpcCode.SoulKiller4:
     case NpcCode.UndeadFlayer:
     case NpcCode.UndeadSoulKiller:
     case NpcCode.UndeadSoulKiller2:

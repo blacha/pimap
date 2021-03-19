@@ -485,7 +485,7 @@ export const GameObjectClasses = {
   [GameObject.IceCaveJar4]: 470,
   [GameObject.IceCaveJar5]: 471,
   [GameObject.IceCaveMagicShrine]: GameObjectClass.SHRINE,
-  [GameObject.CagedWussie]: 473,
+  [GameObject.CagedWussie]: GameObjectClass.QUEST,
   [GameObject.AncientStatue3]: 474,
   [GameObject.AncientStatue1]: 475,
   [GameObject.AncientStatue2]: 476,

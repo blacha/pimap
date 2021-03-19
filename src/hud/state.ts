@@ -7,8 +7,8 @@ import { WS } from './socket';
 
 export class State {
   static mapSize = {
-    width: 500,
-    height: 500,
+    width: 512,
+    height: 512,
   };
   static scheduled: number;
   static ctx: CanvasRenderingContext2D;
@@ -35,6 +35,7 @@ export class State {
     c.width = this.mapSize.width;
     c.height = this.mapSize.height;
     this.ctx = c.getContext('2d');
+    // this.ctx.scale(1, 1.5);
   }
 
   static render(): void {

@@ -12,6 +12,7 @@ export interface D2Map {
 export interface D2MapObject extends Point {
   id: number;
   type: 'object' | 'exit' | 'npc';
+  name?: string;
 }
 
 export type D2MapObj = { [key: string]: D2Map };

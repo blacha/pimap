@@ -16,7 +16,7 @@ export interface MapExtents {
 
 export class MapRenderer {
   center = { x: 0, y: 0 };
-  size = { width: 500, height: 500 };
+  size = { width: 768, height: 768 };
   act: Act = null;
 
   maps: { [key: string]: D2Map };

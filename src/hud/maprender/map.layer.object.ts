@@ -17,6 +17,7 @@ export class MapLayerObject {
   base: MapRenderer;
   sheet: SpriteSheet;
   correctTombId: number;
+  debugObjects = true;
 
   constructor(base: MapRenderer, sheet: SpriteSheet) {
     this.base = base;
@@ -45,9 +46,7 @@ export class MapLayerObject {
   isCorrectTomb(map: D2Map): boolean {
     if (this.correctTombId == null) {
       const isTomb = map.objects.find((f) => f.type === 'object' && f.id === GameObject.HoradricOrifice) != null;
-      if (isTomb) {
-        this.correctTombId = map.id;
-      }
+      if (isTomb) this.correctTombId = map.id;
     }
 
     return this.correctTombId == map.id;
@@ -78,15 +77,14 @@ export class MapLayerObject {
 
     if (this.isExitTextEnabled) {
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(0,0,0,0.87)';
-      ctx.fillStyle = 'rgba(255,255,255,0.87)';
-      ctx.font = '18px "Iosevka Term"';
+      ctx.strokeStyle = 'rgba(0,0,0,1)';
+      ctx.fillStyle = 'rgba(250,0,0,1)';
+      ctx.font = '24px "Roboto condensed"';
       ctx.textBaseline = 'middle';
       ctx.textAlign = 'center';
+      ctx.strokeText(AreaLevel[obj.id], drawX, drawY + 16);
+      ctx.fillText(AreaLevel[obj.id], drawX, drawY + 16);
     }
-
-    ctx.fillText(AreaLevel[obj.id], drawX, drawY + 16);
-    ctx.strokeText(AreaLevel[obj.id], drawX, drawY + 16);
 
     if (this.isGoodExit(obj)) {
       Sprites.ExitGood.draw(ctx, this.sheet, drawX, drawY, 24);
@@ -124,13 +122,19 @@ export class MapLayerObject {
     const drawY = obj.y - extent.min.y;
     if (this.base.inBounds(drawX, drawY)) {
       this.drawObject(ctx, extent, drawX, drawY, obj);
+      if (this.debugObjects) {
+        ctx.font = '16px "Roboto condensed"';
+        ctx.fillStyle = 'red';
+        ctx.strokeStyle = 'black';
+        ctx.strokeText(obj.name, drawX, drawY);
+        ctx.fillText(obj.name, drawX, drawY);
+      }
     } else {
       const objType = GameObjectClasses[obj.id];
       if (objType === GameObjectClass.QUEST) {
         const bWp = this.getBoundedDraw(drawX, drawY);
         Sprites.MonsterBoss.draw(ctx, this.sheet, bWp.x, bWp.y, 18);
       }
-      // console.log('NotInBounds', drawX, drawY, objType);
     }
   }
   getBoundedDraw(drawX: number, drawY: number): Point {
@@ -154,6 +158,13 @@ export class MapLayerObject {
   drawObject(ctx: CanvasRenderingContext2D, extent: MapExtents, drawX: number, drawY: number, obj: D2MapObject): void {
     const objType = GameObjectClasses[obj.id];
     if (objType === GameObjectClass.SHRINE) {
+      ctx.font = '14px "Roboto condensed"';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      ctx.fillStyle = 'rgba(200,0,200,0.87)';
+      ctx.strokeStyle = 'rgba(255,255,255,0.87)';
+      ctx.strokeText(obj.name, drawX, drawY - 3);
+      ctx.fillText(obj.name, drawX, drawY - 3);
       return Sprites.Shrine.draw(ctx, this.sheet, drawX, drawY, 16);
     }
 
@@ -218,14 +229,14 @@ export class MapLayerObject {
       return Sprites.MonsterChampion.draw(ctx, this.sheet, drawX, drawY, 16);
     }
 
-    if (NpcUtil.isDoll(npc.code)) {
+    if (NpcUtil.isDoll(npc.code) && !npc.flags.isUnique) {
       return Sprites.MonsterEvil.draw(ctx, this.sheet, drawX, drawY, 16);
     }
-    if (NpcUtil.isSoul(npc.code)) {
+    if (NpcUtil.isSoul(npc.code) && !npc.flags.isUnique) {
       return Sprites.MonsterLightning.draw(ctx, this.sheet, drawX, drawY, 16);
     }
 
-    if (NpcUtil.isArcher(npc.code)) {
+    if (NpcUtil.isArcher(npc.code) && !npc.flags.isUnique) {
       return Sprites.MonsterArcher.draw(ctx, this.sheet, drawX, drawY, 16);
     }
 
