@@ -8,6 +8,7 @@ import { NpcCode, NpcUtil } from '../../core/npc';
 import { NpcJson, ItemJson } from '@diablo2/core';
 import { NpcName } from '../../core/npc.name';
 import { Point } from '../../core/size';
+import { UnitJson } from '@diablo2/core/build/state/json';
 
 export class MapLayerObject {
   /** should we render the words for exits */
@@ -176,13 +177,14 @@ export class MapLayerObject {
     Sprites.Player.draw(ctx, this.sheet, this.base.size.width / 2, this.base.size.height / 2);
   }
 
-  renderNpcs(ctx: CanvasRenderingContext2D, npcs: NpcJson[]): void {
+  renderNpcs(ctx: CanvasRenderingContext2D, units: UnitJson[]): void {
     const extent = this.base.extent;
     const lastDraw: NpcJson[] = [];
-    for (const npc of npcs) {
-      if (NpcUtil.isUseless(npc.code)) continue;
-      if (NpcUtil.isTownFolk(npc.code)) continue;
-      const npcRet = this.drawNpc(ctx, npc, extent);
+    for (const unit of units) {
+      if (unit.type === 'player') continue;
+      if (NpcUtil.isUseless(unit.code)) continue;
+      if (NpcUtil.isTownFolk(unit.code)) continue;
+      const npcRet = this.drawNpc(ctx, unit, extent);
       if (npcRet) lastDraw.push(npcRet);
     }
 

@@ -46,8 +46,8 @@ export class State {
     this.scheduled = requestAnimationFrame(() => {
       if (this.map) {
         this.map.render(this.ctx);
-        this.map.layerObject.renderNpcs(this.ctx, this.game.npc);
-        this.map.layerObject.renderItems(this.ctx, this.game.item);
+        this.map.layerObject.renderNpcs(this.ctx, this.game.units);
+        this.map.layerObject.renderItems(this.ctx, this.game.items);
         this.map.layerObject.renderPlayer(this.ctx);
       }
       this.scheduled = null;

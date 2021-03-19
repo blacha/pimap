@@ -3,6 +3,7 @@ import { NpcJson } from '../../core/game.json';
 import { State } from '../state.js';
 import { NpcCode, NpcUtil } from '../../core/npc.js';
 import { capFirstLetter } from '../util.js';
+import { KillJson } from '@diablo2/core/build/state/json';
 
 export const MonsterListView = {
   viewMonster(monster: NpcJson) {
@@ -10,33 +11,34 @@ export const MonsterListView = {
   },
 
   view() {
-    const npcs = State.game.npc;
+    const units = State.game.units;
     const summary: { [key: string]: { count: number; code: NpcCode } } = {};
 
-    for (const npc of npcs) {
-      if (NpcUtil.isUseless(npc.code)) continue;
-      if (NpcUtil.isTownFolk(npc.code)) continue;
-      if (State.map && !State.map.inBoundsAbs(npc.x, npc.y)) continue;
+    for (const unit of units) {
+      if (unit.type == 'player') continue;
+      if (NpcUtil.isUseless(unit.code)) continue;
+      if (NpcUtil.isTownFolk(unit.code)) continue;
+      if (State.map && !State.map.inBoundsAbs(unit.x, unit.y)) continue;
 
       const summaryObj = {
         count: 0,
-        code: npc.code,
+        code: unit.code,
       };
 
-      if (npc.flags == null) {
-        summary[npc.name] = summary[npc.name] || summaryObj;
-        summary[npc.name].count++;
+      if (unit.flags == null) {
+        summary[unit.name] = summary[unit.name] || summaryObj;
+        summary[unit.name].count++;
         continue;
       }
 
-      if (npc.flags.isSuperUnique) {
-        summary[npc.uniqueName + ':superUnique'] = summary[npc.uniqueName + ':superUnique'] || summaryObj;
-        summary[npc.uniqueName + ':superUnique'].count++;
+      if (unit.flags.isSuperUnique) {
+        summary[unit.uniqueName + ':superUnique'] = summary[unit.uniqueName + ':superUnique'] || summaryObj;
+        summary[unit.uniqueName + ':superUnique'].count++;
         continue;
       }
 
-      for (const key of Object.keys(npc.flags)) {
-        const subName = `${npc.name}:${key}`;
+      for (const key of Object.keys(unit.flags)) {
+        const subName = `${unit.name}:${key}`;
         summary[subName] = summary[subName] || summaryObj;
         summary[subName].count++;
       }
@@ -63,5 +65,35 @@ export const MonsterListView = {
     }
 
     return m('div', { className: 'MonsterList' }, children);
+  },
+};
+
+export const MonsterKillList = {
+  viewMonster(monster: KillJson) {
+    return m('div', { key: monster.code }, monster.name);
+  },
+
+  view() {
+    const kills = State.game.kills.sort((a, b) => b.total - a.total);
+    const superUniques = [];
+    const children = [];
+
+    for (const kill of kills) {
+      if (kill.special) {
+        superUniques.push(...kill.special.map((c) => m('div', { className: 'KillList-SuperUnique' }, c)));
+      }
+
+      const child = m('div', { className: `KillList-Monster Monster-${kill.code}` }, [
+        m('div', { className: 'KillList-MonsterName' }, kill.name),
+        m('div', { className: 'KillList-MonsterCount' }, String(kill.total)),
+      ]);
+      children.push(child);
+    }
+
+    return m('div', { className: 'KillList' }, [
+      m('div', { className: 'KillList-Title' }, 'Kills'),
+      superUniques,
+      children,
+    ]);
   },
 };

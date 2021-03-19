@@ -1,13 +1,43 @@
 import { Diablo2PacketSniffer, findLocalIps, PacketLine } from '@diablo2/sniffer';
 import * as dotenv from 'dotenv';
-import { createReadStream, existsSync } from 'fs';
+import { createReadStream, existsSync, promises as fs } from 'fs';
 import * as readline from 'readline';
 import { SniffingWebServer } from './sniff/server';
 import { Logger } from './util/log';
 
 dotenv.config();
 
-const ReplayPackets = true;
+const ReplayPackets = false;
+async function replayPackets(sniffer: Diablo2PacketSniffer): Promise<void> {
+  // Track items being dropped onto the ground
+  const reader = readline.createInterface({
+    input: createReadStream(
+      '/home/blacha/git/blacha/diablo2/packages/sniffer/replay-01f035vb191hz2ejvp89psm6yk.ndjson',
+    ),
+    crlfDelay: Infinity,
+  });
+
+  const session = sniffer.client.startSession(Logger);
+  sniffer.events.emit('session', session);
+
+  let lastTime = null;
+  for await (const line of reader) {
+    const json = JSON.parse(line) as PacketLine;
+    // if (json.direction ===  'out') continue;
+
+    if (lastTime == -1) lastTime = json.time;
+    const timeDiff = Math.abs(lastTime - json.time);
+
+    session.onPacket(json.direction, Buffer.from(json.bytes, 'hex'), Logger);
+
+    if (timeDiff > 100) {
+      lastTime = json.time;
+      // console.log('sleep', timeDiff);
+      await new Promise((resolve) => setTimeout(resolve, timeDiff / 20));
+    }
+  }
+}
+
 function usage(err?: string): void {
   if (err) console.log(`Error ${err} \n`);
   console.log('Usage: sniffer :network [--dump]\n');
@@ -44,41 +74,26 @@ async function main(): Promise<void> {
   const sniffer = new Diablo2PacketSniffer(networkAdapter, gamePath);
   await sniffer.init(Logger);
 
+  sniffer.onNewGame((game) => {
+    Logger.info('NewGame:Listener');
+    game.state.onClose(async (state) => {
+      const duration = state.duration;
+      Logger.info({ duration, isLong: duration > 5 * 60_000, isXp: state.player.xp.diff > 10_000 }, 'GameClosed');
+      if (duration > 5 * 60_000 || state.player.xp.diff > 10_000) {
+        Logger.info({ gameId: state.gameId }, 'WritingGameFile');
+
+        state.units.clear();
+        await fs.writeFile(`./games/${state.gameId}.json`, JSON.stringify(state.toJSON()));
+      }
+    });
+  });
+
   sniffer.isWriteDump = isWriteDump > 0;
 
   const srv = new SniffingWebServer(sniffer);
   srv.start();
 
-  if (ReplayPackets) {
-    // Track items being dropped onto the ground
-    const reader = readline.createInterface({
-      input: createReadStream(
-        '/home/blacha/git/blacha/diablo2/packages/sniffer/replay-01f035vb191hz2ejvp89psm6yk.ndjson',
-      ),
-      crlfDelay: Infinity,
-    });
-
-    const session = sniffer.client.startSession(Logger);
-    sniffer.events.emit('session', session);
-
-    let lastTime = null;
-    for await (const line of reader) {
-      const json = JSON.parse(line) as PacketLine;
-      // if (json.direction ===  'out') continue;
-
-      if (lastTime == -1) lastTime = json.time;
-      const timeDiff = Math.abs(lastTime - json.time);
-
-      session.onPacket(json.direction, Buffer.from(json.bytes, 'hex'));
-
-      if (timeDiff > 100) {
-        lastTime = json.time;
-        // console.log('sleep', timeDiff);
-        await new Promise((resolve) => setTimeout(resolve, timeDiff / 20));
-      }
-    }
-  }
-
+  if (ReplayPackets) await replayPackets(sniffer);
   await sniffer.start(Logger);
 }
 

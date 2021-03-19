@@ -8,7 +8,9 @@ body {
 }
 
 #main {
-    margin: 4px;
+    margin: 8px 16px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .PlayerStats {
@@ -260,4 +262,23 @@ line {
 
 .PlayerXp-Bar--filled {
     background: rgba(0, 255, 0, 0.466)
+}
+
+
+.KillList {
+    width: 300px;
+}
+.KillList-Monster {
+    display: flex;
+    justify-content: space-between;
+}
+
+.KillList .KillList-SuperUnique {
+    font-weight: bold;
+}
+
+.Item-Title,
+.KillList-Title {
+    border-bottom: 1px solid #dcdcdc;
+    margin: 8px 0px;
 }

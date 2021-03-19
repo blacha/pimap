@@ -3,7 +3,7 @@
 import m from 'mithril';
 import { State } from './state';
 import { ItemListView } from './view/item';
-import { MonsterListView } from './view/monster';
+import { MonsterKillList, MonsterListView } from './view/monster';
 import { PlayerView } from './view/player';
 import { WS } from './socket';
 import { SpriteSheet } from './maprender/sprite';
@@ -12,7 +12,7 @@ import { Logger } from '../util/log';
 export const HtmlView = {
   view() {
     if (!State.isGameActive) return m('div', 'Loading...');
-    return [PlayerView.view(), ItemListView.view(), MonsterListView.view()];
+    return [PlayerView.view(), ItemListView.view(), MonsterListView.view(), MonsterKillList.view()];
   },
 };
 
