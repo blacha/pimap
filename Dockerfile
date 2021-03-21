@@ -1,6 +1,6 @@
 
 # Build piMap in a container
-FROM ubuntu:18.04 as build
+FROM ubuntu:20.04 as build
 RUN apt-get update \
     && apt-get install --no-install-recommends --no-install-suggests -y \
     mingw-w64
