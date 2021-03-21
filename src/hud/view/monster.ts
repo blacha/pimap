@@ -1,9 +1,8 @@
-import m from 'mithril';
-// import { NpcJson } from '../../core/game.json';
-import { State } from '../state.js';
-import { NpcCode, NpcUtil } from '../../core/npc.js';
-import { capFirstLetter } from '../util.js';
 import { KillJson, NpcJson } from '@diablo2/core';
+import m from 'mithril';
+import { NpcUtil } from '../../core/npc';
+import { State } from '../state';
+import { capFirstLetter } from '../util';
 
 export const MonsterListView = {
   viewMonster(monster: NpcJson) {
@@ -52,7 +51,9 @@ export const MonsterListView = {
           'div',
           { className: 'MonsterList-MonsterCount' },
           mon.enchants?.map((c) =>
-            m('div', { className: `MonsterList-Enchant MonsterList-Enchant-${c.name}` }, c.name),
+            c.name == null
+              ? null
+              : m('div', { className: `MonsterList-Enchant MonsterList-Enchant-${c.name}` }, c.name),
           ),
         ),
       ]);

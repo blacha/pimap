@@ -1,12 +1,19 @@
 {
     "compilerOptions": {
-        "target": "es2017",
+        "target": "es2018",
         "module": "commonjs",
         "outDir": "build/",
+        "lib": ["DOM", "ES2015", "ES2020"],
         "sourceMap": true,
         "allowJs": true,
         "experimentalDecorators": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "baseUrl": "./",
+        "paths": {
+            "mini-signals": [
+              "node_modules/resource-loader/typings/mini-signals.d.ts"
+            ]
+          }
     },
     "include": [
         "src",

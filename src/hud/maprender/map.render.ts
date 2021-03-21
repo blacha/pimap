@@ -4,6 +4,7 @@ import { AreaUtil } from '../../core/area';
 import { D2Map } from '../../core/map';
 import { Point, Size } from '../../core/size';
 import { Logger } from '../../util/log';
+import { State } from '../state';
 import { MapLayerCollision } from './map.layer.collision';
 import { MapLayerObject } from './map.layer.object';
 import { SpriteSheet } from './sprite';
@@ -15,19 +16,27 @@ export interface MapExtents {
 }
 
 export class MapRenderer {
-  center = { x: 0, y: 0 };
-  size = { width: 768, height: 768 };
-  act: Act = null;
+  size = { width: 2048, height: 2048 };
 
-  maps: { [key: string]: D2Map };
+  maps = new Map<number, D2Map>();
 
   layerCollision: MapLayerCollision;
   layerObject: MapLayerObject;
 
   log: Log;
+  state: State;
+
+  get act(): Act {
+    return State.game.map.act;
+  }
+  get center(): Point {
+    const player = State.game.player;
+    return { x: player.x, y: player.y };
+  }
 
   constructor(maps: { [key: string]: D2Map }, size: Size, sprites: SpriteSheet) {
-    this.maps = maps;
+    this.maps.clear();
+    for (const map of Object.values(maps)) this.maps.set(map.id, map);
     this.size = size;
 
     this.layerCollision = new MapLayerCollision(this);
@@ -35,10 +44,10 @@ export class MapRenderer {
   }
 
   /** List of maps currently in view */
-  get currentMaps(): D2Map[] {
+  get current(): D2Map[] {
     const extent = this.extent;
     const maps = [];
-    for (const map of Object.values(this.maps)) {
+    for (const map of this.maps.values()) {
       const act = AreaUtil.getAct(map.id);
       if (act !== this.act) continue;
       if (this.isMapInBounds(map, extent)) maps.push(map);
@@ -47,7 +56,7 @@ export class MapRenderer {
   }
 
   getMapById(id: number): D2Map {
-    return this.maps[id];
+    return this.maps.get(id);
   }
 
   render(ctx: CanvasRenderingContext2D): void {

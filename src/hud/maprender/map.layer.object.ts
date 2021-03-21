@@ -3,7 +3,7 @@ import { D2MapObject, D2Map } from '../../core/map';
 import { MapExtents, MapRenderer } from './map.render';
 import { GameObjectClasses, GameObjectClass } from '../../core/object.type';
 import { GameObject } from '../../core/object';
-import { Sprites, SpriteSheet } from './sprite';
+import { CanvasText, Sprites, SpriteSheet } from './sprite';
 import { NpcCode, NpcUtil } from '../../core/npc';
 import { NpcJson, ItemJson } from '@diablo2/core';
 import { NpcName } from '../../core/npc.name';
@@ -105,12 +105,12 @@ export class MapLayerObject {
     if (!this.base.inBounds(drawX, drawY)) {
       if (obj.id === NpcCode.Summoner || obj.id === NpcCode.Izual) {
         const bWp = this.getBoundedDraw(drawX, drawY);
-        Sprites.MonsterBoss.draw(ctx, this.sheet, bWp.x, bWp.y, 18);
+        Sprites.MonsterBoss.draw(ctx, this.sheet, bWp.x, bWp.y, 32);
       }
       return;
     }
-    // console.log('Draw', obj, NpcName[obj.id]);
-    Sprites.Unkown.draw(ctx, this.sheet, drawX, drawY, 18);
+    console.log('Draw', obj, NpcName[obj.id]);
+    Sprites.Unknown.draw(ctx, drawX, drawY, 8);
   }
 
   renderObject(ctx: CanvasRenderingContext2D, extent: MapExtents, obj: D2MapObject): void {
@@ -123,11 +123,11 @@ export class MapLayerObject {
     if (this.base.inBounds(drawX, drawY)) {
       this.drawObject(ctx, extent, drawX, drawY, obj);
       if (this.debugObjects) {
-        ctx.font = '16px "Roboto condensed"';
-        ctx.fillStyle = 'red';
-        ctx.strokeStyle = 'black';
-        ctx.strokeText(obj.name, drawX, drawY);
-        ctx.fillText(obj.name, drawX, drawY);
+        // ctx.font = '16px "Roboto condensed"';
+        // ctx.fillStyle = 'red';
+        // ctx.strokeStyle = 'black';
+        // ctx.strokeText(obj.name, drawX, drawY);
+        // ctx.fillText(obj.name, drawX, drawY);
       }
     } else {
       const objType = GameObjectClasses[obj.id];
@@ -158,14 +158,10 @@ export class MapLayerObject {
   drawObject(ctx: CanvasRenderingContext2D, extent: MapExtents, drawX: number, drawY: number, obj: D2MapObject): void {
     const objType = GameObjectClasses[obj.id];
     if (objType === GameObjectClass.SHRINE) {
-      ctx.font = '14px "Roboto condensed"';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'bottom';
-      ctx.fillStyle = 'rgba(200,0,200,0.87)';
-      ctx.strokeStyle = 'rgba(255,255,255,0.87)';
-      ctx.strokeText(obj.name, drawX, drawY - 3);
-      ctx.fillText(obj.name, drawX, drawY - 3);
-      return Sprites.Shrine.draw(ctx, this.sheet, drawX, drawY, 16);
+      CanvasText.draw(ctx, drawX, drawY - 10, obj.name, { size: 14 });
+
+      if (obj.name === 'Well') return Sprites.Well.draw(ctx, drawX, drawY, 8);
+      return Sprites.Shrine.draw(ctx, drawX, drawY, 8);
     }
 
     if (objType === GameObjectClass.WAYPOINT) {
@@ -185,7 +181,7 @@ export class MapLayerObject {
   }
 
   renderPlayer(ctx: CanvasRenderingContext2D): void {
-    Sprites.Player.draw(ctx, this.sheet, this.base.size.width / 2, this.base.size.height / 2);
+    Sprites.Player.draw(ctx, this.base.size.width / 2, this.base.size.height / 2, 16);
   }
 
   renderNpcs(ctx: CanvasRenderingContext2D, units: UnitJson[]): void {
@@ -194,7 +190,6 @@ export class MapLayerObject {
     for (const unit of units) {
       if (unit.type === 'player') continue;
       if (NpcUtil.isUseless(unit.code)) continue;
-      if (NpcUtil.isTownFolk(unit.code)) continue;
       const npcRet = this.drawNpc(ctx, unit, extent);
       if (npcRet) lastDraw.push(npcRet);
     }
@@ -218,9 +213,11 @@ export class MapLayerObject {
     const drawX = npc.x - extent.min.x;
     const drawY = npc.y - extent.min.y;
 
-    // if (npc.uid === State.game.player.mercId) {
-    // Sprites.Merc.draw(ctx, this.sheet, drawX, drawY, 12);
-    // } else
+    if (NpcUtil.isTownFolk(npc.code)) {
+      CanvasText.draw(ctx, drawX, drawY - 10, npc.name, { size: 12, color: 'green', stroke: 0 });
+      return Sprites.TownsFolk.draw(ctx, drawX, drawY, 16);
+    }
+
     if (npc.name === 'Hydra') {
       return Sprites.PlayerHydra.draw(ctx, this.sheet, drawX, drawY, 12);
     }
@@ -258,7 +255,7 @@ export class MapLayerObject {
       return npc;
     }
 
-    Sprites.Unkown.draw(ctx, this.sheet, drawX, drawY);
+    Sprites.Unknown.draw(ctx, drawX, drawY);
 
     // Sprites.MonsterNormal.draw(ctx,this.sheet, this.sheet, drawX, drawY);
   }

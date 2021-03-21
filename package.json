@@ -52,9 +52,12 @@
     "fs-extra": "^7.0.1",
     "mithril": "^1.1.6",
     "parse-ms": "^2.1.0",
+    "pixi.js": "^6.0.0",
     "pretty-json-log": "^0.3.1",
     "promise-queue": "^2.2.5",
+    "remove": "^0.1.5",
     "source-map-support": "^0.5.10",
-    "ulid": "^2.3.0"
+    "ulid": "^2.3.0",
+    "yarn": "^1.22.10"
   }
 }

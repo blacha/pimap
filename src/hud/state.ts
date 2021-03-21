@@ -6,10 +6,7 @@ import { Logger } from '../util/log';
 import { WS } from './socket';
 
 export class State {
-  static mapSize = {
-    width: 512,
-    height: 512,
-  };
+  static mapSize = { width: 512, height: 512 };
   static scheduled: number;
   static ctx: CanvasRenderingContext2D;
   static canvas: HTMLCanvasElement;
@@ -17,6 +14,8 @@ export class State {
   static sprites: SpriteSheet;
 
   static game: GameStateJson;
+
+  static games = new Map<string, GameStateJson>();
 
   // static stats: Stats;
 
@@ -35,14 +34,11 @@ export class State {
     c.width = this.mapSize.width;
     c.height = this.mapSize.height;
     this.ctx = c.getContext('2d');
-    // this.ctx.scale(1, 1.5);
   }
 
   static render(): void {
     m.redraw();
-    if (this.scheduled) {
-      return;
-    }
+    if (this.scheduled) return;
 
     this.scheduled = requestAnimationFrame(() => {
       if (this.map) {
@@ -57,6 +53,8 @@ export class State {
 
   static update(game: GameStateJson): void {
     const lastGame = this.game;
+
+    this.games.set(game.id, game);
     this.game = game;
     // console.log('State', { game });
 
@@ -69,11 +67,6 @@ export class State {
       this.updateMaps();
     }
 
-    if (State.map) {
-      State.map.center = { x: this.game.player.x, y: this.game.player.y };
-      State.map.act = this.game.map.act;
-    }
-
     this.render();
   }
 
@@ -84,6 +77,9 @@ export class State {
 
     State.map = new MapRenderer(mapRes, { width: this.canvas.width, height: this.canvas.height }, this.sprites);
     State.map.log = Logger;
+    Logger.warn('MapUpdated');
     this.render();
+
+    setTimeout(() => this.render(), 100);
   }
 }

@@ -1,4 +1,3 @@
-// http://localhost:5000/act/2/683484276/1
 import { AreaUtil } from '../../core/area';
 import { D2Map, D2MapObject } from '../../core/map';
 import { MapExtents, MapRenderer } from './map.render';
@@ -12,7 +11,7 @@ export class MapLayerCollision {
 
   render(ctx: CanvasRenderingContext2D, extent: MapExtents): D2MapObject[] {
     const objects = [];
-    for (const map of Object.values(this.base.maps)) {
+    for (const map of this.base.maps.values()) {
       const startTime = Date.now();
 
       const act = AreaUtil.getAct(map.id);
@@ -26,7 +25,7 @@ export class MapLayerCollision {
     return objects;
   }
 
-  renderMap(mapInfo: D2Map, ctx: CanvasRenderingContext2D, extent: MapExtents, objects: D2MapObject[]) {
+  renderMap(mapInfo: D2Map, ctx: CanvasRenderingContext2D, extent: MapExtents, objects: D2MapObject[]): void {
     ctx.fillStyle = 'white';
     const map = mapInfo.map;
 
@@ -45,16 +44,11 @@ export class MapLayerCollision {
         const xCount = line[i];
 
         fill = !fill;
-        if (!fill) {
-          // for (let xOffset = 0; xOffset <= xCount; xOffset++) {
-          ctx.fillRect(x, y, xCount, size);
-        }
+        if (!fill) ctx.fillRect(x, y, xCount, size);
         x = x + xCount;
       }
       const xMax = mapInfo.offset.x - extent.min.x + mapInfo.size.width;
-      if (fill && x < xMax) {
-        ctx.fillRect(x, y, xMax - x, size);
-      }
+      if (fill && x < xMax) ctx.fillRect(x, y, xMax - x, size);
     }
     for (const object of mapInfo.objects) {
       objects.push({
@@ -63,6 +57,5 @@ export class MapLayerCollision {
         y: object.y + mapInfo.offset.y,
       });
     }
-    // console.timeEnd('RenderMap:' + toHexString(mapInfo.id)); // tslint:disable-line
   }
 }

@@ -15,7 +15,7 @@ export const PlayerView = {
         m(
           'div',
           { className: 'PlayerLocation-Info' },
-          ActType[map.act] + ' ' + GameDifficulty[map.difficulty] + ' (' + map.id + ')',
+          ActType[map.act] + ' ' + GameDifficulty[map.difficulty] + ' (' + map.difficulty + ')',
         ),
         m('div', { className: 'PlayerLocation-XY' }, player.x + ', ' + player.y),
       ]),
@@ -38,7 +38,6 @@ export const PlayerView = {
 
     const seconds = Math.floor((Date.now() - startTime.getTime()) / 1000);
     const xpPerSecond = xpGain / seconds;
-    const xpGainPercent = 10;
     const playerXp = m('div', { className: 'PlayerXp' }, [
       m(
         'div',
@@ -47,7 +46,7 @@ export const PlayerView = {
           style: { display: 'flex', 'align-items': 'baseline', 'justify-content': 'space-between' },
         },
         [
-          m('div', { className: 'PlayerXp-Name', style: { 'font-size': '140%' } }, player.name),
+          m('div', { className: 'PlayerXp-Name', style: { 'font-size': '140%' } }, 'PlayerName'),
           m('div', { style: { 'font-weight': 'bold' } }, `L${currentLevel}`),
         ],
       ),
