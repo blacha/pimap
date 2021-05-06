@@ -46,7 +46,7 @@
     "bblog-stream-console": "^2.0.0",
     "bitwise": "^2.0.1",
     "cors": "^2.8.5",
-    "dotenv": "^6.2.0",
+    "dotenv": "^9.0.0",
     "esbuild": "^0.6.24",
     "express": "^4.16.4",
     "fs-extra": "^7.0.1",
