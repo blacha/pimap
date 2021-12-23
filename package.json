@@ -47,7 +47,7 @@
     "bitwise": "^2.0.1",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
-    "esbuild": "^0.6.24",
+    "esbuild": "^0.14.8",
     "express": "^4.16.4",
     "fs-extra": "^7.0.1",
     "mithril": "^1.1.6",
